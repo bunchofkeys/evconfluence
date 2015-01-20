@@ -54,7 +54,8 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => '$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT',
+			'host'      => '$OPENSHIFT_MYSQL_DB_HOST',
+			'port'		=> '$OPENSHIFT_MYSQL_DB_PORT',
 			'database'  => 'app',
 			'username'  => 'admin7nZK477',
 			'password'  => 'gLak3gmWcW1h',
