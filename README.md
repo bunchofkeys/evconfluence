@@ -1,62 +1,25 @@
-## Openshift Laravel Quickstart
-This is an Openshift Quickstart for Laravel 4.
+## Laravel PHP Framework
 
-#### Installation on Openshift Online - Using PHP 5.3 and MySQL 5.5 Cartridges
-When using this quickstart with Openshift Online, you should be aware that PHP 5.4 cartridges do not come bundled with PHP Mcrypt (but will be [included soon](https://trello.com/c/iDrhIUof/136-php-5-4-support-mcrypt-extension)) which is needed by Laravel 4 for password Hashing. As a temporary workaround, you will need to install the PHP 5.3 and MySQL 5.5 cartridges before installing this quickstart for Laravel (See [example laravel install](http://laravel-maomuffy.rhcloud.com)). You can use the [web console](https://openshift.redhat.com/app/console/applications) or RHC cli
+[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
+[![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
+[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
+[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
+[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-```shell
-rhc create app laravel php-5.3
-rhc cartridge add mysql-5.5 -a laravel
-```
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, and caching.
 
-#### Installation on Openshift Origin - Using PHP 5.4 and MySQL 5.5 Cartridges
-You will need to install the PHP 5.4 and MySQL 5.5 cartridges before installing this quickstart for Laravel. You can use the [web console](https://openshift.redhat.com/app/console/applications) or RHC cli. Also be sure to install PHP 5.4 Mcrypt package/extension.
+Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality. Happy developers make the best code. To this end, we've attempted to combine the very best of what we have seen in other web frameworks, including frameworks implemented in other languages, such as Ruby on Rails, ASP.NET MVC, and Sinatra.
 
-```shell
-rhc create app laravel php-5.4
-rhc cartridge add mysql-5.5 -a laravel
-```
+Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
 
-After installing PHP and MySQL cartridges, add the quickstart github repository and pull afterwhich you can push to your Openshift repository
+## Official Documentation
 
-```shell
-git remote add upstream -m master git@github.com:muffycompo/openshift-laravel4-quickstart-app.git
-git pull -s recursive -X theirs upstream master
-```
-###### NOTE: See [After Openshift application creation](https://github.com/muffycompo/openshift-laravel4-quickstart-app#after-openshift-application-creation) for installing Laravel dependencies.
+Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
 
-#### Installation on Openshift Origin - Using Openshift Origin Instant App
-This Quickstart is also configured to utilize your Openshift Origin installation. To provide Laravel 4 as an instant app for Openshift Origin, you will need to modify `/etc/openshift/quickstarts.json` and add the following to the end of the file
+### Contributing To Laravel
 
-```json
-{
-	"quickstart": {
-		"id": "10",
-		"name": "Laravel 4",
-		"website": "http://www.laravel.com",
-		"initial_git_url": "git://github.com/muffycompo/openshift-laravel4-quickstart-app.git",
-		"cartridges": ["php-5.4", "mysql-5.5"],
-		"summary": "Laravel is a PHP web application framework with expressive, elegant syntax.",
-		"tags": ["php", "instant_app", "framework", "mysql"],
-		"admin_tags": []
-	}
-}
-```
+**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
 
-### After Openshift application creation
-You should remove the comment # in `.openshift/actions_hooks/build` by changing
-```shell
-#( unset GIT_DIR ; cd $OPENSHIFT_REPO_DIR ; php $OPENSHIFT_DATA_DIR/composer.phar -q --no-ansi install )
-```
-to become
-```shell
-( unset GIT_DIR ; cd $OPENSHIFT_REPO_DIR ; php $OPENSHIFT_DATA_DIR/composer.phar -q --no-ansi install )
-```
-Now using git
-```shell
-git add .
-git commit -a -m 'Install Laravel 4 Composer Dependencies'
-git push
-```
-### Post Installation
-After the installation of composer dependencies, Laravel 4 is ready to go. We have setup your database credentials `app/config/database.php` to use Openshift environment variables (OPENSHIFT*).
+### License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)

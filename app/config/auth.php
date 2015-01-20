@@ -41,7 +41,7 @@ return array(
 	|
 	*/
 
-	'table' => 'users',
+	'table' => 'user',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -67,5 +67,8 @@ return array(
 		'expire' => 60,
 
 	),
+
+	'username' => 'Email',
+	'password' => 'Password',
 
 );
