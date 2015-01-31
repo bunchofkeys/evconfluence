@@ -12,7 +12,7 @@ class UserRepository {
         $user = new User();
 
         //validation
-        if(Self::validateUser($input) == false)
+        if(self::validateUser($input) == false)
         {
             return false;
         }
@@ -49,7 +49,7 @@ class UserRepository {
         $user = new User();
 
         //validation
-        if(Self::validateUser($input) == false)
+        if(self::validateUser($input) == false)
         {
             return false;
         }
@@ -81,13 +81,13 @@ class UserRepository {
     {
         try
         {
-            Self::$message = $user->username;
+            self::$message = $user->username;
             $user->person->delete();
             return true;
         }
         catch(mysqli_sql_exception $ex)
         {
-            Self::$errors = $ex;
+            self::$errors = $ex;
             return false;
         }
 
