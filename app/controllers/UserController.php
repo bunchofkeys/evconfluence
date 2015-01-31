@@ -26,6 +26,7 @@ class UserController extends BaseController {
 			EmailRepository::sendConfirmationEmail($user);
 			UserRepository::updateUser($user, ['status' => 'Approved']);
 		} elseif(Input::get('reject')) {
+			EmailRepository::sendRejectEmail($user);
 			UserRepository::updateUser($user, ['status' => 'Rejected']);
 		}
 		return $this->index();

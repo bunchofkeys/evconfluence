@@ -17,6 +17,17 @@ class EmailRepository
         });
     }
 
+    public static function sendRejectEmail($user)
+    {
+        $email = $user->person->email;
+        $subject = 'SPE account application unsuccessful';
+        $emailTemplate = 'emails.reject';
+
+        $data = ['user' => $user];
+
+        Self::sendEmail($email,$subject,$emailTemplate,$data);
+    }
+
     public static function sendConfirmationEmail($user)
     {
         $email = $user->person->email;
