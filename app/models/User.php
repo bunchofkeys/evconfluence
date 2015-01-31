@@ -5,28 +5,36 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
-
-	protected $fillable = ['first_name', 'last_name', 'school', 'unit_required_for', 'email', 'password', 'status', 'role'];
-	public $timestamps = false;
-
-	public static $rules = array(
-		'Email' => 'required|unique:users|Email');
+class User extends BaseModel implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
+	// settings
 	protected $table = 'user';
-
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
+	protected $primaryKey = 'user_id';
 	protected $hidden = array('password', 'remember_token');
+	protected $fillable = ['username', 'password', 'status', 'role'];
+	public $timestamps = false;
+
+	// validation rules
+	protected $rules = array(
+		'username' => 'required|unique:user|Email',
+		'password' => 'required',
+		'role' => 'required|in:Admin,Teacher',
+		'status' => 'required|in:Pending,Approved,Rejected,Locked',
+	);
+
+	public function person()
+	{
+		return $this->belongsTo('Person', 'person_id', 'person_id');
+	}
+
+	public function teacher()
+	{
+		if($this->role == 'Teacher')
+		{
+			return $this->hasOne('Teacher', 'user_id', 'user_id');
+		}
+	}
 
 }

@@ -48,6 +48,49 @@ Route::filter('auth', function()
 	}
 });
 
+Route::filter('admin', function()
+{
+	if (Auth::guest())
+	{
+		if (Request::ajax())
+		{
+			return Response::make('Unauthorized', 401);
+		}
+		else
+		{
+			return Redirect::route('session.login');
+		}
+	}
+
+	if(Auth::user()->role != 'Admin')
+	{
+		Auth::logout();
+		return Response::make('Unauthorized', 401);
+	}
+
+});
+
+Route::filter('teacher', function()
+{
+	if (Auth::guest())
+	{
+		if (Request::ajax())
+		{
+			return Response::make('Unauthorized', 401);
+		}
+		else
+		{
+			return Redirect::route('session.login');
+		}
+	}
+
+	if(Auth::user()->role != 'Teacher')
+	{
+		Auth::logout();
+		return Response::make('Unauthorized', 401);
+	}
+
+});
 
 Route::filter('auth.basic', function()
 {

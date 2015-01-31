@@ -1,18 +1,39 @@
 <?php
 
-class UserController extends \BaseController {
+class UserController extends BaseController {
 
 	public function index()
 	{
-		$id = Auth::user()->id;
-		$users = User::where('id', '!=', $id)->get();
-		$pendingUsers = User::where('status', '=', 'Pending')->get();
+		$users = UserRepository::approvedUserList();
+		$pendingUsers = UserRepository::pendingUserList();
 		return View::make('admin.user.index', ['users' => $users, 'pendingUsers' => $pendingUsers]);
+	}
+
+	public function approval($id)
+	{
+		$user = UserRepository::find($id);
+		if($user->status == 'Pending')
+		{
+			return View::make('admin.user.approval')->with(['user' => $user]);
+		}
+	}
+
+	public function storeApproval($id)
+	{
+		$user = UserRepository::find($id);
+		if(Input::get('approve'))
+		{
+			EmailRepository::sendConfirmationEmail($user);
+			UserRepository::updateUser($user, ['status' => 'Approved']);
+		} elseif(Input::get('reject')) {
+			UserRepository::updateUser($user, ['status' => 'Rejected']);
+		}
+		return $this->index();
 	}
 
 	public function edit($id)
 	{
-		$user = User::where('id', '=', $id)->first();
+		$user = UserRepository::find($id);
 		return View::make('admin.user.edit')->with(['user' => $user]);
 	}
 
@@ -27,27 +48,30 @@ class UserController extends \BaseController {
 
 	private function save($id)
 	{
-		$user = User::where('id', '=', $id)->first();
-		$user->fill(Input::only(['first_name', 'last_name', 'unit_required_for', 'school']));
-
-		$password = Input::get('password');
-		$confirmPassword = Input::get('confirm_password');
-		if($password == $confirmPassword)
+		$user = UserRepository::find($id);
+		$input = Input::all();
+		try
 		{
-			$user->password = Hash::make($password);
+			UserRepository::updateUser($user, $input);
+			return View::make('admin.user.edit')->with(['user' => $user, 'messages' => ['success' => 'Your changes have been saved successfully.']]);
 		}
-
-		$user->save();
-		return View::make('admin.user.edit')->with(['user' => $user, 'messages' => ['success' => 'Your changes have been saved successfully.']]);
+		catch (mysqli_sql_exception $ex)
+		{
+			return View::make('admin.user.edit')->with(['user' => $user, 'messages' => ['danger' => 'An error has occured.']]);
+		}
 	}
 
 	private function delete($id)
 	{
-		$user = User::where('id', '=', $id)->first();
-		$email = $user->email;
-		$user->delete();
-
-		return $this->index()->with(['messages' => ['danger' => 'User account ' . $email . ' has been deleted']]);
+		$user = UserRepository::find($id);
+		if(UserRepository::deleteUser($user) == true)
+		{
+			return $this->index()->with(['messages' => ['success' => 'User account ' . UserRepository::$message . ' has been deleted']]);
+		}
+		else
+		{
+			return $this->index()->with(['messages' => ['danger' => 'An error has occured']]);
+		}
 	}
 
 
@@ -58,17 +82,7 @@ class UserController extends \BaseController {
 
 	public function store()
 	{
-		$user = new user();
-		$user->fill(Input::only(['email', 'first_name', 'last_name', 'unit_required_for', 'school', 'role']));
-
-		$password = Input::get('password');
-		$confirmPassword = Input::get('confirm_password');
-		if($password == $confirmPassword)
-		{
-			$user->password = Hash::make($password);
-		}
-		$user->status = 'Approved';
-		$user->save();
+		UserRepository::createUser(Input::all());
 
 		return Redirect::route(	'admin.user.index');
 	}
@@ -80,19 +94,16 @@ class UserController extends \BaseController {
 
 	public function storeRegister()
 	{
-		$user = new user();
-		$user->fill(Input::only(['email', 'first_name', 'last_name', 'unit_required_for', 'school']));
+		$success = UserRepository::registerTeacher(Input::all());
 
-		$password = Input::get('password');
-		$confirmPassword = Input::get('confirm_password');
-		if($password == $confirmPassword)
+		if($success == true)
 		{
-			$user->password = Hash::make($password);
+			return Redirect::route(	'session.login')->with(['messages' => ['success' => 'Your registration have been process and will be reviewed by the administrator.']]);
 		}
-		$user->status = 'Pending';
-		$user->role = 'Staff';
-		$user->save();
+		else
+		{
+			return Redirect::route(	'session.login')->with(['messages' => ['danger' => UserRepository::errors]]);
+		}
 
-		return Redirect::route(	'session.login')->with(['messages' => ['success' => 'Your registration have been process and will be reviewed by the administrator.']]);
 	}
 }

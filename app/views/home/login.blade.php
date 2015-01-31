@@ -16,7 +16,7 @@
                       <p style="color: red"><b> {{$errors->first('error')}} </b></p>
                         </br>
                     @endif
-                    {{ Form::text('email', '', ['placeholder' => 'Email',  'class' => 'form-control', 'autofocus' => 'true']) }}
+                    {{ Form::text('username', '', ['placeholder' => 'Email',  'class' => 'form-control', 'autofocus' => 'true']) }}
                     <br>
                     {{ Form::password('password', ['placeholder' => 'Password',  'class' => 'form-control']) }}
                     <label class="checkbox">

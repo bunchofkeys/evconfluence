@@ -1,10 +1,44 @@
 @extends('layout.master.inner_two')
 
+@section('sidebar')
+    @include('layout.partial.admin.side_menu')
+@endsection
+
+<script src="/assets/js/jquery.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        checkRole();
+    });
+
+    function checkRole()
+    {
+        if($('#roleSelection').val() == 'Teacher')
+        {
+            $('.optional-teacher').show();
+        }
+        else
+        {
+            $('.optional-teacher').hide();
+        }
+    }
+
+</script>
+
 @section('content')
     <div class="col-lg-12">
         <div class="form-panel">
             {{ Form::open(['class' => 'form-horizontal style-form']) }}
             <h2 class="mb">New User</h2>
+                <div class="form-group">
+                    <label class="col-sm-2 col-sm-2 control-label">Role</label>
+                    <div class="col-sm-10">
+                        <select id="roleSelection" class="form-control" name="role" onchange="checkRole()">
+                            <option selected="true" value="Admin">Admin</option>
+                            <option value="Teacher">Teacher</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="col-sm-2 col-sm-2 control-label">Email</label>
                     <div class="col-sm-10">
@@ -23,13 +57,14 @@
                         <input type="text" class="form-control" name="last_name">
                     </div>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group optional-teacher">
                     <label class="col-sm-2 col-sm-2 control-label">School</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="school" >
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group optional-teacher">
                     <label class="col-sm-2 col-sm-2 control-label">Unit Required For</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="unit_required_for">
@@ -47,17 +82,6 @@
                         <input type="password" class="form-control" name="confirm_password">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2 col-sm-2 control-label">Role</label>
-                    <div class="col-sm-10">
-                        <select class="form-control" name="role">
-                            <option value="Admin">Admin</option>
-                            <option value="Staff">Staff</option>
-                        </select>
-                    </div>
-                </div>
-
-
 
                 <div align="center" >
                     <button type="submit" class="btn btn-success">Create User</button>

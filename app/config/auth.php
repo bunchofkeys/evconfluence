@@ -68,7 +68,5 @@ return array(
 
 	),
 
-	'username' => 'Email',
-	'password' => 'Password',
 
 );

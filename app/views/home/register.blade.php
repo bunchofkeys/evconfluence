@@ -43,18 +43,6 @@
                             <input type="text" class="form-control" name="unit_required_for">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 col-sm-2 control-label">Password</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" name="password">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 col-sm-2 control-label">Confirm Password</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" name="confirm_password">
-                        </div>
-                    </div>
                 <button class="btn btn-theme btn-block" type="submit"> <i class="fa fa-lock"> REGISTER </i></button>
 
                 {{ Form::close() }}

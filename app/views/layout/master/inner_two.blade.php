@@ -23,6 +23,8 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="/assets/js/jquery.js"></script>
+
 </head>
 
 <body>
@@ -42,7 +44,7 @@
     *********************************************************************************************************************************************************** -->
     <!--sidebar start-->
     <aside>
-        @include('layout.partial.admin.side_menu')
+        @yield('sidebar')
     </aside>
     <!--sidebar end-->
 
@@ -58,20 +60,10 @@
     </section><!-- /MAIN CONTENT -->
 
     <!--main content end-->
-    <!--footer start-->
-    <footer class="site-footer">
-        <div class="text-center">
-            2014 - Alvarez.is
-            <a href="blank.html#" class="go-top">
-                <i class="fa fa-angle-up"></i>
-            </a>
-        </div>
-    </footer>
-    <!--footer end-->
+
 </section>
 
 <!-- js placed at the end of the document so the pages load faster -->
-<script src="/assets/js/jquery.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/jquery-ui-1.9.2.custom.min.js"></script>
 <script src="/assets/js/jquery.ui.touch-punch.min.js"></script>
