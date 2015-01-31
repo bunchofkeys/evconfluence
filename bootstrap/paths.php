@@ -2,9 +2,6 @@
 
 return array(
 
-	$environments = [
-		['openshift' => '*rhcloud.com']
-	],
 	/*
 	|--------------------------------------------------------------------------
 	| Application Path
