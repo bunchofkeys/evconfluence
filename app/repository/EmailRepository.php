@@ -6,14 +6,14 @@ class EmailRepository
 
     private static function sendEmail($emailTo, $subject, $viewTemplate, array $data)
     {
-        Self::$email = ['emailTo' => $emailTo,
+        self::$email = ['emailTo' => $emailTo,
                         'subject' => $subject,
                         'message' => $data
         ];
 
         Mail::send($viewTemplate, $data, function($message)
         {
-            $message->to(Self::$email['emailTo'])->subject(Self::$email['subject']);
+            $message->to(self::$email['emailTo'])->subject(self::$email['subject']);
         });
     }
 
@@ -25,7 +25,7 @@ class EmailRepository
 
         $data = ['user' => $user];
 
-        Self::sendEmail($email,$subject,$emailTemplate,$data);
+        self::sendEmail($email,$subject,$emailTemplate,$data);
     }
 
     public static function sendConfirmationEmail($user)
@@ -38,11 +38,11 @@ class EmailRepository
         $endDateTime = new DateTime();
         $endDateTime->modify('+3 day');
 
-        $url = Self::generateLink($user, "setpassword", $startDateTime, $endDateTime);
+        $url = self::generateLink($user, "setpassword", $startDateTime, $endDateTime);
         $data = ['user' => $user,
                 'url' => $url];
 
-        Self::sendEmail($email,$subject,$emailTemplate,$data);
+        self::sendEmail($email,$subject,$emailTemplate,$data);
     }
 
     private static function generateLink(User $user, $action, DateTime $startDateTime, DateTime $endDateTime)
