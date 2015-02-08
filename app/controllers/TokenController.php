@@ -8,7 +8,7 @@ class TokenController extends \BaseController {
 		if($validLink != null)
 		{
 			$person = PersonRepository::find($validLink->person_id);
-			return View::make('token.setpassword')->with(['person' => $person]);
+			return View::make('token.setPassword')->with(['person' => $person]);
 		}
 		return Redirect::route('session.login');
 	}

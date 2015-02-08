@@ -6,11 +6,6 @@
 
 @section('content')
     <div class="row mt">
-        @if(empty($messages) == false)
-            @foreach($messages as $key => $value)
-                <div class="alert alert-{{$key}} alert-dismissable"> {{$value}} </div>
-            @endforeach
-        @endif
         <div class="col-md-12" style="padding-bottom: 20px">
             <a href="{{ URL::route('admin.user.create') }}" class="btn btn-primary">Create User</a>
         </div>

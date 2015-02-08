@@ -4,7 +4,7 @@
     <div id="login-page">
         <div class="container">
 
-            {{ Form::open(['route' => 'user.storeRegister', 'class' => 'form-login form-horizontal style-form', 'style' => 'max-width: 800px']) }}
+            {{ Form::open(['route' => 'session.saveUserRegister', 'class' => 'form-login form-horizontal style-form', 'style' => 'max-width: 800px']) }}
             <h2 class="form-login-heading">REGISTRATION</h2>
 
             <div class="login-wrap">

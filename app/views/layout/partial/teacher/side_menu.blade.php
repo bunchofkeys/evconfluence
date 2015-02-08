@@ -9,7 +9,7 @@
             {{ NavLink('Home', 'teacher.index', 'fa-home')}}
         </li>
         <li>
-            {{ NavLink('Spe Management', 'teacher.semester', 'fa-list-alt')}}
+            {{ NavLink('Spe Management', 'teacher.period.index', 'fa-list-alt')}}
         </li>
     </ul>
     <!-- sidebar menu end-->

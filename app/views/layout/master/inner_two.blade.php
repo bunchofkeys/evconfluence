@@ -17,6 +17,8 @@
     <!-- Custom styles for this template -->
     <link href="/assets/css/style.css" rel="stylesheet">
     <link href="/assets/css/style-responsive.css" rel="stylesheet">
+    <link href="/assets/css/jquery.datetimepicker.css" rel="stylesheet">
+
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -24,6 +26,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="/assets/js/jquery.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.datetimepicker.js"></script>
 
 </head>
 
@@ -53,8 +56,11 @@
     *********************************************************************************************************************************************************** -->
     <!--main content start-->
     <section id="main-content">
+
         <section class="wrapper site-min-height">
-           @yield('content')
+            @include('layout.partial.common.message')
+
+            @yield('content')
 
         </section><! --/wrapper -->
     </section><!-- /MAIN CONTENT -->
@@ -74,17 +80,5 @@
 
 <!--common script for all pages-->
 <script src="/assets/js/common-scripts.js"></script>
-
-<!--script for this page-->
-
-<script>
-    //custom select box
-
-    $(function(){
-        $('select.styled').customSelect();
-    });
-
-</script>
-
 </body>
 </html>

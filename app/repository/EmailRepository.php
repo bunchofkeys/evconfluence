@@ -7,14 +7,32 @@ class EmailRepository
     private static function sendEmail($emailTo, $subject, $viewTemplate, array $data)
     {
         self::$email = ['emailTo' => $emailTo,
-                        'subject' => $subject,
-                        'message' => $data
+            'subject' => $subject,
+            'message' => $data
         ];
 
         Mail::send($viewTemplate, $data, function($message)
         {
             $message->to(self::$email['emailTo'])->subject(self::$email['subject']);
         });
+    }
+
+    public static function sendRegistrationNotification($user)
+    {
+        $adminList = User::where('status', 'Approved')->where('role', 'Admin')->get();
+
+         $url = URL::route('admin.user.approval', ['id' => $user->user_id]);
+        foreach($adminList as $admin)
+        {
+            $email = $admin->person->email;
+            $subject = 'New SPE applicant';
+            $emailTemplate = 'emails.newApplicant';
+
+            $data = ['user' => $admin,
+            'url' => $url];
+
+            self::sendEmail($email, $subject, $emailTemplate, $data);
+        }
     }
 
     public static function sendRejectEmail($user)
@@ -38,9 +56,9 @@ class EmailRepository
         $endDateTime = new DateTime();
         $endDateTime->modify('+3 day');
 
-        $url = self::generateLink($user, "setpassword", $startDateTime, $endDateTime);
+        $url = self::generateLink($user, "setPassword", $startDateTime, $endDateTime);
         $data = ['user' => $user,
-                'url' => $url];
+            'url' => $url];
 
         self::sendEmail($email,$subject,$emailTemplate,$data);
     }
@@ -62,5 +80,8 @@ class EmailRepository
 
         return 'http://' . $_SERVER['HTTP_HOST'] . '/token/' . $link->token . '/' . $link->action;
     }
+
+
+
 
 }

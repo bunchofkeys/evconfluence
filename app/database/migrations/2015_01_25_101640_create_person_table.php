@@ -17,7 +17,7 @@ class CreatePersonTable extends Migration {
 			$table->increments('person_id');
 			$table->string('first_name', 100);
 			$table->string('last_name', 100);
-			$table->string('title', 5);
+			$table->string('title', 5)->nullable();
 			$table->string('email', 100)->unique();
 		});
 	}

@@ -4,8 +4,7 @@ class SessionController extends BaseController {
 
 	public function login()
 	{
-		$messages = Session::get('messages');
-		return View::Make('home.login')->with('messages', $messages);
+		return View::Make('home.login');
 	}
 
 	public function auth()
@@ -20,13 +19,14 @@ class SessionController extends BaseController {
 			}
 			else
 			{
+
 				if($user->role == 'Admin')
 				{
-					return Redirect::to(route('admin.index'));
+					return Redirect::intended(URL::route('admin.index'));
 				}
 				else if($user->role == 'Teacher')
 				{
-					return Redirect::to(route('teacher.index'));
+					return Redirect::intended(URL::route('teacher.index'));
 				}
 			}
 
@@ -44,5 +44,27 @@ class SessionController extends BaseController {
 		return Redirect::route('session.login');
 	}
 
+	public function userRegister()
+	{
+		return View::make('home.register');
+	}
+
+	public function saveUserRegister()
+	{
+		$user = UserRepository::registerTeacher(Input::all());
+
+		if($user != null)
+		{
+			EmailRepository::sendRegistrationNotification($user);
+			MessageService::alert('Your registration have been process and will be reviewed by the administrator.');
+			return Redirect::route(	'session.login');
+		}
+		else
+		{
+			MessageService::error();
+			return Redirect::route(	'session.login');
+		}
+
+	}
 
 }

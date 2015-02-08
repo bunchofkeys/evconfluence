@@ -51,7 +51,7 @@ class UserRepository {
         //validation
         if(self::validateUser($input) == false)
         {
-            return false;
+            return null;
         }
         else
         {
@@ -73,7 +73,7 @@ class UserRepository {
             $teacher->unit_required_for = $input['unit_required_for'];
             $teacher->save();
 
-            return true;
+            return $user;
         }
     }
 

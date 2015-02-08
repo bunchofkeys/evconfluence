@@ -41,7 +41,10 @@
     *********************************************************************************************************************************************************** -->
     <!--main content start-->
     <section id="main-content">
+
         <section class="wrapper site-min-height">
+            @include('layout.partial.common.message')
+
             @yield('content')
 
         </section><! --/wrapper -->

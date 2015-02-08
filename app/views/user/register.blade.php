@@ -3,7 +3,7 @@
 @section('content')
     <h1>Create a new user</h1>
     <div>
-        {{ Form::open(['route' => 'user.storeRegister']) }}
+        {{ Form::open(['route' => 'session.saveUserRegister']) }}
 
         @foreach($form as $key => $value)
 

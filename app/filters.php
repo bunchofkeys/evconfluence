@@ -58,7 +58,7 @@ Route::filter('admin', function()
 		}
 		else
 		{
-			return Redirect::route('session.login');
+			return Redirect::guest('/');
 		}
 	}
 

@@ -8,12 +8,6 @@
     <div class="col-lg-12">
         <div class="form-panel">
 
-            @if(empty($messages) == false)
-                @foreach($messages as $key => $value)
-                    <div class="alert alert-{{$key}} alert-dismissable"> {{$value}} </div>
-                @endforeach
-            @endif
-
             <h4 class="mb"><i class="fa fa-angle-right"></i> Application Number: {{$user->user_id}}</h4>
             {{ Form::open(['method' => 'post', 'class' => 'form-horizontal style-form']) }}
 

@@ -2,11 +2,6 @@
 
 @section('content')
     <div id="login-page">
-        @if(empty($messages) == false)
-            @foreach($messages as $key => $value)
-                <div class="alert alert-{{$key}} alert-dismissable"> {{$value}} </div>
-            @endforeach
-        @endif
         <div class="container">
             {{ Form::open(['route' => 'session.auth', 'class' => 'form-login']) }}
                 <h2 class="form-login-heading">SPE System Login</h2>
@@ -30,7 +25,7 @@
                     {{ Form::close() }}
                     <div class="registration">
                         Don't have an account yet?<br/>
-                            <a href="{{ URL::route('user.register') }}" class="btn btn-theme03">Register</a>
+                            <a href="{{ URL::route('session.userRegister') }}" class="btn btn-theme03">Register</a>
                     </div>
 
                 </div>

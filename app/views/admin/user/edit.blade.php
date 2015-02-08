@@ -7,11 +7,6 @@
 @section('content')
     <div class="col-lg-12">
         <div class="form-panel">
-            @if(empty($messages) == false)
-                @foreach($messages as $key => $value)
-                    <div class="alert alert-{{$key}} alert-dismissable"> {{$value}} </div>
-                @endforeach
-            @endif
             <h4 class="mb"><i class="fa fa-angle-right"></i> Details for {{$user->username }}</h4>
                 {{ Form::open(['method' => 'put', 'class' => 'form-horizontal style-form']) }}
                 <div class="form-group">

@@ -21,6 +21,7 @@ class CreateUserTable extends Migration {
 			$table->string('role', 100);
 			$table->string('status', 100);
 			$table->rememberToken();
+
 		});
 
 	}
