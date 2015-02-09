@@ -58,16 +58,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Team.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/Team.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.862069" vertical-offset="0" max-vertical-offset="336">
-              <caret line="4" column="42" selection-start-line="4" selection-start-column="42" selection-end-line="4" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="EmailService.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/services/EmailService.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -108,22 +98,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SendEmailCommand.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/commands/SendEmailCommand.php">
+      <file leaf-file-name="EmailReminderCron.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/commands/EmailReminderCron.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.551724" vertical-offset="643" max-vertical-offset="1288">
-              <caret line="39" column="41" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="41" />
+            <state vertical-scroll-proportion="-9.655172" vertical-offset="756" max-vertical-offset="1624">
+              <caret line="41" column="5" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EmailReminderCron.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/commands/EmailReminderCron.php">
+      <file leaf-file-name="artisan" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/artisan">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.57894737" vertical-offset="756" max-vertical-offset="1624">
-              <caret line="42" column="43" selection-start-line="42" selection-start-column="43" selection-end-line="42" selection-end-column="43" />
+            <state vertical-scroll-proportion="26.068966" vertical-offset="756" max-vertical-offset="1960">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="artisan.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/start/artisan.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.68421054" vertical-offset="0" max-vertical-offset="560">
+              <caret line="13" column="36" selection-start-line="13" selection-start-column="36" selection-end-line="13" selection-end-column="36" />
+              <folding>
+                <element signature="e#7#408#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -132,7 +134,6 @@
   </component>
   <component name="FrameworkCommandLineHistory">
     <commandsHistory>
-      <command text="composer install" />
       <command text="artisan genearte:migration create_section_table" />
       <command text="artisan generaete:migration create_section_table" />
       <command text="artisan generate:migration create_section_table" />
@@ -157,6 +158,7 @@
       <command text="artisan serve" />
       <command text="artisan" />
       <command text="artisan scheduled:make EmailReminderCron" />
+      <command text="composer install" />
     </commandsHistory>
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -197,7 +199,6 @@
         <option value="$PROJECT_DIR$/app/views/teacher/period/create.blade.php" />
         <option value="$PROJECT_DIR$/app/repository/MailService.php" />
         <option value="$PROJECT_DIR$/app/views/emails/reminder.blade.php" />
-        <option value="$PROJECT_DIR$/app/start/artisan.php" />
         <option value="$PROJECT_DIR$/app/repository/TokenService.php" />
         <option value="$PROJECT_DIR$/app/commands/SendEmailCommand.php" />
         <option value="$PROJECT_DIR$/app/repository/EmailRepository.php" />
@@ -216,6 +217,7 @@
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/app/config/app.php" />
         <option value="$PROJECT_DIR$/app/commands/EmailReminderCron.php" />
+        <option value="$PROJECT_DIR$/app/start/artisan.php" />
       </list>
     </option>
   </component>
@@ -880,24 +882,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/artisan">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="26.068966" vertical-offset="756" max-vertical-offset="1960">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/start/artisan.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.551724" vertical-offset="0" max-vertical-offset="560">
-          <caret line="13" column="35" selection-start-line="13" selection-start-column="35" selection-end-line="13" selection-end-column="35" />
-          <folding>
-            <element signature="e#7#408#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/database/migrations/2015_01_25_101302_create_user_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.7931035" vertical-offset="450" max-vertical-offset="1260">
@@ -927,7 +911,7 @@
         <state vertical-scroll-proportion="-5.413793" vertical-offset="31343" max-vertical-offset="52640">
           <caret line="1125" column="51" selection-start-line="1125" selection-start-column="51" selection-end-line="1125" selection-end-column="51" />
           <folding>
-            <marker date="1423497459089" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1423497749655" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1068,19 +1052,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/commands/SendEmailCommand.php">
+    <entry file="file://$PROJECT_DIR$/app/commands/EmailReminderCron.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.551724" vertical-offset="643" max-vertical-offset="1288">
-          <caret line="39" column="41" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="41" />
+        <state vertical-scroll-proportion="-9.655172" vertical-offset="756" max-vertical-offset="1624">
+          <caret line="41" column="5" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/commands/EmailReminderCron.php">
+    <entry file="file://$PROJECT_DIR$/artisan">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.57894737" vertical-offset="756" max-vertical-offset="1624">
-          <caret line="42" column="43" selection-start-line="42" selection-start-column="43" selection-end-line="42" selection-end-column="43" />
+        <state vertical-scroll-proportion="26.068966" vertical-offset="756" max-vertical-offset="1960">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/start/artisan.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.68421054" vertical-offset="0" max-vertical-offset="560">
+          <caret line="13" column="36" selection-start-line="13" selection-start-column="36" selection-end-line="13" selection-end-column="36" />
+          <folding>
+            <element signature="e#7#408#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
