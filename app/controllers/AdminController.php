@@ -11,14 +11,14 @@ class AdminController extends BaseController {
 
 	public function userIndex()
 	{
-		$users = UserRepository::approvedUserList();
-		$pendingUsers = UserRepository::pendingUserList();
+		$users = UserService::approvedUserList();
+		$pendingUsers = UserService::pendingUserList();
 		return View::make('admin.user.index', ['users' => $users, 'pendingUsers' => $pendingUsers]);
 	}
 
 	public function userApproval($id)
 	{
-		$user = UserRepository::find($id);
+		$user = UserService::find($id);
 		if($user->status == 'Pending')
 		{
 			return View::make('admin.user.approval')->with(['user' => $user]);
@@ -27,21 +27,21 @@ class AdminController extends BaseController {
 
 	public function storeUserApproval($id)
 	{
-		$user = UserRepository::find($id);
+		$user = UserService::find($id);
 		if(Input::get('approve'))
 		{
-			EmailRepository::sendConfirmationEmail($user);
-			UserRepository::updateUser($user, ['status' => 'Approved']);
+			EmailService::sendConfirmationEmail($user);
+			UserService::updateUser($user, ['status' => 'Approved']);
 		} elseif(Input::get('reject')) {
-			EmailRepository::sendRejectEmail($user);
-			UserRepository::updateUser($user, ['status' => 'Rejected']);
+			EmailService::sendRejectEmail($user);
+			UserService::updateUser($user, ['status' => 'Rejected']);
 		}
 		return $this->index();
 	}
 
 	public function userEdit($id)
 	{
-		$user = UserRepository::find($id);
+		$user = UserService::find($id);
 		return View::make('admin.user.edit')->with(['user' => $user]);
 	}
 
@@ -56,11 +56,11 @@ class AdminController extends BaseController {
 
 	private function saveUser($id)
 	{
-		$user = UserRepository::find($id);
+		$user = UserService::find($id);
 		$input = Input::all();
 		try
 		{
-			UserRepository::updateUser($user, $input);
+			UserService::updateUser($user, $input);
 			MessageService::alert('Your changes have been saved successfully.');
 			return View::make('admin.user.edit');
 		}
@@ -73,10 +73,10 @@ class AdminController extends BaseController {
 
 	private function deleteUser($id)
 	{
-		$user = UserRepository::find($id);
-		if(UserRepository::deleteUser($user) == true)
+		$user = UserService::find($id);
+		if(UserService::deleteUser($user) == true)
 		{
-			MessageService::alert('User account ' . UserRepository::$message . ' has been deleted');
+			MessageService::alert('User account ' . UserService::$message . ' has been deleted');
 			return $this->index();
 		}
 		else
@@ -93,7 +93,7 @@ class AdminController extends BaseController {
 
 	public function storeUserCreate()
 	{
-		UserRepository::createUser(Input::all());
+		UserService::createUser(Input::all());
 
 		return Redirect::route(	'admin.user.index');
 	}

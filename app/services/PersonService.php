@@ -1,6 +1,6 @@
 <?php
 
-class PersonRepository
+class PersonService
 {
     public static $errors;
 

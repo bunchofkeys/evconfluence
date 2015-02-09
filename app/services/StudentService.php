@@ -1,6 +1,6 @@
 <?php
 
-class StudentRepository
+class StudentService
 {
     public static function getList($period)
     {

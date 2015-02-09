@@ -1,6 +1,6 @@
 <?php
 
-class EmailRepository
+class EmailService
 {
     private static $email;
 
@@ -71,30 +71,14 @@ class EmailRepository
         $endDateTime = new DateTime();
         $endDateTime->modify('+3 day');
 
-        $url = self::generateLink($user, "setPassword", $startDateTime, $endDateTime);
+        $url = TokenService::generateLink($user, "setPassword", $startDateTime, $endDateTime);
         $data = ['user' => $user,
             'url' => $url];
 
         self::sendEmail($email,$subject,$emailTemplate,$data);
     }
 
-    private static function generateLink(User $user, $action, DateTime $startDateTime, DateTime $endDateTime)
-    {
-        $id = $user->person_id;
 
-        $link = new TemporaryLink();
-        $link->fill([
-            'person_id' => $id,
-            'action' => $action,
-            'startDateTime' => $startDateTime,
-            'endDateTime' => $endDateTime,
-            'active' => true,
-            'token' => md5(uniqid(rand(), true))
-        ]);
-        $link->save();
-
-        return 'http://' . $_SERVER['HTTP_HOST'] . '/token/' . $link->token . '/' . $link->action;
-    }
 
 
 

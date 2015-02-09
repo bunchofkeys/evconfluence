@@ -1,6 +1,6 @@
 <?php
 
-class UserRepository {
+class UserService {
 
     public static $errors;
     public static $message;

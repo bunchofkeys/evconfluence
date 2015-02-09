@@ -51,11 +51,11 @@ class SessionController extends BaseController {
 
 	public function saveUserRegister()
 	{
-		$user = UserRepository::registerTeacher(Input::all());
+		$user = UserService::registerTeacher(Input::all());
 
 		if($user != null)
 		{
-			EmailRepository::sendRegistrationNotification($user);
+			EmailService::sendRegistrationNotification($user);
 			MessageService::alert('Your registration have been process and will be reviewed by the administrator.');
 			return Redirect::route(	'session.login');
 		}

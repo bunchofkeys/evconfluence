@@ -10,7 +10,7 @@ class TeacherController extends \BaseController {
 
 	public function periodIndex()
 	{
-		$periodList = PeriodRepository::getList(Auth::user());
+		$periodList = PeriodService::getList(Auth::user());
 		return View::make('teacher.period.index')->with('periodList', $periodList);
 	}
 
@@ -21,7 +21,7 @@ class TeacherController extends \BaseController {
 
 	public function storePeriodCreate()
 	{
-		$result = PeriodRepository::createPeriod(Input::all(), Auth::user());
+		$result = PeriodService::createPeriod(Input::all(), Auth::user());
 
 		if($result == true)
 		{
@@ -37,7 +37,7 @@ class TeacherController extends \BaseController {
 
 	public function studentIndex($period_id)
 	{
-		$studentList = StudentRepository::getList($period_id);
+		$studentList = StudentService::getList($period_id);
 		return View::make('teacher.student.index')->with('studentList', $studentList);
 	}
 
@@ -58,7 +58,7 @@ class TeacherController extends \BaseController {
 		if(Input::file('file')->getClientOriginalExtension() == 'csv')
 		{
 			$file = Input::file('file')->openFile();
-			if(PeriodRepository::uploadList($file) == true)
+			if(PeriodService::uploadList($file) == true)
 			{
 				MessageService::alert('File uploaded successfully.');
 				return Redirect::route('teacher.period.index');

@@ -96,7 +96,7 @@ namespace {
         }
         
         /**
-         * Force register a service provider with the application.
+         * Force register a services provider with the application.
          *
          * @param \Illuminate\Support\ServiceProvider|string $provider
          * @param array $options
@@ -108,7 +108,7 @@ namespace {
         }
         
         /**
-         * Register a service provider with the application.
+         * Register a services provider with the application.
          *
          * @param \Illuminate\Support\ServiceProvider|string $provider
          * @param array $options
@@ -121,7 +121,7 @@ namespace {
         }
         
         /**
-         * Get the registered service provider instance if it exists.
+         * Get the registered services provider instance if it exists.
          *
          * @param \Illuminate\Support\ServiceProvider|string $provider
          * @return \Illuminate\Support\ServiceProvider|null 
@@ -132,7 +132,7 @@ namespace {
         }
         
         /**
-         * Resolve a service provider instance from the class name.
+         * Resolve a services provider instance from the class name.
          *
          * @param string $provider
          * @return \Illuminate\Support\ServiceProvider 
@@ -153,7 +153,7 @@ namespace {
         }
         
         /**
-         * Register a deferred provider and service.
+         * Register a deferred provider and services.
          *
          * @param string $provider
          * @param string $service
@@ -272,7 +272,7 @@ namespace {
         }
         
         /**
-         * Boot the application's service providers.
+         * Boot the application's services providers.
          *
          * @return void 
          * @static 
@@ -522,7 +522,7 @@ namespace {
         }
         
         /**
-         * Get the service provider repository instance.
+         * Get the services provider services instance.
          *
          * @return \Illuminate\Foundation\ProviderRepository 
          * @static 
@@ -532,7 +532,7 @@ namespace {
         }
         
         /**
-         * Get the service providers that have been loaded.
+         * Get the services providers that have been loaded.
          *
          * @return array 
          * @static 
@@ -553,7 +553,7 @@ namespace {
         }
         
         /**
-         * Determine if the given service is a deferred service.
+         * Determine if the given services is a deferred services.
          *
          * @param string $service
          * @return bool 

@@ -1,6 +1,6 @@
 <?php
 
-class PeriodRepository
+class PeriodService
 {
     public static function getList($user)
     {

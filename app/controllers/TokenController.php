@@ -7,7 +7,7 @@ class TokenController extends \BaseController {
 		$validLink = $this->checkTokenValid($token);
 		if($validLink != null)
 		{
-			$person = PersonRepository::find($validLink->person_id);
+			$person = PersonService::find($validLink->person_id);
 			return View::make('token.setPassword')->with(['person' => $person]);
 		}
 		return Redirect::route('session.login');
@@ -18,8 +18,8 @@ class TokenController extends \BaseController {
 		$validLink = $this->checkTokenValid($token);
 		if($validLink != null)
 		{
-			$person = PersonRepository::find($validLink->person_id);
-			$user = UserRepository::find($person->user->user_id);
+			$person = PersonService::find($validLink->person_id);
+			$user = UserService::find($person->user->user_id);
 			$user->password = Hash::make(Input::get('password'));
 			$user->save();
 

@@ -1,10 +1,12 @@
 <?php
 
-use Illuminate\Console\Command;
+use Indatus\Dispatcher\Scheduling\ScheduledCommand;
+use Indatus\Dispatcher\Scheduling\Schedulable;
+use Indatus\Dispatcher\Drivers\Cron\Scheduler;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class SendEmailCommand extends Command {
+class EmailReminderCron extends ScheduledCommand {
 
 	/**
 	 * The console command name.
@@ -31,6 +33,17 @@ class SendEmailCommand extends Command {
 	}
 
 	/**
+	 * When a command should run
+	 *
+	 * @param Scheduler $scheduler
+	 * @return \Indatus\Dispatcher\Scheduling\Schedulable
+	 */
+	public function schedule(Schedulable $scheduler)
+	{
+		return $scheduler->everyMinutes(3);
+	}
+
+	/**
 	 * Execute the console command.
 	 *
 	 * @return mixed
@@ -39,4 +52,5 @@ class SendEmailCommand extends Command {
 	{
 		EmailService::sendReminderMail();
 	}
+
 }
