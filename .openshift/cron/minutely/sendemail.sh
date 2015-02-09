@@ -1,1 +1,1 @@
-$OPENSHIFT_REPO_DIR/php artisan email:send
+php $OPENSHIFT_REPO_DIR/artisan email:send
