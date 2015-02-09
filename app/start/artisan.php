@@ -11,4 +11,4 @@
 |
 */
 
-Artisan::add(new EmailReminderCron());
+Artisan::add(new SendEmailCommand());
