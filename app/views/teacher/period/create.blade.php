@@ -12,7 +12,13 @@
             <div class="form-group">
                 <label class="col-sm-2 col-sm-2 control-label">Semester</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="teach_period">
+                    <input type="text" class="form-control" name="semester_code">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 col-sm-2 control-label">year</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="year">
                 </div>
             </div>
             <div class="form-group">
