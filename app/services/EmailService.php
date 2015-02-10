@@ -19,18 +19,20 @@ class EmailService
 
     public static function sendReminderMail()
     {
-        $adminList = User::where('status', 'Approved')->where('role', 'Admin')->get();
-
-        foreach($adminList as $admin)
-        {
-            $email = $admin->person->email;
-            $subject = 'Test Mail';
-            $emailTemplate = 'emails.reminder';
-
-            $data = ['user' => $admin];
-
-            self::sendEmail($email, $subject, $emailTemplate, $data);
-        }
+//        $formList = FormModel::all();
+//
+//        foreach($formList as $form)
+//        {
+//            foreach($form->teaching_period->students as $student) {
+//                $email = $student->person->email;
+//                $subject = 'Test Mail';
+//                $emailTemplate = 'emails.reminder';
+//
+//                $data = ['user' => $student];
+//
+//                self::sendEmail($email, $subject, $emailTemplate, $data);
+//            }
+//        }
     }
     public static function sendRegistrationNotification($user)
     {

@@ -6,8 +6,8 @@ class Teaching_Period extends \Eloquent {
 	protected $fillable = ['user_id', 'semester_code', 'year', 'unit_code'];
 	public $timestamps = false;
 
-	public function student()
+	public function students()
 	{
-		return $this->hasMany('Student', 'team', 'student_id', 'period_id');
+		return $this->hasManyThrough('Student', 'Team');
 	}
 }
