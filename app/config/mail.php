@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'foofangliang87@gmail.com', 'name' => 'fangliang'),
+	'from' => array('address' => 'no-reply@app-evconfluence.rhcloud.com', 'name' => 'SPE System'),
 
 	/*
 	|--------------------------------------------------------------------------
