@@ -13,39 +13,39 @@ class ValidationService
 
     public static function validateTeacherEdit($input)
     {
-        Self::$rules =
+        self::$rules =
         [
             'first_name' 	    =>  'required',
             'last_name'		    =>  'required',
             'school'            =>  'required',
             'unit_required_for' =>  'required',
         ];
-        return Self::validate($input);
+        return self::validate($input);
     }
 
     public static function validateAdminEdit($input)
     {
-        Self::$rules =
+        self::$rules =
             [
                 'first_name' 	    =>  'required',
                 'last_name'		    =>  'required',
             ];
-        return Self::validate($input);
+        return self::validate($input);
     }
 
     public static function validatePassword($input)
     {
-        Self::$rules =
+        self::$rules =
             [
                 'password'          =>  'required',
                 'confirm_password'  =>  'required|same:password',
             ];
-        return Self::validate($input);
+        return self::validate($input);
     }
 
     public static function validateTeacherCreate($input)
     {
-        Self::$rules =
+        self::$rules =
             [
                 'first_name' 	    =>  'required',
                 'last_name'		    =>  'required',
@@ -55,12 +55,12 @@ class ValidationService
                 'password'          =>  'required',
                 'confirm_password'  =>  'required|same:password',
             ];
-        return Self::validate($input);
+        return self::validate($input);
     }
 
     public static function validateAdminCreate($input)
     {
-        Self::$rules =
+        self::$rules =
             [
                 'first_name' 	    =>  'required',
                 'last_name'		    =>  'required',
@@ -68,12 +68,12 @@ class ValidationService
                 'password'          =>  'required',
                 'confirm_password'  =>  'required|same:password',
             ];
-        return Self::validate($input);
+        return self::validate($input);
     }
 
     public static function validateRegistration($input)
     {
-        Self::$rules =
+        self::$rules =
         [
             'first_name' 	    =>  'required',
             'last_name'		    =>  'required',
@@ -81,23 +81,23 @@ class ValidationService
             'school'            =>  'required',
             'unit_required_for' =>  'required',
         ];
-        return Self::validate($input);
+        return self::validate($input);
     }
 
     public static function validatePeriod($input)
     {
-        Self::$rules =
+        self::$rules =
             [
                 'semester_code' =>  'required',
                 'year'		    =>  'required',
                 'unit_code'     =>  'required',
             ];
-        return Self::validate($input);
+        return self::validate($input);
     }
 
     public static function validateStudent($input)
     {
-        Self::$rules =
+        self::$rules =
             [
                 'student_id'        =>  'required',
                 'team_id'		    =>  'required',
@@ -105,31 +105,31 @@ class ValidationService
                 'first_name' 	    =>  'required',
                 'last_name'		    =>  'required',
             ];
-        return Self::validate($input);
+        return self::validate($input);
     }
 
     public static function validateQuestion($input)
     {
-        Self::$rules =
+        self::$rules =
             [
                 'question_text'        =>  'required',
             ];
-        return Self::validate($input);
+        return self::validate($input);
     }
 
     public static function validateForm($input)
     {
-        Self::$rules =
+        self::$rules =
             [
                 'start_date_time'       =>  'required',
                 'end_date_time'         =>  'required',
             ];
-        return Self::validate($input);
+        return self::validate($input);
     }
 
     private static function validate($input)
     {
-        $validator = Validator::make($input, Self::$rules, Self::$messages);
+        $validator = Validator::make($input, self::$rules, self::$messages);
         if ($validator->fails())
         {
             MessageService::error($validator->messages());
