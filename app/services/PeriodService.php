@@ -2,11 +2,16 @@
 
 class PeriodService
 {
+    public static function find($id)
+    {
+        return Teaching_Period::find($id);
+    }
+
+
     public static function getList($user)
     {
         return Teaching_Period::where('user_id',$user->user_id)->get();
     }
-
     public static function createPeriod($input, $user)
     {
         $period = new Teaching_Period();

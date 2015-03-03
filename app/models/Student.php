@@ -11,13 +11,18 @@ class Student extends \Eloquent {
 		return $this->belongsTo('Person', 'person_id', 'person_id');
 	}
 
-	public function teaching_period()
+	public function teams()
 	{
-		return $this->belongsToMany('Teaching_Period', 'team', 'student_id', 'period_id');
+		return $this->hasMany('Team', 'student_id', 'student_id');
 	}
 
-	public function team()
+	public function team($periodId)
 	{
-		return $this->belongsTo('Team', 'student_id', 'student_id');
+		return Team::where(['student_id' => $this->student_id, 'period_id' => $periodId])->first();
+	}
+
+	public function period()
+	{
+		return $this->belongsToMany('Teaching_Period', 'team', 'student_id', 'period_id');
 	}
 }

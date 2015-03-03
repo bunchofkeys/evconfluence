@@ -31,6 +31,8 @@
                             <td>
                                 <a href="{{URL::route('teacher.form.question', ['period' => $period, 'form' => $form->form_id, 'type' => 'self']) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Manage Self</span></a>
                                 <a href="{{URL::route('teacher.form.question', ['period' => $period,'form' => $form->form_id, 'type' => 'peer']) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Manage Peer</span></a>
+                                <a href="{{URL::route('teacher.form.response', ['period' => $period,'form' => $form->form_id]) }}" class="btn btn-primary btn-xs"><span class="label label-primary">View Response</span></a>
+                                <a href="{{URL::route('teacher.form.response.excel', ['period' => $period,'form' => $form->form_id]) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Download Submission</span></a>
                             </td>
                         </tr>
                     @endforeach

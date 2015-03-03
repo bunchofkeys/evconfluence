@@ -19,26 +19,35 @@ class EmailService
 
     public static function sendReminderMail()
     {
-//        $formList = FormModel::all();
-//
-//        foreach($formList as $form)
-//        {
-//            foreach($form->teaching_period->students as $student) {
-//                $email = $student->person->email;
-//                $subject = 'Test Mail';
-//                $emailTemplate = 'emails.reminder';
-//
-//                $data = ['user' => $student];
-//
-//                self::sendEmail($email, $subject, $emailTemplate, $data);
-//            }
-//        }
+        $formList = FormModel::all();
+
+        foreach($formList as $form)
+        {
+            if($form->status == 'Ready')
+            {
+                $students = $form->period->students;
+                foreach ($students as $student)
+                {
+                    $link = TokenService::generateLink($student->person_id, 'evaluation', $form->start_date_time, $form->end_date_time);
+
+                    $email = $student->person->email;
+                    $subject = 'Test Mail';
+                    $emailTemplate = 'emails.reminder';
+
+                    $data = ['user' => $student,
+                        'link' => $link];
+
+                    self::sendEmail($email, $subject, $emailTemplate, $data);
+                }
+            }
+        }
     }
+
     public static function sendRegistrationNotification($user)
     {
         $adminList = User::where('status', 'Approved')->where('role', 'Admin')->get();
 
-         $url = URL::route('admin.user.approval', ['id' => $user->user_id]);
+        $url = URL::route('admin.user.approval', ['id' => $user->user_id]);
         foreach($adminList as $admin)
         {
             $email = $admin->person->email;
@@ -46,7 +55,7 @@ class EmailService
             $emailTemplate = 'emails.newApplicant';
 
             $data = ['user' => $admin,
-            'url' => $url];
+                'url' => $url];
 
             self::sendEmail($email, $subject, $emailTemplate, $data);
         }
@@ -73,16 +82,11 @@ class EmailService
         $endDateTime = new DateTime();
         $endDateTime->modify('+3 day');
 
-        $url = TokenService::generateLink($user, "setPassword", $startDateTime, $endDateTime);
+        $url = TokenService::generateLink($user->person_id, "setpassword", $startDateTime, $endDateTime);
         $data = ['user' => $user,
             'url' => $url];
 
         self::sendEmail($email,$subject,$emailTemplate,$data);
     }
-
-
-
-
-
 
 }

@@ -32,7 +32,9 @@ class AdminController extends BaseController {
 		{
 			EmailService::sendConfirmationEmail($user);
 			UserService::updateUser($user, ['status' => 'Approved']);
-		} elseif(Input::get('reject')) {
+		}
+		elseif(Input::get('reject'))
+		{
 			EmailService::sendRejectEmail($user);
 			UserService::updateUser($user, ['status' => 'Rejected']);
 		}
@@ -47,9 +49,12 @@ class AdminController extends BaseController {
 
 	public function storeUserEdit($id)
 	{
-		if(Input::get('save')) {
+		if(Input::get('save'))
+		{
 			return $this->saveUser($id); //if login then use this method
-		} elseif(Input::get('delete')) {
+		}
+		elseif(Input::get('delete'))
+		{
 			return $this->deleteUser($id); //if register then use this method
 		}
 	}
@@ -57,17 +62,32 @@ class AdminController extends BaseController {
 	private function saveUser($id)
 	{
 		$user = UserService::find($id);
-		$input = Input::all();
-		try
+		if($user->role == 'Admin')
 		{
-			UserService::updateUser($user, $input);
-			MessageService::alert('Your changes have been saved successfully.');
-			return View::make('admin.user.edit');
+			$validate = ValidationService::validateAdminEdit(Input::all());
 		}
-		catch (mysqli_sql_exception $ex)
+		else
 		{
-			MessageService::error();
-			return View::make('admin.user.edit');
+			$validate = ValidationService::validateTeacherEdit(Input::all());
+		}
+
+		if($validate != false)
+		{
+			if(Input::has('password') || Input::has('confirm_password'))
+			{
+				if(ValidationService::validatePassword(Input::all()) == false)
+				{
+					return Redirect::back()->withInput();
+				}
+			}
+
+			UserService::updateUser($user, Input::all());
+			MessageService::alert('Your changes have been saved successfully.');
+			return Redirect::route('admin.user.index');
+		}
+		else
+		{
+			return Redirect::back()->withInput();
 		}
 	}
 
@@ -81,7 +101,6 @@ class AdminController extends BaseController {
 		}
 		else
 		{
-			MessageService::error();
 			return $this->index();
 		}
 	}
@@ -93,8 +112,26 @@ class AdminController extends BaseController {
 
 	public function storeUserCreate()
 	{
-		UserService::createUser(Input::all());
+		if(Input::get('role') == 'Admin')
+		{
+			$validate = ValidationService::validateAdminCreate(Input::all());
+		}
+		else
+		{
+			$validate = ValidationService::validateTeacherCreate(Input::all());
+		}
 
-		return Redirect::route(	'admin.user.index');
+		if($validate != false)
+		{
+			UserService::createUser(Input::all());
+			MessageService::alert('A new user has been created successfully.');
+			return Redirect::route(	'admin.user.index');
+		}
+		else
+		{
+			return Redirect::back()->withInput();
+		}
+
+
 	}
 }

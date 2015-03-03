@@ -5,9 +5,9 @@ class Team extends \Eloquent {
 	protected $fillable = ['student_id', 'period_id', 'team_id'];
 	public $timestamps = false;
 
-	public function teaching_period()
+	public function period()
 	{
-		return $this->belongsTo('Teaching_Period', 'period_id', 'period_id');
+		return $this->hasOne('Teaching_Period', 'period_id', 'period_id');
 	}
 
 	public function student()

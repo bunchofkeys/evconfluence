@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateSubmissionTable extends Migration {
+class CreateResultTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,15 +12,13 @@ class CreateSubmissionTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('submission', function(Blueprint $table)
+		Schema::create('result', function(Blueprint $table)
 		{
-			$table->increments('submission_id');
+			$table->increments('result_id');
 			$table->integer('form_id');
-			$table->integer('student_id');
-			$table->boolean('alert');
-			$table->string('status');
-			$table->dateTime('submission_date_time');
-
+			$table->integer('to_student_id');
+			$table->integer('from_student_id');
+			$table->double('score');
 		});
 	}
 
@@ -32,7 +30,7 @@ class CreateSubmissionTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('submission');
+		Schema::drop('result');
 	}
 
 }

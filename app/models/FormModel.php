@@ -6,7 +6,7 @@ class FormModel extends \Eloquent {
 	protected $fillable = ['start_date_time', 'end_date_time', 'status'];
 	public $timestamps = false;
 
-	public function teaching_period()
+	public function period()
 	{
 		return $this->belongsTo('Teaching_Period', 'period_id', 'period_id');
 	}

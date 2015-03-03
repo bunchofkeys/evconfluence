@@ -18,6 +18,9 @@
     <link href="/assets/css/style-responsive.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
     <link href="/assets/css/jquery.datetimepicker.css" rel="stylesheet">
+    <link href="/assets/css/progressbar.css" rel="stylesheet">
+
+    <script src="/assets/js/jquery.js"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -35,7 +38,6 @@ MAIN CONTENT
 @yield('content')
 
 <!-- js placed at the end of the document so the pages load faster -->
-<script src="/assets/js/jquery.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/assets/js/jquery.datetimepicker.js"></script>
 

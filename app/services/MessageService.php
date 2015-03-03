@@ -14,9 +14,9 @@ class MessageService
         }
     }
 
-    public static function error()
+    public static function error($message)
     {
-        Session::flash('messages', 'An error has occurred.');
+        Session::flash('errors', $message);
         Session::flash('alert-class', 'alert-danger');
     }
 }

@@ -1,6 +1,11 @@
 <?php
 class FormService
 {
+    public static function find($formId)
+    {
+        return FormModel::where('form_id', $formId)->first();
+    }
+
     public static function getList($period)
     {
         return FormModel::where('period_id', $period)->get();
@@ -17,11 +22,21 @@ class FormService
         }
         else
         {
-            return 'off';
             $form->status = 'off';
         }
         $form->period_id = $period;
         $form->save();
-        return $form;
+    }
+
+    public static function getRelatedForms($student)
+    {
+        $periods = $student->period;
+        $list = [];
+
+        foreach ($periods as $period) {
+            array_push($list, $period->period_id);
+        }
+
+        return FormModel::whereIn('period_id', $list)->with('period')->get();
     }
 }

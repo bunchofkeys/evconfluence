@@ -8,6 +8,11 @@ class Teaching_Period extends \Eloquent {
 
 	public function students()
 	{
-		return $this->hasManyThrough('Student', 'Team');
+		return $this->belongsToMany('Student','team','period_id','student_id');
+	}
+
+	public function form()
+	{
+		return $this->hasOne('Form', 'period_id', 'period_id');
 	}
 }

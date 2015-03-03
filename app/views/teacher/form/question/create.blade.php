@@ -9,18 +9,18 @@
         <div class="form-panel">
             {{ Form::open(['class' => 'form-horizontal style-form']) }}
             <h2 class="mb">New {{ $type }} Evaluation Question</h2>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('question_text')) has-error @endif">
                 <label class="col-sm-2 col-sm-2 control-label">Question</label>
                 <div class="col-sm-10">
-                    <input id="dateStart" type="text" class="form-control" name="question_text">
+                    <input id="dateStart" type="text" class="form-control" name="question_text"  value="{{ Input::old('question_text') }}">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('school')) has-error @endif">
                 <label class="col-sm-2 col-sm-2 control-label">Format</label>
                 <div class="col-sm-10">
                     <select class="form-control" name="question_format">
-                        <option selected="true" value="Multi">Multiple Choice</option>
-                        <option value="Open">Open Ended Question</option>
+                        <option @if(Input::old('role') == 'Multi')selected="true"@endif value="Multi">Multiple Choice</option>
+                        <option @if(Input::old('role') == 'Open')selected="true"@endif value="Open">Open Ended Question</option>
                     </select>
                 </div>
             </div>

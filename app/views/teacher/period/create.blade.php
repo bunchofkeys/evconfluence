@@ -9,22 +9,22 @@
         <div class="form-panel">
             {{ Form::open(['class' => 'form-horizontal style-form']) }}
             <h2 class="mb">New Teaching Period</h2>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('semester_code')) has-error @endif">
                 <label class="col-sm-2 col-sm-2 control-label">Semester</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="semester_code">
+                    <input type="text" class="form-control" name="semester_code" value="{{ Input::old('semester_code') }}">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('year')) has-error @endif">
                 <label class="col-sm-2 col-sm-2 control-label">year</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="year">
+                    <input type="text" class="form-control" name="year" value="{{ Input::old('year') }}">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('unit_code')) has-error @endif">
                 <label class="col-sm-2 col-sm-2 control-label">Unit code</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="unit_code">
+                    <input type="text" class="form-control" name="unit_code" value="{{ Input::old('unit_code') }}">
                 </div>
             </div>
 

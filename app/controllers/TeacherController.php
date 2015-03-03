@@ -21,24 +21,41 @@ class TeacherController extends \BaseController {
 
 	public function storePeriodCreate()
 	{
-		$result = PeriodService::createPeriod(Input::all(), Auth::user());
-
-		if($result == true)
+		if(ValidationService::validatePeriod(Input::all()) != false)
 		{
+			$result = PeriodService::createPeriod(Input::all(), Auth::user());
 			MessageService::alert('A new period has been created successfully.');
 			return Redirect::route('teacher.period.index');
 		}
 		else
 		{
-			MessageService::error();
-			return Redirect::route('teacher.period.index');
+			return Redirect::back()->withInput();
 		}
 	}
 
-	public function studentIndex($period_id)
+	public function studentIndex($periodId)
 	{
-		$studentList = StudentService::getList($period_id);
-		return View::make('teacher.student.index')->with('studentList', $studentList);
+		$studentList = StudentService::getList($periodId);
+		return View::make('teacher.student.index')->with('studentList', $studentList)->with('period', $periodId);
+	}
+
+	public function studentCreate($periodId)
+	{
+		return View::make('teacher.student.create')->with('period', $periodId);
+	}
+
+	public function storeStudentCreate($periodId)
+	{
+		if(ValidationService::validateStudent(Input::all()) != false)
+		{
+			$result = StudentService::createStudent(Input::all(), $periodId);
+			MessageService::alert('A new student has been created successfully.');
+			return Redirect::route('teacher.student.index', ['period' => $periodId]);
+		}
+		else
+		{
+			return Redirect::back()->withInput();
+		}
 	}
 
 	public function uploadList()
@@ -48,7 +65,6 @@ class TeacherController extends \BaseController {
 
 	public function storeUploadList()
 	{
-
 		// check for csv extension
 		if(!Input::hasFile('file'))
 		{
@@ -65,7 +81,6 @@ class TeacherController extends \BaseController {
 			}
 			else
 			{
-				MessageService::error();
 				return Redirect::route('teacher.period.index');
 			}
 
@@ -74,37 +89,176 @@ class TeacherController extends \BaseController {
 		return Redirect::route('teacher.period.uploadList');
 	}
 
-	public function formIndex($period_id)
+	public function formIndex($periodId)
 	{
-		$formList = FormService::getList($period_id);
-		return View::make('teacher.form.index')->with(['formList' => $formList, 'period' => $period_id]);
+		$formList = FormService::getList($periodId);
+		return View::make('teacher.form.index')->with(['formList' => $formList, 'period' => $periodId]);
 	}
 
-	public function formCreate($period_id)
+	public function formCreate($periodId)
 	{
-		return View::make('teacher.form.create')->with('period', $period_id);
+		return View::make('teacher.form.create')->with('period', $periodId);
 	}
 
-	public function storeFormCreate($period_id)
+	public function storeFormCreate($periodId)
 	{
-		FormService::createForm(Input::all(), $period_id);
-		return Redirect::route('teacher.form.index', ['period' => $period_id]);
+		if(ValidationService::validateForm(Input::all()) != false)
+		{
+			FormService::createForm(Input::all(), $periodId);
+			MessageService::alert('A new form has been created successfully.');
+			return Redirect::route('teacher.form.index', ['period' => $periodId]);
+		}
+		else
+		{
+			return Redirect::back()->withInput();
+		}
+
 	}
 
-	public function formQuestion($period_id, $form_id, $type)
+	public function formQuestion($periodId, $formId, $type)
 	{
-		$questionList = QuestionService::getList($form_id, $type);
-		return View::make('teacher.form.question.index')->with(['questionList' => $questionList, 'type' => $type, 'period' => $period_id, 'form' => $form_id]);
+		$questionList = QuestionService::getList($formId, $type);
+		return View::make('teacher.form.question.index')->with(['questionList' => $questionList, 'type' => $type, 'period' => $periodId, 'form' => $formId]);
 	}
 
-	public function formQuestionCreate($period_id, $form_id, $type)
+	public function formQuestionCreate($periodId, $formId, $type)
 	{
-		return View::make('teacher.form.question.create')->with(['type' => $type, 'period' => $period_id, 'form' => $form_id]);
+		return View::make('teacher.form.question.create')->with(['type' => $type, 'period' => $periodId, 'form' => $formId]);
 	}
 
-	public function formQuestionStoreCreate($period_id, $form_id, $type)
+	public function formQuestionStoreCreate($periodId, $formId, $type)
 	{
-		QuestionService::createQuestion(Input::all(), $period_id, $form_id, $type);
-		return Redirect::route('teacher.form.question',['type' => $type, 'period' => $period_id, 'form' => $form_id]);
+		if(ValidationService::validateQuestion(Input::all()) != false)
+		{
+			QuestionService::createQuestion(Input::all(), $periodId, $formId, $type);
+			MessageService::alert('A new question has been created successfully.');
+			return Redirect::route('teacher.form.question',['type' => $type, 'period' => $periodId, 'form' => $formId]);
+		}
+		else
+		{
+			return Redirect::back()->withInput();
+		}
+	}
+
+	public function formResponse($periodId, $formId)
+	{
+		$submisisons = SubmissionService::getList($formId);
+		return View::make('teacher.form.response.index')->with(['submissions' => $submisisons, 'periodId' => $periodId, 'formId' => $formId]);
+	}
+
+	public function formResponseStudent($periodId, $formId, $studentId)
+	{
+		$submission = SubmissionService::find($formId, $studentId);
+		if(!is_null($submission))
+		{
+			$questions = ['self' => QuestionService::getList($formId, 'self'), 'peer' => QuestionService::getList($formId, 'peer')];
+			$student = $submission->student;
+			$student->person = $student->person;
+			$team = $student->team($periodId);
+			$peerList = StudentService::getListByTeam($periodId, $team->team_id, $studentId);
+
+			$student->question = new stdClass();
+
+			foreach ($questions['self'] as $question) {
+				$questionId = $question->question_id;
+				$student->question->$questionId = $question;
+				$student->question->$questionId->answer = QuestionService::getAnswer($submission->submission_id, $questionId, $studentId);
+			}
+
+			foreach ($peerList as $peer) {
+				$peer->question = new stdClass();
+				foreach ($questions['peer'] as $question) {
+					$questionId = $question->question_id;
+					$peer->question->$questionId = $question;
+					$peer->question->$questionId->answer = QuestionService::getAnswer($submission->submission_id, $questionId, $peer->student_id);
+				}
+			}
+
+			return View::make('teacher.form.response.view')->with(['submission' => $submission,
+				'periodId' => $periodId,
+				'formId' => $formId,
+				'studentId' => $studentId,
+				'self' => $student,
+				'peerList' => $peerList,
+				'questions' => $questions]);
+		}
+	}
+	public function formResponseExcel($periodId, $formId)
+	{
+
+
+		// get all of the students in this period.
+		$period = PeriodService::find($periodId);
+		$studentList = $period->students;
+
+		// get all submissions submitted in this form
+		$submissions = SubmissionModel::where('form_id', $formId)
+			->where('status','submitted')->select('submission_id')->get()->toArray();
+
+		// get all question id that is used for marks calculation
+		$selfQuestions = QuestionModel::whereHas('section', function ($q) use ($formId) {
+			$q->where('form_id', $formId);
+		})->where('format', 'multi')
+			->where('type', 'self')
+			->select('question_id')->get()->toArray();
+
+		$peerQuestions = QuestionModel::whereHas('section', function ($q) use ($formId) {
+			$q->where('form_id', $formId);
+		})->where('format', 'multi')
+			->where('type', 'peer')
+			->select('question_id')->get()->toArray();
+
+		$value = ["Person Id", "Email", "Surname", "Title", "Given Name", "Teach Period", "Unit Code", "Team ID", "Marks"];
+		$output = implode(",",$value) . "\n";
+
+		$test = '';
+		foreach($studentList as $student)
+		{
+			// find the submission for this student.
+			$submission  = SubmissionModel::where('form_id', $formId)
+											->where('student_id', $student->student_id)
+											->where('status', 'submitted')
+											->first();
+
+			if(!is_null($submission))
+			{
+				$selfMarks =  AnswerModel::whereIn('submission_id', $submissions)
+										->whereIn('question_id', $selfQuestions)
+										->where('target_student_id', $student->student_id)->avg('input');
+				$peerMarks = AnswerModel::whereIn('submission_id', $submissions)
+										->whereIn('question_id', $peerQuestions)
+										->where('target_student_id', $student->student_id)->avg('input');
+				$peerCount = AnswerModel::whereIn('submission_id', $submissions)
+							->whereIn('question_id', $peerQuestions)
+							->where('target_student_id', $student->student_id)->groupBy('submission_id')->count();
+
+				$marks = ($selfMarks + ($peerMarks * $peerCount))/ ($peerCount + 1);
+
+			}
+			else {
+				$marks = 0;
+			}
+			$student->person = $student->person;
+
+			$value = [$student->student_id,
+						$student->person->email,
+						$student->person->last_name,
+						$student->person->title,
+						$student->person->first_name,
+						$period->year,
+						$period->unit_code,
+						$student->team($periodId)->team_id,
+						number_format($marks, 2),
+					];
+			$output .=  implode(",",$value) . "\n";
+
+		}
+
+		$headers = array(
+			'Content-Type' => 'text/csv',
+			'Content-Disposition' => 'attachment; filename="' . 'ResultsForForm' . $formId . '.csv"',
+		);
+
+		return Response::make(rtrim($output, "\n"), 200, $headers);
 	}
 }

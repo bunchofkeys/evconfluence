@@ -5,8 +5,8 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends BaseModel implements UserInterface, RemindableInterface {
-
+class User extends \Eloquent implements UserInterface, RemindableInterface
+{
 	use UserTrait, RemindableTrait;
 
 	// settings
@@ -15,14 +15,6 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	protected $hidden = array('password', 'remember_token');
 	protected $fillable = ['username', 'password', 'status', 'role'];
 	public $timestamps = false;
-
-	// validation rules
-	protected $rules = array(
-		'username' => 'required|unique:user|Email',
-		'password' => 'required',
-		'role' => 'required|in:Admin,Teacher',
-		'status' => 'required|in:Pending,Approved,Rejected,Locked',
-	);
 
 	public function person()
 	{

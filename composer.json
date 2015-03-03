@@ -9,7 +9,8 @@
 		"barryvdh/laravel-ide-helper": "~1.11",
 		"guzzlehttp/guzzle": "~5.1",
 	  	"way/generators": "~2.0",
-	  	"indatus/dispatcher": "1.4.*@dev"
+	  	"indatus/dispatcher": "1.4.*@dev",
+	  	"way/database": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

@@ -7,7 +7,7 @@
 @section('content')
     <div class="row mt">
         <div class="col-md-12" style="padding-bottom: 20px">
-            {{--<a href="{{ Url::route('teacher.period.uploadList') }}" class="btn btn-primary">Upload Student List</a>--}}
+            <a href="{{ Url::route('teacher.student.create', ['period' => $period]) }}" class="btn btn-primary">Add Student</a>
             <a href="{{ URL::route('teacher.period.index') }}" class="btn btn-primary">Back</a>
         </div>
         <div class="col-md-12">
@@ -27,7 +27,7 @@
                     @foreach($studentList as $student)
                         <tr>
                             <td>{{ $student->student_id }}</td>
-                            <td>{{ $student->team->team_id }}</td>
+                            <td>{{ $student->team($period)->team_id }}</td>
                             <td>{{ $student->person->email }}</td>
                             <td>{{ $student->person->first_name }}</td>
                             <td>{{ $student->person->last_name }}</td>

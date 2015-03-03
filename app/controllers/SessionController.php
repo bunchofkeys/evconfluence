@@ -51,20 +51,16 @@ class SessionController extends BaseController {
 
 	public function saveUserRegister()
 	{
-		$user = UserService::registerTeacher(Input::all());
-
-		if($user != null)
+		if(ValidationService::validateRegistration(Input::all()) != false)
 		{
+			$user = UserService::registerTeacher(Input::all());
 			EmailService::sendRegistrationNotification($user);
 			MessageService::alert('Your registration have been process and will be reviewed by the administrator.');
 			return Redirect::route(	'session.login');
 		}
 		else
 		{
-			MessageService::error();
-			return Redirect::route(	'session.login');
+			return Redirect::back()->withInput();
 		}
-
 	}
-
 }

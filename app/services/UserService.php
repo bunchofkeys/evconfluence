@@ -59,19 +59,34 @@ class UserService {
             $person->first_name = $input['first_name'];
             $person->last_name = $input['last_name'];
             $person->email = $input['email'];
-            $person->save();
+            if($person->save() == false)
+            {
+                MessageService::error($person->getErrors());
+                return false;
+            }
 
             $user->username = $input['email'];
             $user->password = Hash::make(uniqid());
             $user->status = 'Pending';
             $user->role = 'Teacher';
             $user->person_id = $person->person_id;
-            $user->save();
+            if($user->save() == false)
+            {
+                MessageService::error($user->getErrors());
+                $person->delete();
+                return false;
+            }
 
             $teacher->user_id = $user->user_id;
             $teacher->school = $input['school'];
             $teacher->unit_required_for = $input['unit_required_for'];
-            $teacher->save();
+            if($teacher->save() == false)
+            {
+                MessageService::error($teacher->getErrors());
+                $user->delete();
+                $person->delete();
+                return false;
+            }
 
             return $user;
         }

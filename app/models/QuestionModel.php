@@ -1,6 +1,7 @@
 <?php
 
-class QuestionModel extends \Eloquent {
+class QuestionModel extends \Eloquent
+{
 	protected $table = 'question';
 	protected $primaryKey = 'question_id';
 	protected $fillable = ['question_text', 'question_number', 'format', 'type'];

@@ -1922,6 +1922,11 @@ label {
 }
 
 
+.form-horizontal .form-group {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
 
 /*LOGIN CONFIGURATION PAGE*/
 .form-login {

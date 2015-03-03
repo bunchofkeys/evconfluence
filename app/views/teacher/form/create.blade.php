@@ -9,22 +9,22 @@
         <div class="form-panel">
             {{ Form::open(['class' => 'form-horizontal style-form']) }}
             <h2 class="mb">New Form</h2>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('start_date_time')) has-error @endif">
                 <label class="col-sm-2 col-sm-2 control-label">Start Date & Time</label>
                 <div class="col-sm-10">
-                    <input id="dateStart" type="text" class="form-control" name="start_date_time">
+                    <input id="dateStart" type="text" class="form-control" name="start_date_time" value="{{ Input::old('start_date_time') }}">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('end_date_time')) has-error @endif">
                 <label class="col-sm-2 col-sm-2 control-label">End Date & Time</label>
                 <div class="col-sm-10">
-                    <input id="dateEnd" type="text" class="form-control" name="end_date_time">
+                    <input id="dateEnd" type="text" class="form-control" name="end_date_time" value="{{ Input::old('end_date_time') }}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 col-sm-2 control-label">Enabled</label>
                 <div class="task-checkbox col-sm-10">
-                    <input type="checkbox" class="list-child" name="status">
+                    <input type="checkbox" class="list-child" name="status" value="{{ Input::old('status') }}">
                 </div>
             </div>
             <div align="center" >

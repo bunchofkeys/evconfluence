@@ -1,0 +1,34 @@
+.progress {
+    height: 40px;   
+}
+
+.progress-bar {
+    background-color: #DFE3E4;
+        padding-top: 10px;
+    font-size: 15px;
+}
+
+.progress-bar a {
+    color: black;   
+}
+
+.progress-bar-complete {
+    background-color: #5cb85c !important;
+}
+
+.progress-bar-current a {
+    color: white;   
+}
+
+
+.evaluation-panel {
+    padding: 1px 15px 1px 15px;
+    margin: 0px;
+    
+}
+
+.evaluation-bar {
+    margin-top: 20px;
+}
+
+

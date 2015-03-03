@@ -14,8 +14,11 @@ class CreateAnswerTable extends Migration {
 	{
 		Schema::create('answer', function(Blueprint $table)
 		{
-			$table->increments('id');
-			$table->timestamps();
+			$table->increments('answer_id');
+			$table->integer('submission_id');
+			$table->integer('question_id');
+			$table->integer('target_student_id');
+			$table->string('input');
 		});
 	}
 
