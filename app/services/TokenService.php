@@ -21,6 +21,5 @@ class TokenService
         $link->save();
 
         return Request::root() . '/token/' . $link->token . '/' . $link->action;
-
     }
 }

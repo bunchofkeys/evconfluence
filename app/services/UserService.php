@@ -7,9 +7,9 @@ class UserService {
 
     public static function createUser($input)
     {
-        $person = new Person();
-        $teacher = new Teacher();
-        $user = new User();
+        $person = new PersonModel();
+        $teacher = new TeacherModel();
+        $user = new UserModel();
 
         // create user
         $person->first_name = $input['first_name'];
@@ -37,9 +37,9 @@ class UserService {
 
     public static function registerTeacher($input)
     {
-        $person = new Person();
-        $teacher = new Teacher();
-        $user = new User();
+        $person = new PersonModel();
+        $teacher = new TeacherModel();
+        $user = new UserModel();
 
         // create user
         $person->first_name = $input['first_name'];

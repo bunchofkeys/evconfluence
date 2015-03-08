@@ -8,6 +8,6 @@ class FormModel extends \Eloquent {
 
 	public function period()
 	{
-		return $this->belongsTo('Teaching_Period', 'period_id', 'period_id');
+		return $this->belongsTo('TeachingPeriodModel', 'period_id', 'period_id');
 	}
 }

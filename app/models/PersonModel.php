@@ -3,7 +3,7 @@
 /**
  * @property  first_name
  */
-class Person extends \Eloquent
+class PersonModel extends \Eloquent
 {
 	// settings
 	protected $table = 'person';
@@ -13,11 +13,11 @@ class Person extends \Eloquent
 
 	public function user()
 	{
-		return $this->hasOne('User', 'person_id', 'person_id');
+		return $this->hasOne('UserModel', 'person_id', 'person_id');
 	}
 
 	public function student()
 	{
-		return $this->hasOne('Student', 'person_id', 'person_id');
+		return $this->hasOne('StudentModel', 'person_id', 'person_id');
 	}
 }

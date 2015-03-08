@@ -5,8 +5,8 @@ class UserTableSeeder extends Seeder {
 
 	public function run()
 	{
-		$person = new Person();
-		$user = new User();
+		$person = new PersonModel();
+		$user = new UserModel();
 
 		// create user
 		$person->first_name = 'admin';

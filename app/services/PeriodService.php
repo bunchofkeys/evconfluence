@@ -4,17 +4,17 @@ class PeriodService
 {
     public static function find($id)
     {
-        return Teaching_Period::find($id);
+        return TeachingPeriodModel::find($id);
     }
 
 
     public static function getList($user)
     {
-        return Teaching_Period::where('user_id',$user->user_id)->get();
+        return TeachingPeriodModel::where('user_id',$user->user_id)->get();
     }
     public static function createPeriod($input, $user)
     {
-        $period = new Teaching_Period();
+        $period = new TeachingPeriodModel();
 
         $period->fill($input);
         $period->user_id = $user->user_id;
@@ -32,9 +32,9 @@ class PeriodService
                 if ($key != '0' && $value != null) {
                     $row = array_combine($top, str_getcsv($value));
 
-                    $period = Teaching_Period::where('period_id', $row['teach period'])->first();
+                    $period = TeachingPeriodModel::where('period_id', $row['teach period'])->first();
                     if ($period == null) {
-                        $period = new Teaching_Period();
+                        $period = new TeachingPeriodModel();
 
                         $teachPeriod = explode(' ', $row['teach period']);
                         $period->semester_code = $teachPeriod[0];
@@ -48,7 +48,7 @@ class PeriodService
                     if ($student == null) {
                         $person = PersonModel::where('email', $row['email'])->first();
                         if ($person == null) {
-                            $person = new Person();
+                            $person = new PersonModel();
                             $person->first_name = $row['given name'];
                             $person->last_name = $row['surname'];
                             $person->title = $row['title'];
@@ -56,7 +56,7 @@ class PeriodService
                             $person->save();
                         }
 
-                        $student = new Student();
+                        $student = new StudentModel();
                         $student->student_id = $row['person id'];
                         $student->person_id = $person->person_id;
                         $student->save();
@@ -64,7 +64,7 @@ class PeriodService
 
                     $team = TeamModel::where('period_id', $row['teach period'])->where('student_id', $row['person id'])->first();
                     if ($team == null) {
-                        $team = new Team();
+                        $team = new TeamModel();
                         $team->student_id = $row['person id'];
                         $team->period_id = $period->period_id;
                         $team->team_id = $row['team id'];

@@ -1,6 +1,6 @@
 <?php
 
-class Teacher extends \Eloquent
+class TeacherModel extends \Eloquent
 {
     // settings
     protected $table = 'teacher';
@@ -10,6 +10,6 @@ class Teacher extends \Eloquent
 
     public function user()
     {
-        return $this->belongsTo('User', 'user_id', 'user_id');
+        return $this->belongsTo('UserModel', 'user_id', 'user_id');
     }
 }

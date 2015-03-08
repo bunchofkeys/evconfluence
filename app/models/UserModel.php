@@ -5,7 +5,7 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends \Eloquent implements UserInterface, RemindableInterface
+class UserModel extends \Eloquent implements UserInterface, RemindableInterface
 {
 	use UserTrait, RemindableTrait;
 
@@ -18,14 +18,14 @@ class User extends \Eloquent implements UserInterface, RemindableInterface
 
 	public function person()
 	{
-		return $this->belongsTo('Person', 'person_id', 'person_id');
+		return $this->belongsTo('PersonModel', 'person_id', 'person_id');
 	}
 
 	public function teacher()
 	{
 		if($this->role == 'Teacher')
 		{
-			return $this->hasOne('Teacher', 'user_id', 'user_id');
+			return $this->hasOne('TeacherModel', 'user_id', 'user_id');
 		}
 	}
 

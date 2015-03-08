@@ -7,7 +7,7 @@ class SubmissionModel extends \Eloquent {
 
     public function student()
     {
-        return $this->belongsTo('Student', 'student_id', 'student_id');
+        return $this->belongsTo('StudentModel', 'student_id', 'student_id');
     }
 
 }

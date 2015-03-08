@@ -43,7 +43,7 @@ class StudentService
             $person = PersonService::findByEmail($input['email']);
 
             if (is_null($person)) {
-                $person = new Person();
+                $person = new PersonModel();
                 $person->first_name = $input['first_name'];
                 $person->last_name = $input['last_name'];
                 $person->email = $input['email'];
@@ -52,13 +52,13 @@ class StudentService
 
             if (is_null($student))
             {
-                $student = new Student();
+                $student = new StudentModel();
                 $student->person_id = $person->person_id;
                 $student->student_id = $input['student_id'];
                 $student->save();
             }
 
-            $team = new Team();
+            $team = new TeamModel();
             $team->period_id = $periodId;
             $team->student_id = $student->student_id;
             $team->team_id = $input['team_id'];

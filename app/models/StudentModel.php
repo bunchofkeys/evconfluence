@@ -1,6 +1,6 @@
 <?php
 
-class Student extends \Eloquent {
+class StudentModel extends \Eloquent {
 	protected $table = 'student';
 	protected $primaryKey = 'student_id';
 	protected $fillable = ['person_id'];
@@ -8,12 +8,12 @@ class Student extends \Eloquent {
 
 	public function person()
 	{
-		return $this->belongsTo('Person', 'person_id', 'person_id');
+		return $this->belongsTo('PersonModel', 'person_id', 'person_id');
 	}
 
 	public function teams()
 	{
-		return $this->hasMany('Team', 'student_id', 'student_id');
+		return $this->hasMany('TeamModel', 'student_id', 'student_id');
 	}
 
 	public function team($periodId)
@@ -23,6 +23,6 @@ class Student extends \Eloquent {
 
 	public function period()
 	{
-		return $this->belongsToMany('Teaching_Period', 'team', 'student_id', 'period_id');
+		return $this->belongsToMany('TeachingPeriodModel', 'team', 'student_id', 'period_id');
 	}
 }
