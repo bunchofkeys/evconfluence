@@ -44,9 +44,9 @@ class PeriodService
                         $period->save();
                     }
 
-                    $student = Student::where('student_id', $row['person id'])->first();
+                    $student = StudentModel::where('student_id', $row['person id'])->first();
                     if ($student == null) {
-                        $person = Person::where('email', $row['email'])->first();
+                        $person = PersonModel::where('email', $row['email'])->first();
                         if ($person == null) {
                             $person = new Person();
                             $person->first_name = $row['given name'];
@@ -62,7 +62,7 @@ class PeriodService
                         $student->save();
                     }
 
-                    $team = Team::where('period_id', $row['teach period'])->where('student_id', $row['person id'])->first();
+                    $team = TeamModel::where('period_id', $row['teach period'])->where('student_id', $row['person id'])->first();
                     if ($team == null) {
                         $team = new Team();
                         $team->student_id = $row['person id'];

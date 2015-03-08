@@ -4,191 +4,157 @@ class TokenController extends \BaseController {
 
 	public function setPassword($token)
 	{
-		$validLink = $this->checkTokenValid($token);
-		if($validLink != null)
-		{
-			$person = PersonService::find($validLink->person_id);
-			return View::make('token.setpassword')->with(['person' => $person]);
-		}
-		return Redirect::route('session.login');
+		$link = TokenService::find($token);
+		$person = PersonService::find($link->person_id);
+		return View::make('token.setpassword')->with(['person' => $person]);
+
 	}
 
 	public function storePassword($token)
 	{
-		$validLink = $this->checkTokenValid($token);
-		if($validLink != null)
-		{
-			$person = PersonService::find($validLink->person_id);
-			$user = UserService::find($person->user->user_id);
-			$user->password = Hash::make(Input::get('password'));
-			$user->save();
+		$link = TokenService::find($token);
 
-			$validLink->active = false;
-			$validLink->save();
-		}
-		return Redirect::route('session.login');
+		$person = PersonService::find($link->person_id);
+		$user = UserService::find($person->user->user_id);
+		$user->password = Hash::make(Input::get('password'));
+		$user->save();
+
+		$link->active = false;
+		$link->save();
+
 	}
 
 	public function evaluation($token)
 	{
-		$validLink = $this->checkTokenValid($token);
-		if(!is_null($validLink)) {
-			$person = PersonService::find($validLink->person_id);
-			if (!is_null($person))
+		$link = TokenService::find($token);
+		$person = PersonService::find($link->person_id);
+		if (!is_null($person))
+		{
+			$student = $person->student;
+			$forms = FormService::getRelatedForms($student);
+			foreach ($forms as $form)
 			{
-				$student = $person->student;
-				$forms = FormService::getRelatedForms($student);
-				foreach ($forms as $form)
+				$submission = SubmissionService::find($form->form_id, $student->student_id);
+				if(!is_null($submission))
 				{
-					$submission = SubmissionService::find($form->form_id, $student->student_id);
-					if(!is_null($submission))
-					{
-						$form->submission_status = $submission->status;
-					}
-					else
-					{
-						$form->submission_status = 'Not submitted';
-					}
-
+					$form->submission_status = $submission->status;
+				}
+				else
+				{
+					$form->submission_status = 'Not submitted';
 				}
 
-
-				return View::make('token.evaluation.index')->with(['forms' => $forms,'token' => $token, 'student' => $student]);
 			}
+			return View::make('token.evaluation.index')->with(['forms' => $forms,'token' => $token, 'student' => $student]);
 		}
-		return Redirect::route('session.login');
+
 	}
 
 	public function evaluationStoreConfirm($token, $formId, $selfId)
 	{
-		$validLink = $this->checkTokenValid($token);
-		if(!is_null($validLink)) {
-			$person = PersonService::find($validLink->person_id);
-			if (!is_null($person))
-			{
-				if(Input::get('confirm') == 'true')
-				{
-					QuestionService::setSubmission($formId, $selfId, Input::all());
-					return Redirect::route('token.evaluation.index', ['token' => $token]);
-				}
-				else
-				{
-					return Redirect::route('token.evaluation.confirm', ['token' => $token, 'selfId' => $selfId, 'formId' => $formId]);
-				}
-			}
+		if(Input::get('confirm') == 'true')
+		{
+			QuestionService::setSubmission($formId, $selfId, Input::all());
+			return Redirect::route('token.evaluation.index', ['token' => $token]);
 		}
-		return Redirect::route('session.login');
+		else
+		{
+			return Redirect::route('token.evaluation.confirm', ['token' => $token, 'selfId' => $selfId, 'formId' => $formId]);
+		}
 	}
 
 	public function evaluationConfirm($token, $formId, $selfId)
 	{
-		$validLink = $this->checkTokenValid($token);
-		if(!is_null($validLink)) {
-			$person = PersonService::find($validLink->person_id);
-			if (!is_null($person))
-			{
-				$form = FormService::find($formId);
-				$self = StudentService::find($selfId);
-				$team = $self->team($form->period_id);
-				$peerList = StudentService::getListByTeam($form->period_id, $team->team_id, $self->student_id);
+		$form = FormService::find($formId);
+		$self = StudentService::find($selfId);
+		$team = $self->team($form->period_id);
+		$peerList = StudentService::getListByTeam($form->period_id, $team->team_id, $self->student_id);
 
-				return View::make('token.evaluation.confirm')
-					->with('token', $token)
-					->with('form', $form)
-					->with('peerList', $peerList)
-					->with('self',$self);
+		return View::make('token.evaluation.confirm')
+			->with('token', $token)
+			->with('form', $form)
+			->with('peerList', $peerList)
+			->with('self',$self);
 
-
-			}
-		}
-		return Redirect::route('session.login');
 	}
 
 	public function evaluationForm($token, $formId, $selfId, $targetId)
 	{
-		$validLink = $this->checkTokenValid($token);
-		if(!is_null($validLink)) {
-			$person = PersonService::find($validLink->person_id);
-			if (!is_null($person))
+		$form = FormService::find($formId);
+		$self = StudentService::find($selfId);
+
+		if($selfId == $targetId)
+		{
+			$type = 'self';
+			$target = $self;
+		}
+		else
+		{
+			$type = 'peer';
+			$target = StudentService::find($targetId);
+		}
+
+		$questions = QuestionService::getList($formId, $type);
+		$submission = SubmissionService::find($formId, $selfId);
+
+		if(!is_null($submission))
+		{
+			foreach ($questions as $question)
 			{
-				$form = FormService::find($formId);
-				$self = StudentService::find($selfId);
-
-				if($selfId == $targetId)
+				$answer = QuestionService::getAnswer($submission->submission_id, $question->question_id, $target->student_id);
+				if(!is_null($answer))
 				{
-					$type = 'self';
-					$target = $self;
+					$question->answer = $answer->input;
 				}
-				else
-				{
-					$type = 'peer';
-					$target = StudentService::find($targetId);
-				}
-
-				$questions = QuestionService::getList($formId, $type);
-				$submission = SubmissionService::find($formId, $selfId);
-
-				if(!is_null($submission))
-				{
-					foreach ($questions as $question)
-					{
-						$answer = QuestionService::getAnswer($submission->submission_id, $question->question_id, $target->student_id);
-						if(!is_null($answer))
-						{
-							$question->answer = $answer->input;
-						}
-					}
-				}
-				$team = $self->team($form->period_id);
-				$peerList = StudentService::getListByTeam($form->period_id, $team->team_id, $self->student_id);
-
-				return View::make('token.evaluation.form')
-					->with('token', $token)
-					->with('form', $form)
-					->with('questions', $questions)
-					->with('self',$self)
-					->with('target', $target)
-					->with('peerList', $peerList)
-					->with('title', ucwords($type) . ' Evaluation: ' . $target->person->first_name . ' ' . $target->person->last_name);
 			}
 		}
-		return Redirect::route('session.login');
+		$team = $self->team($form->period_id);
+		$peerList = StudentService::getListByTeam($form->period_id, $team->team_id, $self->student_id);
+
+		return View::make('token.evaluation.form')
+			->with('token', $token)
+			->with('form', $form)
+			->with('questions', $questions)
+			->with('self',$self)
+			->with('target', $target)
+			->with('peerList', $peerList)
+			->with('title', ucwords($type) . ' Evaluation: ' . $target->person->first_name . ' ' . $target->person->last_name);
+
+
 	}
 
 	public function evaluationStore($token, $formId, $selfId, $targetId)
 	{
-		$validLink = $this->checkTokenValid($token);
-		if(!is_null($validLink))
-		{
-			$form = FormService::find($formId);
-			$self = StudentService::find($selfId);
-			$team = $self->team($form->period_id);
-			$peerList = StudentService::getListByTeam($form->period_id, $team->team_id, $self->student_id);
-			$output = null;
 
-			if($selfId == $targetId)
+		$form = FormService::find($formId);
+		$self = StudentService::find($selfId);
+		$team = $self->team($form->period_id);
+		$peerList = StudentService::getListByTeam($form->period_id, $team->team_id, $self->student_id);
+		$output = null;
+
+		if($selfId == $targetId)
+		{
+			$type = 'self';
+			$target = $self;
+			$nextTargetId = $peerList->first()->student_id;
+		}
+		else
+		{
+			$target = StudentService::find($targetId);
+			$lastIndex = array_search($target, $peerList->all());
+			if($lastIndex < $peerList->count()-1)
 			{
-				$type = 'self';
-				$target = $self;
-				$nextTargetId = $peerList->first()->student_id;
+				$nextTargetId = $peerList[$lastIndex + 1]->student_id;
 			}
 			else
 			{
-				$target = StudentService::find($targetId);
-				$lastIndex = array_search($target, $peerList->all());
-				if($lastIndex < $peerList->count()-1)
-				{
-					$nextTargetId = $peerList[$lastIndex + 1]->student_id;
-				}
-				else
-				{
-					$output = Redirect::route('token.evaluation.confirm', ['token' => $token, 'formId' => $formId, 'selfId' => $selfId]);
-				}
-				$type = 'peer';
+				$output = Redirect::route('token.evaluation.confirm', ['token' => $token, 'formId' => $formId, 'selfId' => $selfId]);
 			}
-			$questions = QuestionService::getList($formId,$type);
-			QuestionService::storeAnswer(Input::all(), $form, $questions, $self, $target);
+			$type = 'peer';
 		}
+		$questions = QuestionService::getList($formId,$type);
+		QuestionService::storeAnswer(Input::all(), $form, $questions, $self, $target);
+
 
 		if(is_null($output))
 		{
@@ -200,19 +166,4 @@ class TokenController extends \BaseController {
 
 		return $output;
 	}
-
-	private function checkTokenValid($token)
-	{
-		$temporaryLink = TemporaryLink::where('token', $token)->first();
-		if($temporaryLink != null)
-		{
-			$now = new DateTime("now");
-			if($temporaryLink->active == true)
-			{
-				return $temporaryLink;
-			}
-		}
-		return null;
-	}
-
 }

@@ -43,11 +43,11 @@ Route::get('/teacher/{period}/{form}/{type}/question/create', ['uses' => 'Teache
 Route::post('/teacher/{period}/{form}/{type}/question/create', ['uses' => 'TeacherController@formQuestionStoreCreate', 'as' => 'teacher.form.question.storeCreate', 'before' => 'teacher']);
 
 // token link access areas
-Route::get('/token/{token}/setpassword', ['uses' => 'TokenController@setPassword', 'as' => 'token.setPassword']);
-Route::post('/token/{token}/setpassword', ['uses' => 'TokenController@storePassword', 'as' => 'token.storePassword']);
-Route::get('/token/{token}/evaluation', ['uses' => 'TokenController@evaluation', 'as' => 'token.evaluation.index']);
-Route::get('/token/{token}/evaluation/{formId}/{selfId}/confirm', ['uses' => 'TokenController@evaluationConfirm', 'as' => 'token.evaluation.confirm']);
-Route::post('/token/{token}/evaluation/{formId}/{selfId}/confirm', ['uses' => 'TokenController@evaluationStoreConfirm', 'as' => 'token.evaluation.storeConfirm']);
-Route::get('/token/{token}/evaluation/{formId}/{selfId}/{targetId}', ['uses' => 'TokenController@evaluationForm', 'as' => 'token.evaluation.form']);
-Route::post('/token/{token}/evaluation/{formId}/{selfId}/{targetId}', ['uses' => 'TokenController@evaluationStore', 'as' => 'token.evaluation.storeForm']);
+Route::get('/token/{token}/setpassword', ['uses' => 'TokenController@setPassword', 'as' => 'token.setPassword', 'before' => 'token']);
+Route::post('/token/{token}/setpassword', ['uses' => 'TokenController@storePassword', 'as' => 'token.storePassword', 'before' => 'token']);
+Route::get('/token/{token}/evaluation', ['uses' => 'TokenController@evaluation', 'as' => 'token.evaluation.index', 'before' => 'token']);
+Route::get('/token/{token}/evaluation/{formId}/{selfId}/confirm', ['uses' => 'TokenController@evaluationConfirm', 'as' => 'token.evaluation.confirm', 'before' => 'token|submissionForm']);
+Route::post('/token/{token}/evaluation/{formId}/{selfId}/confirm', ['uses' => 'TokenController@evaluationStoreConfirm', 'as' => 'token.evaluation.storeConfirm', 'before' => 'token|submissionForm']);
+Route::get('/token/{token}/evaluation/{formId}/{selfId}/{targetId}', ['uses' => 'TokenController@evaluationForm', 'as' => 'token.evaluation.form', 'before' => 'token|submissionForm']);
+Route::post('/token/{token}/evaluation/{formId}/{selfId}/{targetId}', ['uses' => 'TokenController@evaluationStore', 'as' => 'token.evaluation.storeForm', 'before' => 'token|submissionForm']);
 

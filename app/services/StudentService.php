@@ -4,12 +4,12 @@ class StudentService
 {
     public static function find($student_id)
     {
-        return Student::where('student_id', $student_id)->first();
+        return StudentModel::where('student_id', $student_id)->first();
     }
 
     public static function findNext($periodId, $team_id, $exclude_id, $target_id = 0)
     {
-        return Student::whereHas('teams', function($q) use ($periodId, $team_id, $exclude_id, $target_id)
+        return StudentModel::whereHas('teams', function($q) use ($periodId, $team_id, $exclude_id, $target_id)
         {
             $q->where('period_id', $periodId);
             $q->where('team_id', $team_id);
@@ -20,7 +20,7 @@ class StudentService
 
     public static function getList($period)
     {
-        return Student::whereHas('teams', function($q) use ($period)
+        return StudentModel::whereHas('teams', function($q) use ($period)
         {
             $q->where('period_id', $period);
         })->get();
@@ -28,7 +28,7 @@ class StudentService
 
     public static function getListByTeam($periodId, $team_id, $exclude_id = '')
     {
-        return Student::whereHas('teams', function($q) use ($periodId, $team_id, $exclude_id)
+        return StudentModel::whereHas('teams', function($q) use ($periodId, $team_id, $exclude_id)
         {
             $q->where('period_id', $periodId);
             $q->where('team_id', $team_id);

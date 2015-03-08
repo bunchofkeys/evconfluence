@@ -70,6 +70,43 @@ Route::filter('admin', function()
 
 });
 
+Route::filter('token', function($route)
+{
+	$temporaryLink = TokenService::find($route->getParameter('token'));
+	if($temporaryLink != null)
+	{
+		$now = new DateTime("now");
+		if($temporaryLink->active == false)
+		{
+			return Response::make('Page Not Found', 404);
+		}
+	}
+	return;
+});
+
+Route::filter('submissionForm', function($route)
+{
+	$form = FormModel::find($route->getParameter('formId'));
+	if(is_null($form))
+	{
+		return Response::make('Page Not Found', 404);
+	}
+	else
+	{
+		$student = StudentService::find($route->getParameter('selfId'));
+		$submission = SubmissionService::find($form->form_id, $student->student_id);
+		if(is_null($submission))
+		{
+			return;
+		}
+		if($submission->status == "Submitted")
+		{
+			MessageService::error('You have already submitted the evaluation');
+			return Redirect::route('token.evaluation.index', ['token' => $route->getParameter('token')]);
+		}
+	}
+});
+
 Route::filter('teacher', function()
 {
 	if (Auth::guest())

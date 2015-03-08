@@ -1,6 +1,6 @@
 <?php
 
-class TemporaryLink extends \Eloquent {
+class TemporaryLinkModel extends \Eloquent {
 	// settings
 	protected $table = 'temporary_link';
 	protected $primaryKey = 'link_id';

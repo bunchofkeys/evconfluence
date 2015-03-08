@@ -45,7 +45,7 @@ class EmailService
 
     public static function sendRegistrationNotification($user)
     {
-        $adminList = User::where('status', 'Approved')->where('role', 'Admin')->get();
+        $adminList = UserModel::where('status', 'Approved')->where('role', 'Admin')->get();
 
         $url = URL::route('admin.user.approval', ['id' => $user->user_id]);
         foreach($adminList as $admin)

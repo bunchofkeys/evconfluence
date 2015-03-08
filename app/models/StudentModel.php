@@ -18,7 +18,7 @@ class Student extends \Eloquent {
 
 	public function team($periodId)
 	{
-		return Team::where(['student_id' => $this->student_id, 'period_id' => $periodId])->first();
+		return TeamModel::where(['student_id' => $this->student_id, 'period_id' => $periodId])->first();
 	}
 
 	public function period()

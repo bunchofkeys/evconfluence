@@ -2,9 +2,14 @@
 
 class TokenService
 {
+    public static function find($tokenId)
+    {
+        return TemporaryLinkModel::where('token', $tokenId)->first();
+    }
+
     public static function generateLink($personId, $action, $startDateTime, $endDateTime)
     {
-        $link = new TemporaryLink();
+        $link = new TemporaryLinkModel();
         $link->fill([
             'person_id' => $personId,
             'action' => $action,
@@ -15,7 +20,7 @@ class TokenService
         ]);
         $link->save();
 
-        return 'http://' . Request::root() . '/token/' . $link->token . '/' . $link->action;
+        return Request::root() . '/token/' . $link->token . '/' . $link->action;
 
     }
 }

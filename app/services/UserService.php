@@ -11,35 +11,28 @@ class UserService {
         $teacher = new Teacher();
         $user = new User();
 
-        //validation
-        if(self::validateUser($input) == false)
-        {
-            return false;
-        }
-        else
-        {
-            // create user
-            $person->first_name = $input['first_name'];
-            $person->last_name = $input['last_name'];
-            $person->email = $input['email'];
-            $person->save();
+        // create user
+        $person->first_name = $input['first_name'];
+        $person->last_name = $input['last_name'];
+        $person->email = $input['email'];
+        $person->save();
 
-            $user->username = $input['email'];
-            $user->password = Hash::make($input['password']);
-            $user->status = 'Approved';
-            $user->role = $input['role'];
-            $user->person_id = $person->person_id;
-            $user->save();
+        $user->username = $input['email'];
+        $user->password = Hash::make($input['password']);
+        $user->status = 'Approved';
+        $user->role = $input['role'];
+        $user->person_id = $person->person_id;
+        $user->save();
 
-            if($user->role == 'Teacher')
-            {
-                $teacher->user_id = $user->user_id;
-                $teacher->school = $input['school'];
-                $teacher->unit_required_for = $input['unit_required_for'];
-                $teacher->save();
-            }
-            return true;
+        if($user->role == 'Teacher')
+        {
+            $teacher->user_id = $user->user_id;
+            $teacher->school = $input['school'];
+            $teacher->unit_required_for = $input['unit_required_for'];
+            $teacher->save();
         }
+        return true;
+
     }
 
     public static function registerTeacher($input)
@@ -48,48 +41,41 @@ class UserService {
         $teacher = new Teacher();
         $user = new User();
 
-        //validation
-        if(self::validateUser($input) == false)
+        // create user
+        $person->first_name = $input['first_name'];
+        $person->last_name = $input['last_name'];
+        $person->email = $input['email'];
+        if($person->save() == false)
         {
-            return null;
+            MessageService::error($person->getErrors());
+            return false;
         }
-        else
+
+        $user->username = $input['email'];
+        $user->password = Hash::make(uniqid());
+        $user->status = 'Pending';
+        $user->role = 'Teacher';
+        $user->person_id = $person->person_id;
+        if($user->save() == false)
         {
-            // create user
-            $person->first_name = $input['first_name'];
-            $person->last_name = $input['last_name'];
-            $person->email = $input['email'];
-            if($person->save() == false)
-            {
-                MessageService::error($person->getErrors());
-                return false;
-            }
-
-            $user->username = $input['email'];
-            $user->password = Hash::make(uniqid());
-            $user->status = 'Pending';
-            $user->role = 'Teacher';
-            $user->person_id = $person->person_id;
-            if($user->save() == false)
-            {
-                MessageService::error($user->getErrors());
-                $person->delete();
-                return false;
-            }
-
-            $teacher->user_id = $user->user_id;
-            $teacher->school = $input['school'];
-            $teacher->unit_required_for = $input['unit_required_for'];
-            if($teacher->save() == false)
-            {
-                MessageService::error($teacher->getErrors());
-                $user->delete();
-                $person->delete();
-                return false;
-            }
-
-            return $user;
+            MessageService::error($user->getErrors());
+            $person->delete();
+            return false;
         }
+
+        $teacher->user_id = $user->user_id;
+        $teacher->school = $input['school'];
+        $teacher->unit_required_for = $input['unit_required_for'];
+        if($teacher->save() == false)
+        {
+            MessageService::error($teacher->getErrors());
+            $user->delete();
+            $person->delete();
+            return false;
+        }
+
+        return $user;
+
     }
 
     public static function deleteUser($user)
@@ -111,7 +97,7 @@ class UserService {
 
     public static function find($id)
     {
-        return User::where('user_id', '=', $id)->first();
+        return UserModel::where('user_id', '=', $id)->first();
     }
 
     public static function updateUser($user, $input)
@@ -139,7 +125,7 @@ class UserService {
     }
     public static function pendingUserList()
     {
-        return User::where('status', '=', 'Pending')->get();
+        return UserModel::where('status', '=', 'Pending')->get();
     }
 
     public static function approvedUserList()
@@ -147,22 +133,11 @@ class UserService {
         if(Auth::user() != null)
         {
             $id = Auth::user()->user_id;
-            return User::where('user_id', '!=', $id)->where('status', '=', 'Approved')->get();
+            return UserModel::where('user_id', '!=', $id)->where('status', '=', 'Approved')->get();
         }
         else
         {
             return null;
         }
     }
-
-    private static function validateUser($input)
-    {
-        return true;
-    }
-
-    public static function authenticateUser($username, $password)
-    {
-
-    }
-
 };

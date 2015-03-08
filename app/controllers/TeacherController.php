@@ -183,10 +183,10 @@ class TeacherController extends \BaseController {
 				'questions' => $questions]);
 		}
 	}
+
+
 	public function formResponseExcel($periodId, $formId)
 	{
-
-
 		// get all of the students in this period.
 		$period = PeriodService::find($periodId);
 		$studentList = $period->students;
@@ -232,7 +232,7 @@ class TeacherController extends \BaseController {
 							->whereIn('question_id', $peerQuestions)
 							->where('target_student_id', $student->student_id)->groupBy('submission_id')->count();
 
-				$marks = ($selfMarks + ($peerMarks * $peerCount))/ ($peerCount + 1);
+				$marks = ($selfMarks + ($peerMarks * $peerCount))/ ($peerCount + 1) /2;
 
 			}
 			else {
@@ -250,6 +250,85 @@ class TeacherController extends \BaseController {
 						$student->team($periodId)->team_id,
 						number_format($marks, 2),
 					];
+			$output .=  implode(",",$value) . "\n";
+
+		}
+
+		$headers = array(
+			'Content-Type' => 'text/csv',
+			'Content-Disposition' => 'attachment; filename="' . 'ResultsForForm' . $formId . '.csv"',
+		);
+
+		return Response::make(rtrim($output, "\n"), 200, $headers);
+	}
+
+
+
+	public function formExcel($periodId)
+	{
+		// get all of the students in this period.
+		$period = PeriodService::find($periodId);
+		$studentList = $period->students;
+
+		// get all submissions submitted in this form
+		$submissions = SubmissionModel::where('form_id', $formId)
+			->where('status','submitted')->select('submission_id')->get()->toArray();
+
+		// get all question id that is used for marks calculation
+		$selfQuestions = QuestionModel::whereHas('section', function ($q) use ($formId) {
+			$q->where('form_id', $formId);
+		})->where('format', 'multi')
+			->where('type', 'self')
+			->select('question_id')->get()->toArray();
+
+		$peerQuestions = QuestionModel::whereHas('section', function ($q) use ($formId) {
+			$q->where('form_id', $formId);
+		})->where('format', 'multi')
+			->where('type', 'peer')
+			->select('question_id')->get()->toArray();
+
+		$value = ["Person Id", "Email", "Surname", "Title", "Given Name", "Teach Period", "Unit Code", "Team ID", "Marks"];
+		$output = implode(",",$value) . "\n";
+
+		$test = '';
+		foreach($studentList as $student)
+		{
+			// find the submission for this student.
+			$submission  = SubmissionModel::where('form_id', $formId)
+				->where('student_id', $student->student_id)
+				->where('status', 'submitted')
+				->first();
+
+			if(!is_null($submission))
+			{
+				$selfMarks =  AnswerModel::whereIn('submission_id', $submissions)
+					->whereIn('question_id', $selfQuestions)
+					->where('target_student_id', $student->student_id)->avg('input');
+				$peerMarks = AnswerModel::whereIn('submission_id', $submissions)
+					->whereIn('question_id', $peerQuestions)
+					->where('target_student_id', $student->student_id)->avg('input');
+				$peerCount = AnswerModel::whereIn('submission_id', $submissions)
+					->whereIn('question_id', $peerQuestions)
+					->where('target_student_id', $student->student_id)->groupBy('submission_id')->count();
+
+				$marks = ($selfMarks + ($peerMarks * $peerCount))/ ($peerCount + 1) /2;
+
+			}
+			else {
+				$marks = 0;
+			}
+			$student->person = $student->person;
+
+			$value = [$student->student_id,
+				$student->person->email,
+				$student->person->last_name,
+				$student->person->title,
+				$student->person->first_name,
+				$period->year,
+				$period->unit_code,
+				$student->team($periodId)->team_id,
+				number_format($marks, 2),
+			];
 			$output .=  implode(",",$value) . "\n";
 
 		}
