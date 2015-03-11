@@ -9,6 +9,7 @@
 
         <div class="col-md-12" style="padding-bottom: 20px">
             <a href="{{ Url::route('teacher.form.create', ['period' => $period]) }}" class="btn btn-primary">New Form</a>
+            <a href="{{URL::route('teacher.form.response.excel', ['period' => $period]) }}" class="btn btn-primary">Download Submission</a>
             <a href="{{ URL::route('teacher.period.index') }}" class="btn btn-primary">Back</a>
         </div>
         <div class="col-md-12">
@@ -32,7 +33,6 @@
                                 <a href="{{URL::route('teacher.form.question', ['period' => $period, 'form' => $form->form_id, 'type' => 'self']) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Manage Self</span></a>
                                 <a href="{{URL::route('teacher.form.question', ['period' => $period,'form' => $form->form_id, 'type' => 'peer']) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Manage Peer</span></a>
                                 <a href="{{URL::route('teacher.form.response', ['period' => $period,'form' => $form->form_id]) }}" class="btn btn-primary btn-xs"><span class="label label-primary">View Response</span></a>
-                                <a href="{{URL::route('teacher.form.response.excel', ['period' => $period,'form' => $form->form_id]) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Download Submission</span></a>
                             </td>
                         </tr>
                     @endforeach

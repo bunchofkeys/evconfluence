@@ -33,7 +33,7 @@
                             <td>{{ $student->person->last_name }}</td>
 
                             <td>
-                                {{--<a href="{{URL::route('teacher.student.index', ['period' => $period->period_id]) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Manage Students</span></a>--}}
+                                <a href="{{URL::route('teacher.student.edit', ['period' => $period, 'studentId' => $student->student_id]) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Edit</span></a>
                             </td>
                         </tr>
                     @endforeach

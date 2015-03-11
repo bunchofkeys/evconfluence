@@ -4,9 +4,12 @@
 
 @if(Session::has('errorMessage'))
     <div class="alert {{ Session::get('alert-class', 'alert-info') }} alert-dismissable">
-        {{Session::get('errorMessage')}}
-        {{--@foreach(Session::get('errors')->all() as $key=>$value)--}}
-            {{--<li> {{ $value }} </li>--}}
-        {{--@endforeach--}}
+        @if(is_object(Session::get('errorMessage')))
+            @foreach(Session::get('errorMessage')->all() as $key=>$value)
+                <li> {{ $value }} </li>
+            @endforeach
+        @else
+            {{Session::get('errorMessage')}}
+        @endif
     </div>
 @endif

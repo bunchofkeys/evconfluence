@@ -38,7 +38,8 @@ class StudentService
 
     public static function createStudent($input, $periodId)
     {
-        try {
+        try
+        {
             $student = StudentService::find($input['student_id']);
             $person = PersonService::findByEmail($input['email']);
 
@@ -69,5 +70,41 @@ class StudentService
             return false;
         }
         return true;
+    }
+
+    public static function editStudent($input, $periodId, $student_id)
+    {
+        try
+        {
+            $student = StudentModel::find($student_id);
+            $person = PersonModel::find($student->person_id);
+            $team = TeamModel::where(['student_id' => $student_id, 'period_id' => $periodId])->update(array('team_id' => $input['team_id']));;
+
+
+            $person->first_name = $input['first_name'];
+            $person->last_name = $input['last_name'];
+            $person->email = $input['email'];
+            $person->save();
+            MessageService::alert('Student saved successfully');
+
+        }
+        catch(mysqli_sql_exception $ex)
+        {
+            MessageService::error('An error has occured');
+        }
+    }
+
+    public static function deleteStudent($student_id)
+    {
+        try
+        {
+            $student = StudentModel::find($student_id);
+            $student->delete();
+            MessageService::alert('Student deleted successfully');
+        }
+        catch(mysqli_sql_exception $ex)
+        {
+            MessageService::error('An error has occured');
+        }
     }
 }

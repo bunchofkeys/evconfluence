@@ -58,6 +58,34 @@ class TeacherController extends \BaseController {
 		}
 	}
 
+	public function studentEdit($periodId, $studentId)
+	{
+		$student = StudentService::find($studentId);
+		return View::make('teacher.student.edit')->with(['period' => $periodId, 'student' => $student]);
+	}
+
+	public function storeStudentEdit($periodId, $studentId)
+	{
+		$input = Input::all();
+		$input['student_id'] = $studentId;
+		if(ValidationService::validateStudent($input) != false)
+		{
+			StudentService::editStudent(Input::all(), $periodId, $studentId);
+			return Redirect::route('teacher.student.index', ['period' => $periodId]);
+		}
+		else
+		{
+			return Redirect::back()->withInput();
+		}
+	}
+
+	public function storeStudentDelete($periodId, $studentId)
+	{
+		StudentService::deleteStudent($studentId);
+		return Redirect::route('teacher.student.index', ['period' => $periodId]);
+	}
+
+
 	public function uploadList()
 	{
 		return View::make('teacher.period.uploadList');
@@ -185,73 +213,85 @@ class TeacherController extends \BaseController {
 	}
 
 
-	public function formResponseExcel($periodId, $formId)
+	public function formResponseExcel($periodId)
 	{
 		// get all of the students in this period.
 		$period = PeriodService::find($periodId);
 		$studentList = $period->students;
 
-		// get all submissions submitted in this form
-		$submissions = SubmissionModel::where('form_id', $formId)
-			->where('status','submitted')->select('submission_id')->get()->toArray();
+		// get all forms in this period
+		$forms = FormService::getList($periodId);
 
-		// get all question id that is used for marks calculation
-		$selfQuestions = QuestionModel::whereHas('section', function ($q) use ($formId) {
-			$q->where('form_id', $formId);
-		})->where('format', 'multi')
-			->where('type', 'self')
-			->select('question_id')->get()->toArray();
-
-		$peerQuestions = QuestionModel::whereHas('section', function ($q) use ($formId) {
-			$q->where('form_id', $formId);
-		})->where('format', 'multi')
-			->where('type', 'peer')
-			->select('question_id')->get()->toArray();
-
-		$value = ["Person Id", "Email", "Surname", "Title", "Given Name", "Teach Period", "Unit Code", "Team ID", "Marks"];
-		$output = implode(",",$value) . "\n";
-
-		$test = '';
-		foreach($studentList as $student)
+		// fill in the first line of the excel
+		$value = ["Person Id", "Email", "Surname", "Title", "Given Name", "Teach Period", "Unit Code", "Team ID"];
+		foreach($forms as $form)
 		{
-			// find the submission for this student.
-			$submission  = SubmissionModel::where('form_id', $formId)
-											->where('student_id', $student->student_id)
-											->where('status', 'submitted')
-											->first();
+			array_push($value, $form->form_id);
+		}
+		$output = implode(",", $value) . "\n";
 
-			if(!is_null($submission))
-			{
-				$selfMarks =  AnswerModel::whereIn('submission_id', $submissions)
-										->whereIn('question_id', $selfQuestions)
-										->where('target_student_id', $student->student_id)->avg('input');
-				$peerMarks = AnswerModel::whereIn('submission_id', $submissions)
-										->whereIn('question_id', $peerQuestions)
-										->where('target_student_id', $student->student_id)->avg('input');
-				$peerCount = AnswerModel::whereIn('submission_id', $submissions)
-							->whereIn('question_id', $peerQuestions)
-							->where('target_student_id', $student->student_id)->groupBy('submission_id')->count();
-
-				$marks = ($selfMarks + ($peerMarks * $peerCount))/ ($peerCount + 1) /2;
-
-			}
-			else {
-				$marks = 0;
-			}
+		foreach ($studentList as $student)
+		{
 			$student->person = $student->person;
 
 			$value = [$student->student_id,
-						$student->person->email,
-						$student->person->last_name,
-						$student->person->title,
-						$student->person->first_name,
-						$period->year,
-						$period->unit_code,
-						$student->team($periodId)->team_id,
-						number_format($marks, 2),
-					];
-			$output .=  implode(",",$value) . "\n";
+				$student->person->email,
+				$student->person->last_name,
+				$student->person->title,
+				$student->person->first_name,
+				$period->year,
+				$period->unit_code,
+				$student->team($periodId)->team_id,
+			];
 
+			foreach($forms as $form)
+			{
+				$formId = $form->form_id;
+				// get all valid submissions in this form
+				$submissions = SubmissionModel::where('form_id', $formId)
+					->where('status', 'submitted')->select('submission_id')->get()->toArray();
+
+				// get all question id that is used for marks calculation
+				$selfQuestions = QuestionModel::whereHas('section', function ($q) use ($formId) {
+					$q->where('form_id', $formId);
+				})->where('format', 'multi')
+					->where('type', 'self')
+					->select('question_id')->get()->toArray();
+
+				$peerQuestions = QuestionModel::whereHas('section', function ($q) use ($formId) {
+					$q->where('form_id', $formId);
+				})->where('format', 'multi')
+					->where('type', 'peer')
+					->select('question_id')->get()->toArray();
+
+				// find the submission for this student.
+				$submission = SubmissionModel::where('form_id', $formId)
+					->where('student_id', $student->student_id)
+					->where('status', 'submitted')
+					->first();
+
+				if (!is_null($submission))
+				{
+					$selfMarks = AnswerModel::whereIn('submission_id', $submissions)
+						->whereIn('question_id', $selfQuestions)
+						->where('target_student_id', $student->student_id)->avg('input');
+					$peerMarks = AnswerModel::whereIn('submission_id', $submissions)
+						->whereIn('question_id', $peerQuestions)
+						->where('target_student_id', $student->student_id)->avg('input');
+					$peerCount = AnswerModel::whereIn('submission_id', $submissions)
+						->whereIn('question_id', $peerQuestions)
+						->where('target_student_id', $student->student_id)->groupBy('submission_id')->count();
+
+					$marks = ($selfMarks + ($peerMarks * $peerCount)) / ($peerCount + 1) / 2;
+
+				}
+				else
+				{
+					$marks = 0;
+				}
+				array_push($value, number_format($marks, 2));
+			}
+			$output .= implode(",", $value) . "\n";
 		}
 
 		$headers = array(
