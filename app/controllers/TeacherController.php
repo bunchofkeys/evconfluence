@@ -23,7 +23,7 @@ class TeacherController extends \BaseController {
 	{
 		if(ValidationService::validatePeriod(Input::all()) != false)
 		{
-			$result = PeriodService::createPeriod(Input::all(), Auth::user());
+			PeriodService::createPeriod(Input::all(), Auth::user());
 			MessageService::alert('A new period has been created successfully.');
 			return Redirect::route('teacher.period.index');
 		}

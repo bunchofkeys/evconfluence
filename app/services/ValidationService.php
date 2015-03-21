@@ -15,10 +15,10 @@ class ValidationService
     {
         self::$rules =
         [
-            'first_name' 	    =>  'required',
-            'last_name'		    =>  'required',
-            'school'            =>  'required',
-            'unit_required_for' =>  'required',
+            'first_name' 	    =>  'required|max:100',
+            'last_name'		    =>  'required|max:100',
+            'school'            =>  'required|max:100',
+            'unit_required_for' =>  'required|max:100',
         ];
         return self::validate($input);
     }
@@ -27,8 +27,8 @@ class ValidationService
     {
         self::$rules =
             [
-                'first_name' 	    =>  'required',
-                'last_name'		    =>  'required',
+                'first_name' 	    =>  'required|max:100',
+                'last_name'		    =>  'required|max:100',
             ];
         return self::validate($input);
     }
@@ -37,8 +37,8 @@ class ValidationService
     {
         self::$rules =
             [
-                'password'          =>  'required',
-                'confirm_password'  =>  'required|same:password',
+                'password'          =>  'required|max:100',
+                'confirm_password'  =>  'required|same:password|max:100',
             ];
         return self::validate($input);
     }
@@ -47,13 +47,13 @@ class ValidationService
     {
         self::$rules =
             [
-                'first_name' 	    =>  'required',
-                'last_name'		    =>  'required',
-                'school'            =>  'required',
-                'unit_required_for' =>  'required',
-                'email'		        =>  'required|unique:person,email|email',
-                'password'          =>  'required',
-                'confirm_password'  =>  'required|same:password',
+                'first_name' 	    =>  'required|max:100',
+                'last_name'		    =>  'required|max:100',
+                'school'            =>  'required|max:100',
+                'unit_required_for' =>  'required|max:100',
+                'email'		        =>  'required|unique:person,email|email|max:100',
+                'password'          =>  'required|max:100',
+                'confirm_password'  =>  'required|same:password|max:100',
             ];
         return self::validate($input);
     }
@@ -62,11 +62,11 @@ class ValidationService
     {
         self::$rules =
             [
-                'first_name' 	    =>  'required',
-                'last_name'		    =>  'required',
-                'email'		        =>  'required|unique:person,email|email',
-                'password'          =>  'required',
-                'confirm_password'  =>  'required|same:password',
+                'first_name' 	    =>  'required|max:100',
+                'last_name'		    =>  'required|max:100',
+                'email'		        =>  'required|unique:person,email|email|max:100',
+                'password'          =>  'required|max:100',
+                'confirm_password'  =>  'required|same:password|max:100',
             ];
         return self::validate($input);
     }
@@ -75,11 +75,11 @@ class ValidationService
     {
         self::$rules =
         [
-            'first_name' 	    =>  'required',
-            'last_name'		    =>  'required',
-            'email'		        =>  'required|unique:person,email|email',
-            'school'            =>  'required',
-            'unit_required_for' =>  'required',
+            'first_name' 	    =>  'required|max:100',
+            'last_name'		    =>  'required|max:100',
+            'email'		        =>  'required|unique:person,email|email|max:100',
+            'school'            =>  'required|max:100',
+            'unit_required_for' =>  'required|max:100',
         ];
         return self::validate($input);
     }
@@ -99,11 +99,11 @@ class ValidationService
     {
         self::$rules =
             [
-                'student_id'        =>  'required',
-                'team_id'		    =>  'required',
-                'email'		        =>  'required|email',
-                'first_name' 	    =>  'required',
-                'last_name'		    =>  'required',
+                'student_id'        =>  'required|max:10',
+                'team_id'		    =>  'required|max:10',
+                'email'		        =>  'required|email|max:100',
+                'first_name' 	    =>  'required|max:100',
+                'last_name'		    =>  'required|max:100',
             ];
         return self::validate($input);
     }
@@ -117,7 +117,7 @@ class ValidationService
         {
             self::$rules =
                 [
-                    $config->key        =>  'required',
+                    $config->key        =>  'required|max:200',
                 ];
             $result = $result && self::validate($input);
         }
@@ -132,7 +132,7 @@ class ValidationService
         {
             self::$rules =
                 [
-                    $question->question_text    =>  'required',
+                    $question->question_text    =>  'required|max:255',
                 ];
 
             $temp =  self::validate($input,false);
@@ -154,7 +154,7 @@ class ValidationService
     {
         self::$rules =
             [
-                'alert'        =>  'required',
+                'alert'        =>  'required|max:1',
                 'confirmation'        =>  'required',
             ];
         return self::validate($input);
@@ -164,7 +164,7 @@ class ValidationService
     {
         self::$rules =
             [
-                'question_text'        =>  'required',
+                'question_text'        =>  'required|max:255',
             ];
         return self::validate($input);
     }
@@ -174,7 +174,7 @@ class ValidationService
         $input['end_date_time'] = trim($input['end_date_time'], ' ');
         self::$rules =
             [
-                'name'       =>  'required',
+                'name'       =>  'required|max:45',
                 'defaultQuestion' => 'required',
                 'end_date_time'         =>  'required|date_format:d.m.Y H:i',
             ];
@@ -185,7 +185,7 @@ class ValidationService
     {
         self::$rules =
             [
-                'email'		        =>  'required|email',
+                'email'		        =>  'required|email|max:100',
             ];
         return self::validate($input);
     }
@@ -194,14 +194,14 @@ class ValidationService
     {
         self::$rules =
             [
-                'person id'         =>  'required',
-                'email'		        =>  'required|email',
-                'surname'           =>  'required',
-                'title'             =>  'required',
-                'given name'        =>  'required',
-                'teach period'      =>  'required',
-                'unit code'         =>  'required',
-                'team id'           =>  'required',
+                'person id'         =>  'required|max:10',
+                'email'		        =>  'required|email|max:100',
+                'surname'           =>  'required|max:100',
+                'title'             =>  'required|max:5',
+                'given name'        =>  'required|max:100',
+                'teach period'      =>  'required|max:9',
+                'unit code'         =>  'required|max:6',
+                'team id'           =>  'required|max:6',
 
             ];
         return self::validate($input, false);
