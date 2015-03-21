@@ -111,7 +111,7 @@ class FormService
                 $num = 7;
             }
 
-            if($datediff->a <= $num && $datediff->a >=0 )
+            if($datediff->format('%a') <= $num && $datediff->format('%a') >=0 )
             {
                 return true;
             }
@@ -136,7 +136,7 @@ class FormService
                 $num = 24;
             }
 
-            if($datediff->a * 24 + $datediff->h <= $num && $datediff->a * 24 + $datediff->h >=0 )
+            if($datediff->format('%a') * 24 + $datediff->h <= $num && $datediff->format('%a') * 24 + $datediff->h >=0 )
             {
                 return true;
             }
