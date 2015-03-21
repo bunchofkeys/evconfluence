@@ -111,7 +111,7 @@ class FormService
                 $num = 7;
             }
 
-            if(floor($datediff/(60*60*24)) <= $num)
+            if(floor($datediff/(60*60*24)) <= $num && $datediff >=0 )
             {
                 return true;
             }
@@ -136,7 +136,7 @@ class FormService
                 $num = 24;
             }
 
-            if(floor($datediff/(60*60)) <= $num)
+            if(floor($datediff/(60*60)) <= $num  && $datediff >=0 )
             {
                 return true;
             }
