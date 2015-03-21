@@ -73,5 +73,6 @@ Route::get('/token/{token}/evaluation/{formId}/{selfId}/{targetId}', ['uses' => 
 Route::post('/token/{token}/evaluation/{formId}/{selfId}/{targetId}', ['uses' => 'TokenController@evaluationStore', 'as' => 'token.evaluation.storeForm', 'before' => 'token|submissionForm|csrf']);
 
 Route::get('/sendemail', function() {
+
     return EmailService::sendStudentMail();
 });
