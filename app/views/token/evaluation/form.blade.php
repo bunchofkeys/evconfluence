@@ -78,7 +78,9 @@
                 @foreach($questions as $question)
                     @if($question->format == 'Multi')
                         <div class="form-group">
-                            <label class="col-sm-4 col-sm-4 control-label">{{$question->question_text}}</label>
+                            <label class="col-sm-4 col-sm-4 control-label">{{$question->question_text}}  <a data-toggle="modal" href="#multiInputModal"><i class="fa fa-question-circle"></i>
+                                </a></label>
+
                             <div class="col-sm-8">
                                 @for ($i = 1; $i <= 5; $i++)
                                 <div class="radio checkbox-inline">
@@ -94,7 +96,7 @@
                         </div>
                     @else
                         <div class="form-group">
-                            <label class="col-sm-4 col-sm-4 control-label">{{$question->question_text}}</label>
+                            <label class="col-sm-4 col-sm-4 control-label">{{$question->question_text}}  <a data-toggle="modal" href="#textInputModal"><i class="fa fa-question-circle"></i></a></label>
                             <div class="col-sm-8">
                                 <textarea rows="5" class="form-control" name="question-{{$question->question_id}}">{{$question->answer}}</textarea>
                             </div>
@@ -110,4 +112,26 @@
             </div>
         </div><!-- col-lg-12-->
     </div>
+
+    <!-- multiChoice Modal -->
+    <div aria-hidden="true" aria-labelledby="multiInputModal" role="dialog" tabindex="-1" id="multiInputModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <h4>Instructions</h4>
+                <p>Multi choice</p>
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+
+    <!-- textInputModal Modal -->
+    <div aria-hidden="true" aria-labelledby="textInputModal" role="dialog" tabindex="-1" id="textInputModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <h4>Instructions</h4>
+                <p>Multi choice</p>
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
 @stop

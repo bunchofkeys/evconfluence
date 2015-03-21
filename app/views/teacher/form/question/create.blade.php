@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div align="center" >
-                <button type="submit" class="btn btn-success">Create</button>
+                <button id="submitButton" type="submit" class="btn btn-success">Create</button>
                 <a href="{{ URL::route('teacher.form.question', ['period' => $period, 'form' => $form, 'type' => $type]) }}" class="btn btn-primary">Back</a>
             </div>
 

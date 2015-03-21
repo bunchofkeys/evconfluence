@@ -67,9 +67,7 @@ Route::filter('token', function($route)
 	}
 	else
 	{
-		$link = $temporaryLink->first();
-		$now = new DateTime("now");
-		if ($link->active == false)
+		if ($temporaryLink->active == false)
 		{
 			MessageService::error('Invalid/Expired Token');
 			return View::make('home.invalid');

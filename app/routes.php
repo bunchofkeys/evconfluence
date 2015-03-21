@@ -55,7 +55,7 @@ Route::get('/teacher/{period}/{form}/response/{studentId}', ['uses' => 'TeacherC
 
 Route::get('/teacher/{period}/{form}/{type}/question', ['uses' => 'TeacherController@formQuestion', 'as' => 'teacher.form.question', 'before' => 'teacher']);
 Route::get('/teacher/{period}/{form}/{type}/question/create', ['uses' => 'TeacherController@formQuestionCreate', 'as' => 'teacher.form.question.create', 'before' => 'teacher']);
-Route::post('/teacher/{period}/{form}/{type}/question/create', ['uses' => 'TeacherController@formQuestionStoreCreate', 'as' => 'teacher.form.question.storeCreate', 'before' => 'teacher']);
+Route::post('/teacher/{period}/{form}/{type}/question/create', ['uses' => 'TeacherController@formQuestionStoreCreate', 'as' => 'teacher.form.question.storeCreate', 'before' => 'teacher|csrf']);
 Route::get('/teacher/{period}/{form}/{type}/{questionId}/edit', ['uses' => 'TeacherController@formQuestionEdit', 'as' => 'teacher.form.question.edit', 'before' => 'teacher']);
 Route::post('/teacher/{period}/{form}/{type}/{questionId}/edit', ['uses' => 'TeacherController@formQuestionStoreEdit', 'as' => 'teacher.form.question.storeEdit', 'before' => 'teacher']);
 
