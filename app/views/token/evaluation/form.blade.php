@@ -34,13 +34,13 @@
                         <a class="btn btn-success"
                     @else
                         <a class="btn btn-default"
-                    @endif
-                    href="{{URL::route('token.evaluation.form', ['token' => $token,
+                           @endif
+                           href="{{URL::route('token.evaluation.form', ['token' => $token,
                                                                         'selfId' => $self->student_id,
                                                                         'targetId' =>  $self->student_id,
                                                                         'form' => $form->form_id])}}">
-                        Self: {{$self->person->first_name}} {{$self->person->last_name}}
-                    </a>
+                            Self: {{$self->person->first_name}} {{$self->person->last_name}}
+                        </a>
                 </div>
                 @foreach($peerList as $peer)
                     <div class="btn-group">
@@ -48,14 +48,14 @@
                             <a class="btn btn-success"
                         @else
                             <a class="btn btn-default"
-                        @endif
+                               @endif
 
-                         href="{{URL::route('token.evaluation.form', ['token' => $token,
+                               href="{{URL::route('token.evaluation.form', ['token' => $token,
                                                                         'selfId' => $self->student_id,
                                                                         'form' => $form->form_id,
                                                                         'targetId' => $peer->student_id])}}">
-                            Peer: {{$peer->person->first_name}} {{$peer->person->last_name}}
-                        </a>
+                                Peer: {{$peer->person->first_name}} {{$peer->person->last_name}}
+                            </a>
                     </div>
 
                 @endforeach
@@ -78,27 +78,36 @@
                 @foreach($questions as $question)
                     @if($question->format == 'Multi')
                         <div class="form-group">
-                            <label class="col-sm-4 col-sm-4 control-label">{{$question->question_text}}  <a data-toggle="modal" href="#multiInputModal"><i class="fa fa-question-circle"></i>
-                                </a></label>
+                            <label class="col-sm-4 col-sm-4 control-label">{{$question->question_text}}</label>
 
-                            <div class="col-sm-8">
+                            <div class="col-sm-3">
                                 @for ($i = 1; $i <= 5; $i++)
-                                <div class="radio checkbox-inline">
-                                    <label>
-                                        <input type="radio" name="question-{{$question->question_id}}" id="option-{{$question->question_id}}" value={{$i}}
-                                                @if($i == $question->answer)checked="checked"@endif>
-                                        {{$i}} </input>
-                                    </label>
-                                </div>
+                                    <div class="radio checkbox-inline">
+                                        <label>
+                                            <input type="radio" name="question-{{$question->question_id}}" id="option-{{$question->question_id}}" value={{$i}}
+                                            @if($i == $question->answer)checked="checked"@endif>
+                                            {{$i}} </input>
+                                        </label>
+                                    </div>
                                 @endfor
+                            </div>
+                            <div class="col-sm-1">
+                                <label>
+                                <a data-toggle="modal" href="#multiInputModal"><i class="fa fa-question-circle fa-2x"></i></a>
+                                </label>
                             </div>
 
                         </div>
                     @else
                         <div class="form-group">
-                            <label class="col-sm-4 col-sm-4 control-label">{{$question->question_text}}  <a data-toggle="modal" href="#textInputModal"><i class="fa fa-question-circle"></i></a></label>
-                            <div class="col-sm-8">
+                            <label class="col-sm-4 col-sm-4 control-label">{{$question->question_text}}</label>
+                            <div class="col-sm-7">
                                 <textarea rows="5" class="form-control" name="question-{{$question->question_id}}">{{$question->answer}}</textarea>
+                            </div>
+                            <div class="col-sm-1">
+                                <label>
+                                    <a data-toggle="modal" href="#textInputModal"><i class="fa fa-question-circle fa-2x"></i></a>
+                                </label>
                             </div>
                         </div>
                     @endif
@@ -117,8 +126,38 @@
     <div aria-hidden="true" aria-labelledby="multiInputModal" role="dialog" tabindex="-1" id="multiInputModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <h4>Instructions</h4>
-                <p>Multi choice</p>
+                <div class="ds">
+                    <h3>You need to fill in a mark from the scale for each of the performance criteria. </h3>
+                </div>
+                <section class="task-panel tasks-widget">
+                    <div class="panel-heading">
+                        <div class="pull-left">
+                            <h4> The scales are from 1 to 5.  Assess these as:</h4></div>
+                        <br>
+                    </div>
+                    <div class="panel-body">
+                        <div class="task-content">
+
+                            <ul class="task-list">
+                                <li>
+                                    <span class="task-title-sp">1 = Very poor, or even obstructive, contribution to the project process </span>
+                                </li>
+                                <li>
+                                    <span class="task-title-sp">2 = Poor contribution to the project process </span>
+                                </li>
+                                <li>
+                                    <span class="task-title-sp">3 = acceptable contribution to the project process </span>
+                                </li>
+                                <li>
+                                    <span class="task-title-sp">4 = good contribution to the project process </span>
+                                </li>
+                                <li>
+                                    <span class="task-title-sp">5 = excellent contribution to the project process </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
     </div>
@@ -128,8 +167,11 @@
     <div aria-hidden="true" aria-labelledby="textInputModal" role="dialog" tabindex="-1" id="textInputModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <h4>Instructions</h4>
-                <p>Multi choice</p>
+                <div class="ds">
+                    <h3>You need to do a writeup on the person you are evaluating. </h3>
+                </div>
+                <br/>
+            </div>
             </div>
         </div>
     </div>
