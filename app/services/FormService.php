@@ -69,9 +69,19 @@ class FormService
         if($form->status == "Not Started")
         {
             $now = (new DateTime())->format('Y-m-d H:i:s');
-
             $datediff = $now - $form->end_date_time;
-            if(floor($datediff/(60*60*24)) <= 7)
+
+            $config = ConfigModel::where('key', 'SPE_DURATION_DAY')->first();
+            if(!is_null($config))
+            {
+                $num = intval($config->value);
+            }
+            else
+            {
+                $num = 7;
+            }
+
+            if(floor($datediff/(60*60*24)) <= $num)
             {
                 return true;
             }
@@ -81,12 +91,22 @@ class FormService
 
     public static function toStartReminder($form)
     {
-        if($form->status == "Not Started")
+        if($form->status == "Started")
         {
             $now = (new DateTime())->format('Y-m-d H:i:s');
-
             $datediff = $now - $form->end_date_time;
-            if(floor($datediff/(60*60*24)) <= 1)
+
+            $config = ConfigModel::where('key', 'SPE_REMINDER_HOUR')->first();
+            if(!is_null($config))
+            {
+                $num = intval($config->value);
+            }
+            else
+            {
+                $num = 24;
+            }
+
+            if(floor($datediff/(60*60)) <= $num)
             {
                 return true;
             }

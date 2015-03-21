@@ -36,6 +36,7 @@ class EmailService
                     $emailTemplate = 'emails.startEvaluation';
 
                     $data = ['person' => $student->person,
+                        'endDate' => $form->end_date_time,
                         'url' => $link];
 
                     self::sendEmail($email, $subject, $emailTemplate, $data);
@@ -54,22 +55,12 @@ class EmailService
                     {
                         if ($submission->status != 'Submitted')
                         {
-                            $now = (new DateTime())->format('Y-m-d H:i:s');
-                            $link = TemporaryLinkModel::where(['person_id' => $student->person_id, 'action' => 'evaluation'])->first();
-                            if (is_null($link))
-                            {
-                                $link = TokenService::generateLink($student->person_id, 'evaluation', $now, $form->end_date_time);
-                            }
-
-                            $email = $student->person->email;
-                            $subject = 'Reminder: Your ' . $form->name . ' evaluation is ending';
-                            $emailTemplate = 'emails.reminder';
-
-                            $data = ['user' => $student,
-                                'url' => $link];
-
-                            self::sendEmail($email, $subject, $emailTemplate, $data);
+                            self::sendSubmissionMail($student, $form);
                         }
+                    }
+                    else
+                    {
+                        self::sendSubmissionMail($student, $form);
                     }
                 }
                 $form->status = 'Sent Reminder';
@@ -78,6 +69,24 @@ class EmailService
         }
     }
 
+    private static function sendSubmissionMail($student, $form)
+    {
+        $now = (new DateTime())->format('Y-m-d H:i:s');
+        $link = TemporaryLinkModel::where(['person_id' => $student->person_id, 'action' => 'evaluation'])->first();
+        if (is_null($link))
+        {
+            $link = TokenService::generateLink($student->person_id, 'evaluation', $now, $form->end_date_time);
+        }
+
+        $email = $student->person->email;
+        $subject = 'Reminder: Your ' . $form->name . ' evaluation is ending';
+        $emailTemplate = 'emails.reminder';
+
+        $data = ['person' => $student->person,
+            'link' => $link];
+
+        self::sendEmail($email, $subject, $emailTemplate, $data);
+    }
     public static function sendRegistrationNotification($user)
     {
         $adminList = UserModel::where('status', 'Approved')->where('role', 'Admin')->get();
