@@ -191,9 +191,9 @@ class TeacherController extends \BaseController {
 			MessageService::alert('Form deleted successfully.');
 			return Redirect::route('teacher.form.index', ['period' => $periodId]);
 		}
-		elseif(ValidationService::validateForm(Input::all()) != false && Input::has('save'))
+		elseif(ValidationService::validateForm($input) != false && Input::has('save'))
 		{
-			FormService::editForm(Input::all(), $formId);
+			FormService::editForm($input, $formId);
 			MessageService::alert('Form saved successfully.');
 			return Redirect::route('teacher.form.index', ['period' => $periodId]);
 		}
