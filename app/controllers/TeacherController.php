@@ -33,6 +33,33 @@ class TeacherController extends \BaseController {
 		}
 	}
 
+	public function periodEdit($periodId)
+	{
+		$period = PeriodService::find($periodId);
+		return View::make('teacher.period.edit')->with('period', $period);
+	}
+
+	public function storePeriodEdit($periodId)
+	{
+		if(Input::has('delete'))
+		{
+			PeriodService::deletePeriod($periodId);
+			MessageService::alert('Period deleted successfully.');
+			return Redirect::route('teacher.period.index');
+		}
+		elseif(ValidationService::validatePeriod(Input::all()) != false && Input::has('save'))
+		{
+			PeriodService::editPeriod(Input::all(), $periodId);
+			MessageService::alert('Period saved successfully.');
+			return Redirect::route('teacher.period.index');
+		}
+		else
+		{
+			return Redirect::back()->withInput();
+		}
+	}
+
+
 	public function studentIndex($periodId)
 	{
 		$studentList = StudentService::getList($periodId);
@@ -68,9 +95,17 @@ class TeacherController extends \BaseController {
 	{
 		$input = Input::all();
 		$input['student_id'] = $studentId;
-		if(ValidationService::validateStudent($input) != false)
+
+		if(Input::has('delete'))
+		{
+			StudentService::deleteStudent($studentId);
+			MessageService::alert('Student delete successfully');
+			return Redirect::route('teacher.student.index', ['period' => $periodId]);
+		}
+		elseif(ValidationService::validateStudent($input) != false && Input::has('save'))
 		{
 			StudentService::editStudent(Input::all(), $periodId, $studentId);
+			MessageService::alert('Student saved successfully');
 			return Redirect::route('teacher.student.index', ['period' => $periodId]);
 		}
 		else
@@ -78,13 +113,6 @@ class TeacherController extends \BaseController {
 			return Redirect::back()->withInput();
 		}
 	}
-
-	public function storeStudentDelete($periodId, $studentId)
-	{
-		StudentService::deleteStudent($studentId);
-		return Redirect::route('teacher.student.index', ['period' => $periodId]);
-	}
-
 
 	public function uploadList()
 	{
@@ -94,26 +122,26 @@ class TeacherController extends \BaseController {
 	public function storeUploadList()
 	{
 		// check for csv extension
-		if(!Input::hasFile('file'))
+		if (!Input::hasFile('file'))
 		{
-			MessageService::alert('No file selected', 'danger');
+			MessageService::error('No file selected');
 			return Redirect::route('teacher.period.uploadList');
 		}
-		if(Input::file('file')->getClientOriginalExtension() == 'csv')
-		{
+		if (Input::file('file')->getClientOriginalExtension() == 'csv') {
 			$file = Input::file('file')->openFile();
-			if(PeriodService::uploadList($file) == true)
-			{
-				MessageService::alert('File uploaded successfully.');
+
+			if (PeriodService::uploadList($file) == true) {
 				return Redirect::route('teacher.period.index');
-			}
-			else
+			} else
 			{
 				return Redirect::route('teacher.period.index');
 			}
 
 		}
-		MessageService::alert('Invalid Extension', 'danger');
+		else
+		{
+			MessageService::error('Invalid Extension');
+		}
 		return Redirect::route('teacher.period.uploadList');
 	}
 
@@ -136,11 +164,32 @@ class TeacherController extends \BaseController {
 			MessageService::alert('A new form has been created successfully.');
 			return Redirect::route('teacher.form.index', ['period' => $periodId]);
 		}
-		else
-		{
-			return Redirect::back()->withInput();
-		}
+		return Redirect::back()->withInput();
+	}
 
+	public function formEdit($periodId, $formId)
+	{
+		$form = FormService::find($formId);
+		$period = PeriodService::find($periodId);
+		return View::make('teacher.form.edit')->with(['period' => $period, 'form' => $form]);
+	}
+
+	public function storeFormEdit($periodId, $formId)
+	{
+		if(Input::has('delete'))
+		{
+			FormService::deleteForm($formId);
+			MessageService::alert('Form deleted successfully.');
+			return Redirect::route('teacher.form.index', ['period' => $periodId]);
+		}
+		elseif(ValidationService::validateForm(Input::all()) != false && Input::has('save'))
+		{
+			FormService::editForm(Input::all(), $formId);
+			MessageService::alert('Form saved successfully.');
+			return Redirect::route('teacher.form.index', ['period' => $periodId]);
+		}
+		else
+		return Redirect::back()->withInput();
 	}
 
 	public function formQuestion($periodId, $formId, $type)
@@ -160,6 +209,32 @@ class TeacherController extends \BaseController {
 		{
 			QuestionService::createQuestion(Input::all(), $periodId, $formId, $type);
 			MessageService::alert('A new question has been created successfully.');
+			return Redirect::route('teacher.form.question',['type' => $type, 'period' => $periodId, 'form' => $formId]);
+		}
+		else
+		{
+			return Redirect::back()->withInput();
+		}
+	}
+
+	public function formQuestionEdit($periodId, $formId, $type, $questionId)
+	{
+		$question = QuestionService::find($questionId);
+		return View::make('teacher.form.question.edit')->with(['type' => $type, 'period' => $periodId, 'form' => $formId, 'question' => $question]);
+	}
+
+	public function formQuestionStoreEdit($periodId, $formId, $type, $questionId)
+	{
+		if(Input::has('delete'))
+		{
+			QuestionService::deleteQuestion($questionId);
+			MessageService::alert('Question deleted successfully.');
+			return Redirect::route('teacher.form.question',['type' => $type, 'period' => $periodId, 'form' => $formId]);
+		}
+		elseif(ValidationService::validateQuestion(Input::all()) != false)
+		{
+			QuestionService::editQuestion(Input::all(), $questionId);
+			MessageService::alert('Question saved successfully.');
 			return Redirect::route('teacher.form.question',['type' => $type, 'period' => $periodId, 'form' => $formId]);
 		}
 		else

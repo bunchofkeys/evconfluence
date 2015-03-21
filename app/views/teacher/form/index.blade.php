@@ -17,21 +17,22 @@
                 <h4>Forms</h4><hr><table class="table table-striped table-advance table-hover">
                     <thead>
                     <tr>
-                        <th class="col-md-1">Form ID</th>
-                        <th class="col-md-1">End Date</th>
+                        <th class="col-md-2">Form Name</th>
+                        <th class="col-md-2">End Date</th>
                         <th class="col-md-2">Status</th>
-                        <th class="col-md-2">Action</th>
+                        <th class="col-md-6">Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($formList as $form)
                         <tr>
-                            <td>{{ $form->form_id }}</td>
+                            <td>{{ $form->name }}</td>
                             <td>{{ $form->end_date_time }}</td>
                             <td>{{ $form->status }} </td>
                             <td>
-                                <a href="{{URL::route('teacher.form.question', ['period' => $period, 'form' => $form->form_id, 'type' => 'self']) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Manage Self</span></a>
-                                <a href="{{URL::route('teacher.form.question', ['period' => $period,'form' => $form->form_id, 'type' => 'peer']) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Manage Peer</span></a>
+                                <a href="{{URL::route('teacher.form.question', ['period' => $period, 'form' => $form->form_id, 'type' => 'self']) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Manage Self Evaluation Questions</span></a>
+                                <a href="{{URL::route('teacher.form.question', ['period' => $period,'form' => $form->form_id, 'type' => 'peer']) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Manage Peer Evaluation Questions</span></a>
+                                <a href="{{URL::route('teacher.form.edit', ['period' => $period,'form' => $form->form_id]) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Edit Form</span></a>
                                 <a href="{{URL::route('teacher.form.response', ['period' => $period,'form' => $form->form_id]) }}" class="btn btn-primary btn-xs"><span class="label label-primary">View Response</span></a>
                             </td>
                         </tr>

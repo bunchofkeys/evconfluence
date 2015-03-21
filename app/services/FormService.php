@@ -14,7 +14,7 @@ class FormService
     public static function createForm($input, $period)
     {
         $form = new FormModel();
-        $form->start_date_time = DateTime::createFromFormat('d.m.Y H:i', $input['start_date_time']);
+        $form->name = $input['name'];
         $form->end_date_time = DateTime::createFromFormat('d.m.Y H:i', $input['end_date_time']);
         if(array_key_exists('status', $input))
         {
@@ -22,11 +22,35 @@ class FormService
         }
         else
         {
-            $form->status = 'off';
+            $form->status = 'Not Started';
         }
         $form->period_id = $period;
         $form->save();
     }
+
+    public static function editForm($input, $formId)
+    {
+        $form = FormModel::find($formId);
+        $form->name = $input['name'];
+        $date = trim($input['end_date_time'], ' ');
+        $form->end_date_time = DateTime::createFromFormat('d.m.Y H:i', $date);
+        if(array_key_exists('status', $input))
+        {
+            $form->status = $input['status'];
+        }
+        else
+        {
+            $form->status = 'Not Started';
+        }
+        $form->save();
+    }
+
+    public static function deleteForm($formId)
+    {
+        $form = FormModel::find($formId);
+        $form->delete();
+    }
+
 
     public static function getRelatedForms($student)
     {
@@ -38,5 +62,35 @@ class FormService
         }
 
         return FormModel::whereIn('period_id', $list)->with('period')->get();
+    }
+
+    public static function toStartEvaluation($form)
+    {
+        if($form->status == "Not Started")
+        {
+            $now = (new DateTime())->format('Y-m-d H:i:s');
+
+            $datediff = $now - $form->end_date_time;
+            if(floor($datediff/(60*60*24)) <= 7)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static function toStartReminder($form)
+    {
+        if($form->status == "Not Started")
+        {
+            $now = (new DateTime())->format('Y-m-d H:i:s');
+
+            $datediff = $now - $form->end_date_time;
+            if(floor($datediff/(60*60*24)) <= 1)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

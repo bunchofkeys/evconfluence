@@ -15,4 +15,11 @@ class TeachingPeriodModel extends \Eloquent {
 	{
 		return $this->hasOne('FormModel', 'period_id', 'period_id');
 	}
+
+	public function delete()
+	{
+		TeamModel::where('period_id', $this->period_id)->delete();
+		FormModel::where('form_id', $this->form_id)->delete();
+		return parent::delete();
+	}
 }

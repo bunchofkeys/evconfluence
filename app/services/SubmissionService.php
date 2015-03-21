@@ -8,7 +8,7 @@ class SubmissionService
 
     public static function getList($formId)
     {
-        $submissions = SubmissionModel::where('form_id', $formId)->with('student')->get();
+        $submissions = SubmissionModel::where('form_id', $formId)->with('student')->orderBy('alert','desc')->get();
 
         foreach($submissions as $submission)
         {

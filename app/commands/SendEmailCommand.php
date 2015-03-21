@@ -37,7 +37,7 @@ class SendEmailCommand extends Command {
 	 */
 	public function fire()
 	{
-		EmailService::sendReminderMail();
+		EmailService::sendStudentMail();
 	}
 
 }

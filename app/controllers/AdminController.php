@@ -97,11 +97,12 @@ class AdminController extends BaseController {
 		if(UserService::deleteUser($user) == true)
 		{
 			MessageService::alert('User account ' . UserService::$message . ' has been deleted');
-			return $this->index();
+			return Redirect::route('admin.user.index');
 		}
 		else
 		{
-			return $this->index();
+			MessageService::error('An error has occured');
+			return Redirect::route('admin.user.index');
 		}
 	}
 
@@ -131,7 +132,10 @@ class AdminController extends BaseController {
 		{
 			return Redirect::back()->withInput();
 		}
+	}
 
+	public function configIndex()
+	{
 
 	}
 }

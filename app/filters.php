@@ -33,28 +33,14 @@ App::after(function($request, $response)
 |
 */
 
-Route::filter('auth', function()
-{
-	if (Auth::guest())
-	{
-		if (Request::ajax())
-		{
-			return Response::make('Unauthorized', 401);
-		}
-		else
-		{
-			return Redirect::guest('login');
-		}
-	}
-});
-
 Route::filter('admin', function()
 {
 	if (Auth::guest())
 	{
 		if (Request::ajax())
 		{
-			return Response::make('Unauthorized', 401);
+			MessageService::error('Unauthorized');
+			return View::make('home.invalid');
 		}
 		else
 		{
@@ -65,7 +51,8 @@ Route::filter('admin', function()
 	if(Auth::user()->role != 'Admin')
 	{
 		Auth::logout();
-		return Response::make('Unauthorized', 401);
+		MessageService::error('Unauthorized');
+		return View::make('home.invalid');
 	}
 
 });
@@ -73,12 +60,19 @@ Route::filter('admin', function()
 Route::filter('token', function($route)
 {
 	$temporaryLink = TokenService::find($route->getParameter('token'));
-	if($temporaryLink != null)
+	if(is_null($temporaryLink))
 	{
+		MessageService::error('Invalid/Expired Token');
+		return View::make('home.invalid');
+	}
+	else
+	{
+		$link = $temporaryLink->first();
 		$now = new DateTime("now");
-		if($temporaryLink->active == false)
+		if ($link->active == false)
 		{
-			return Response::make('Page Not Found', 404);
+			MessageService::error('Invalid/Expired Token');
+			return View::make('home.invalid');
 		}
 	}
 	return;
@@ -89,7 +83,8 @@ Route::filter('submissionForm', function($route)
 	$form = FormModel::find($route->getParameter('formId'));
 	if(is_null($form))
 	{
-		return Response::make('Page Not Found', 404);
+		MessageService::error('Page Not Found');
+		return View::make('home.invalid');
 	}
 	else
 	{
@@ -117,7 +112,7 @@ Route::filter('teacher', function()
 		}
 		else
 		{
-			return Redirect::route('session.login');
+			return Redirect::guest('/');
 		}
 	}
 

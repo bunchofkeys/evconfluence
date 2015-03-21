@@ -39,6 +39,7 @@ class QuestionService
         if($input['alert'] == 'true')
         {
             $submission->alert = true;
+            EmailService::sendUcAlertEmail($submission);
         }
         else
         {
@@ -111,6 +112,20 @@ class QuestionService
         $section->question_id = $question->question_id;
         $section->form_id = $formId;
         $section->save();
+    }
+
+    public static function editQuestion($input, $questionId)
+    {
+        $question = self::find($questionId);
+        $question->question_text = $input['question_text'];
+        $question->format = $input['question_format'];
+        $question->save();
+    }
+
+    public static function deleteQuestion($questionId)
+    {
+        $question = self::find($questionId);
+        $question->delete();
     }
 
 }

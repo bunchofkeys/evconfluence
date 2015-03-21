@@ -21,10 +21,10 @@
                             <td>{{ $form->end_date_time }} </td>
                             <td>
                                 @if($form->submission_status != 'Submitted' )
-                                    <a href="{{URL::route('token.evaluation.form', ['token' => $token,
+                                    <a href="{{URL::route('token.evaluation.begin', ['token' => $token,
                                                                             'selfId' => $student->student_id,
                                                                             'formId' => $form->form_id,
-                                                                            'targetId' => $student->student_id]) }}"
+                                                                            ]) }}"
                                        class="btn btn-primary btn-xs"><span class="label label-primary">Start</span></a>
                                 @endif
 

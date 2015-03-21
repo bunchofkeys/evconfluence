@@ -88,9 +88,9 @@ class ValidationService
     {
         self::$rules =
             [
-                'semester_code' =>  'required',
-                'year'		    =>  'required',
-                'unit_code'     =>  'required',
+                'semester_code' =>  'required|max:4',
+                'year'		    =>  'required|integer',
+                'unit_code'     =>  'required|max:6',
             ];
         return self::validate($input);
     }
@@ -119,20 +119,50 @@ class ValidationService
 
     public static function validateForm($input)
     {
+        $input['end_date_time'] = trim($input['end_date_time'], ' ');
         self::$rules =
             [
-                'start_date_time'       =>  'required',
-                'end_date_time'         =>  'required',
+                'name'       =>  'required',
+                'end_date_time'         =>  'required|date_format:d.m.Y H:i',
             ];
         return self::validate($input);
     }
 
-    private static function validate($input)
+    public static function validateResetPassword($input)
+    {
+        self::$rules =
+            [
+                'email'		        =>  'required|email',
+            ];
+        return self::validate($input);
+    }
+
+    public static function validateCsvRow($input)
+    {
+        self::$rules =
+            [
+                'person id'         =>  'required',
+                'email'		        =>  'required|email',
+                'surname'           =>  'required',
+                'title'             =>  'required',
+                'given name'        =>  'required',
+                'teach period'      =>  'required',
+                'unit code'         =>  'required',
+                'team id'           =>  'required',
+
+            ];
+        return self::validate($input, false);
+    }
+
+    private static function validate($input, $showMessage = true)
     {
         $validator = Validator::make($input, self::$rules, self::$messages);
         if ($validator->fails())
         {
-            MessageService::error($validator->messages());
+            if($showMessage == true)
+            {
+                MessageService::error($validator->messages());
+            }
             return false;
         }
         else

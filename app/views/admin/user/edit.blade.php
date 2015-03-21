@@ -9,39 +9,39 @@
         <div class="form-panel">
             <h4 class="mb"><i class="fa fa-angle-right"></i> Details for {{$user->username }}</h4>
                 {{ Form::open(['method' => 'put', 'class' => 'form-horizontal style-form']) }}
-                <div class="form-group @if($errors->has('first_name')) has-error @endif">
+                <div class="form-group @if(MessageService::has('first_name')) has-error @endif">
                     <label class="col-sm-2 col-sm-2 control-label">First Name</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="first_name" value="{{$user->person->first_name}}">
                     </div>
                 </div>
-                <div class="form-group @if($errors->has('last_name')) has-error @endif">
+                <div class="form-group @if(MessageService::has('last_name')) has-error @endif">
                     <label class="col-sm-2 col-sm-2 control-label">Last Name</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="last_name" value="{{$user->person->last_name}}">
                     </div>
                 </div>
                 @if($user->role == 'Teacher')
-                <div class="form-group @if($errors->has('school')) has-error @endif">
+                <div class="form-group @if(MessageService::has('school')) has-error @endif">
                     <label class="col-sm-2 col-sm-2 control-label">School</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="school" value="{{$user->teacher->school}}">
                     </div>
                 </div>
-                <div class="form-group @if($errors->has('unit_required_for')) has-error @endif">
+                <div class="form-group @if(MessageService::has('unit_required_for')) has-error @endif">
                     <label class="col-sm-2 col-sm-2 control-label">Unit Required For</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="unit_required_for" value="{{$user->teacher->unit_required_for}}">
                     </div>
                 </div>
                 @endif
-                <div class="form-group @if($errors->has('password') || $errors->has('confirm_password')) has-error @endif">
+                <div class="form-group @if(MessageService::has('password') || MessageService::has('confirm_password')) has-error @endif">
                     <label class="col-sm-2 col-sm-2 control-label">Password</label>
                     <div class="col-sm-10">
                         <input type="password" class="form-control" name="password">
                     </div>
                 </div>
-                <div class="form-group @if($errors->has('password') || $errors->has('confirm_password')) has-error @endif">
+                <div class="form-group @if(MessageService::has('password') || MessageService::has('confirm_password')) has-error @endif">
                     <label class="col-sm-2 col-sm-2 control-label">Confirm Password</label>
                     <div class="col-sm-10">
                         <input type="password" class="form-control" name="confirm_password">

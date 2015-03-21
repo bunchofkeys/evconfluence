@@ -11,9 +11,11 @@
         </div>
         <div class="col-md-12">
             <div class="content-panel showback">
-                <h4>Responses</h4><hr><table class="table table-striped table-advance table-hover">
+                <h4>Responses</h4><hr>
+                <table class="table table-striped table-advance table-hover">
                     <thead>
                     <tr>
+                        <th class="col-md-1"></th>
                         <th class="col-md-1">Student ID</th>
                         <th class="col-md-1">Student Name</th>
                         <th class="col-md-2">Status</th>
@@ -24,6 +26,7 @@
                     <tbody>
                     @foreach($submissions as $submission)
                         <tr>
+                            <td>@if($submission->alert == '1')<span class="label label-danger">Requires Attention</span>@endif </td>
                             <td>{{ $submission->student_id }}</td>
                             <td>{{ $submission->student->person->first_name }} {{ $submission->student->person->last_name }}</td>
                             <td>{{ $submission->status }} </td>

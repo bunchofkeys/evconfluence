@@ -31,6 +31,8 @@
                             <td>
                                 <a href="{{URL::route('teacher.student.index', ['period' => $period->period_id]) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Manage Students</span></a>
                                 <a href="{{URL::route('teacher.form.index', ['period' => $period->period_id]) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Manage Forms</span></a>
+                                <a href="{{URL::route('teacher.period.edit', ['period' => $period->period_id]) }}" class="btn btn-primary btn-xs"><span class="label label-primary">Edit Period</span></a>
+
                             </td>
                         </tr>
                     @endforeach

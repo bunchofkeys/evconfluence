@@ -17,28 +17,63 @@ class EmailService
         });
     }
 
-    public static function sendReminderMail()
+    public static function sendStudentMail()
     {
         $formList = FormModel::all();
 
         foreach($formList as $form)
         {
-            if($form->status == 'Ready')
+            if(FormService::toStartEvaluation($form))
             {
                 $students = $form->period->students;
                 foreach ($students as $student)
                 {
-                    $link = TokenService::generateLink($student->person_id, 'evaluation', $form->start_date_time, $form->end_date_time);
+                    $now = (new DateTime())->format('Y-m-d H:i:s');
+                    $link = TokenService::generateLink($student->person_id, 'evaluation', $now, $form->end_date_time);
 
                     $email = $student->person->email;
-                    $subject = 'Test Mail';
-                    $emailTemplate = 'emails.reminder';
+                    $subject = 'Start of ' . $form->name;
+                    $emailTemplate = 'emails.startEvaluation';
 
-                    $data = ['user' => $student,
-                        'link' => $link];
+                    $data = ['person' => $student->person,
+                        'url' => $link];
 
                     self::sendEmail($email, $subject, $emailTemplate, $data);
                 }
+                $form->status = 'Started';
+                $form->save();
+            }
+            elseif (FormService::toStartReminder($form))
+            {
+                $students = $form->period->students;
+                foreach ($students as $student)
+                {
+                    $submission = SubmissionService::find($form->form_id, $student->student_id);
+
+                    if(!is_null($submission))
+                    {
+                        if ($submission->status != 'Submitted')
+                        {
+                            $now = (new DateTime())->format('Y-m-d H:i:s');
+                            $link = TemporaryLinkModel::where(['person_id' => $student->person_id, 'action' => 'evaluation'])->first();
+                            if (is_null($link))
+                            {
+                                $link = TokenService::generateLink($student->person_id, 'evaluation', $now, $form->end_date_time);
+                            }
+
+                            $email = $student->person->email;
+                            $subject = 'Reminder: Your ' . $form->name . ' evaluation is ending';
+                            $emailTemplate = 'emails.reminder';
+
+                            $data = ['user' => $student,
+                                'url' => $link];
+
+                            self::sendEmail($email, $subject, $emailTemplate, $data);
+                        }
+                    }
+                }
+                $form->status = 'Sent Reminder';
+                $form->save();
             }
         }
     }
@@ -89,4 +124,41 @@ class EmailService
         self::sendEmail($email,$subject,$emailTemplate,$data);
     }
 
+    public static function sendResetPasswordEmail($user)
+    {
+
+        $email = $user->person->email;
+        $subject = 'Password recovery email';
+        $emailTemplate = 'emails.forgetpassword';
+
+        $startDateTime = new DateTime();
+        $endDateTime = new DateTime();
+        $endDateTime->modify('+1 day');
+
+        $url = TokenService::generateLink($user->person_id, "setpassword", $startDateTime, $endDateTime);
+        $data = ['user' => $user,
+            'url' => $url];
+
+        self::sendEmail($email,$subject,$emailTemplate,$data);
+    }
+
+    public static function sendUcAlertEmail($submission)
+    {
+        $student = StudentService::find($submission->student_id);
+        $form = FormService::find($submission->form_id);
+        $period = PeriodService::find($form->period_id);
+        $teacher = UserService::find($period->user_id);
+
+        $url = URL::route('teacher.form.response.student', ['form' => $form->form_id, 'studentId' => $submission->student_id, 'period' => $period->period_id]);
+
+        $email = $teacher->person->email;
+        $subject = 'Student submission requires your attention';
+        $emailTemplate = 'emails.teacherAlert';
+
+        $data = ['teacher' => $teacher,
+            'student' => $student,
+            'url' => $url];
+
+        self::sendEmail($email,$subject,$emailTemplate,$data);
+    }
 }

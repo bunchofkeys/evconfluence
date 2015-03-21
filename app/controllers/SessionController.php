@@ -15,7 +15,8 @@ class SessionController extends BaseController {
 			if($user->status != 'Approved')
 			{
 				Auth::logout();
-				return Redirect::back()->withInput()->withErrors(['error' => 'You do not have permission to access this']);
+				MessageService::error('You do not have permission to access this');
+				return Redirect::back()->withInput();
 			}
 			else
 			{
@@ -33,7 +34,8 @@ class SessionController extends BaseController {
 		}
 		else
 		{
-			return Redirect::back()->withInput()->withErrors(['error' => 'Incorrect Email / Password']);
+			MessageService::error('Incorrect Email / Password');
+			return Redirect::back()->withInput();
 		}
 	}
 
@@ -63,4 +65,46 @@ class SessionController extends BaseController {
 			return Redirect::back()->withInput();
 		}
 	}
+
+	public function forgetPassword()
+	{
+		return View::Make('home.forgetpassword');
+	}
+
+	public function storeForgetPassword()
+	{
+		$input = Input::all();
+		if(ValidationService::validateResetPassword($input) != false) {
+			$person = PersonService::findByEmail($input['email']);
+			if(!is_null($person))
+			{
+				$user = UserModel::where('person_id', $person->person_id)->first();
+				if (!is_null($user))
+				{
+					$user->person = $user->person;
+					if($user->status == 'Approved')
+					{
+						$url = EmailService::sendResetPasswordEmail($user);
+						MessageService::alert('An email has been sent to your email address to reset password.');
+						return Redirect::route('session.login')->with(['user' => $user, 'url' => $url]);
+					}
+					else
+					{
+						MessageService::error(['email' => 'Account is not approved yet']);
+						return Redirect::back()->withInput();
+					}
+				}
+				else
+				{
+					MessageService::error(['email' => 'Email does not exist']);
+					return Redirect::back()->withInput();
+				}
+			}
+		}
+		else
+		{
+			return Redirect::back()->withInput();
+		}
+	}
 }
+

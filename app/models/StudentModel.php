@@ -25,4 +25,11 @@ class StudentModel extends \Eloquent {
 	{
 		return $this->belongsToMany('TeachingPeriodModel', 'team', 'student_id', 'period_id');
 	}
+
+	public function delete()
+	{
+		TeamModel::where('student_id', $this->student_id)->delete();
+		$this->person()->delete();
+		return parent::delete();
+	}
 }

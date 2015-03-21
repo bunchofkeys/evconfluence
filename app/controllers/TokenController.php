@@ -22,6 +22,9 @@ class TokenController extends \BaseController {
 		$link->active = false;
 		$link->save();
 
+		MessageService::alert('Your password has been set successfully');
+		return Redirect::route('session.login');
+
 	}
 
 	public function evaluation($token)
@@ -48,6 +51,13 @@ class TokenController extends \BaseController {
 			return View::make('token.evaluation.index')->with(['forms' => $forms,'token' => $token, 'student' => $student]);
 		}
 
+	}
+
+	public function evaluationBegin($token, $formId, $selfId)
+	{
+		$student = StudentService::find($selfId);
+		$form = FormService::find($formId);
+		return View::make('token.evaluation.begin')->with(['form' => $form,'token' => $token, 'student' => $student]);
 	}
 
 	public function evaluationStoreConfirm($token, $formId, $selfId)

@@ -23,10 +23,15 @@ class UserModel extends \Eloquent implements UserInterface, RemindableInterface
 
 	public function teacher()
 	{
-		if($this->role == 'Teacher')
-		{
+		if ($this->role == 'Teacher') {
 			return $this->hasOne('TeacherModel', 'user_id', 'user_id');
 		}
+	}
+
+	public function delete()
+	{
+		TeacherModel::where('user_id', $this->user_id)->delete();
+		return parent::delete();
 	}
 
 }

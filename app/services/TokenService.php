@@ -9,17 +9,41 @@ class TokenService
 
     public static function generateLink($personId, $action, $startDateTime, $endDateTime)
     {
-        $link = new TemporaryLinkModel();
-        $link->fill([
-            'person_id' => $personId,
-            'action' => $action,
-            'startDateTime' => $startDateTime,
-            'endDateTime' => $endDateTime,
-            'active' => true,
-            'token' => md5(uniqid(rand(), true)),
-        ]);
-        $link->save();
+        // find existing link for person
+        $link = TemporaryLinkModel::where(['person_id' => $personId, 'action' => $action])->first();
 
-        return Request::root() . '/token/' . $link->token . '/' . $link->action;
+        // generate unique token
+        $uniqueToken = md5(uniqid(rand(), true));
+        while(TemporaryLinkModel::where('token', $uniqueToken)->count() > 0)
+        {
+            $uniqueToken = md5(uniqid(rand(), true));
+        }
+
+        // check if link already exist. if exist, overrides with new token
+        if(is_null($link))
+        {
+            $link = new TemporaryLinkModel();
+            $link->fill([
+                'person_id' => $personId,
+                'action' => $action,
+                'startDateTime' => $startDateTime,
+                'endDateTime' => $endDateTime,
+                'active' => true,
+                'token' => $uniqueToken,
+            ]);
+            $link->save();
+
+            return Request::root() . '/token/' . $link->token . '/' . $link->action;
+        }
+        else
+        {
+            $link->token = $uniqueToken;
+            $link->startDateTime = $startDateTime;
+            $link->endDateTime = $endDateTime;
+            $link->active = '1';
+            $link->save();
+            return Request::root() . '/token/' . $link->token . '/' . $link->action;
+        }
     }
+
 }

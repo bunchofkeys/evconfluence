@@ -11,7 +11,9 @@
         <li class="sub-menu">
             {{ NavLink('User Management', 'admin.user.index', 'fa-users')}}
         </li>
-
+        <li class="sub-menu">
+            {{ NavLink('Configuration', 'admin.configuration.index', 'fa-gear')}}
+        </li>
     </ul>
     <!-- sidebar menu end-->
 </div>
