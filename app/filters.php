@@ -50,7 +50,6 @@ Route::filter('admin', function()
 
 	if(Auth::user()->role != 'Admin')
 	{
-		Auth::logout();
 		MessageService::error('Unauthorized');
 		return View::make('home.invalid');
 	}
@@ -106,7 +105,8 @@ Route::filter('teacher', function()
 	{
 		if (Request::ajax())
 		{
-			return Response::make('Unauthorized', 401);
+			MessageService::error('Unauthorized');
+			return View::make('home.invalid');
 		}
 		else
 		{
@@ -116,8 +116,32 @@ Route::filter('teacher', function()
 
 	if(Auth::user()->role != 'Teacher')
 	{
-		Auth::logout();
-		return Response::make('Unauthorized', 401);
+		MessageService::error('Unauthorized');
+		return View::make('home.invalid');
+	}
+
+});
+
+Route::filter('period', function($route)
+{
+	$period = PeriodService::find($route->getParameter('period'));
+	if (Auth::guest())
+	{
+		if (Request::ajax())
+		{
+			MessageService::error('Unauthorized');
+			return View::make('home.invalid');
+		}
+		else
+		{
+			return Redirect::guest('/');
+		}
+	}
+
+	if(Auth::user()->user_id != $period->user_id)
+	{
+		MessageService::error('Unauthorized');
+		return View::make('home.invalid');
 	}
 
 });
