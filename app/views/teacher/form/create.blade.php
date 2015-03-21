@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="form-group @if(MessageService::has('defaultQuestion')) has-error @endif">
-                <label class="col-sm-4 control-label">Create SPE form with default questions? </label>
+                <label class="col-sm-4 control-label">Add default questions template? </label>
                 <div class="col-sm-8">
                     <div class="checkbox checkbox-inline">
                         <label>

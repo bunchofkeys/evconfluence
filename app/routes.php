@@ -72,7 +72,7 @@ Route::post('/token/{token}/evaluation/{formId}/{selfId}/confirm', ['uses' => 'T
 Route::get('/token/{token}/evaluation/{formId}/{selfId}/{targetId}', ['uses' => 'TokenController@evaluationForm', 'as' => 'token.evaluation.form', 'before' => 'token|submissionForm']);
 Route::post('/token/{token}/evaluation/{formId}/{selfId}/{targetId}', ['uses' => 'TokenController@evaluationStore', 'as' => 'token.evaluation.storeForm', 'before' => 'token|submissionForm|csrf']);
 
-Route::get('/sendemail', function() {
-    return (new DateTime())->format('Y-m-d H:i:s');
+Route::get('/sendemail', function()
+{
     return EmailService::sendStudentMail();
 });
