@@ -5,7 +5,7 @@ class ValidationService
     protected static $rules;
     protected static $messages =
     [
-        'required'  =>  'Please enter your :attribute.',
+        'required'  =>  'You have to enter a value for :attribute.',
         'unique'    =>  'The :attribute entered already exist.',
         'email'     =>  'Please enter a valid :attribute',
         'same'      =>  'The :others must match'
@@ -122,6 +122,42 @@ class ValidationService
             $result = $result && self::validate($input);
         }
         return $result;
+    }
+
+    public static function validateEvaluationForm($input, $questions)
+    {
+        $result = true;
+        $errorMessage = [];
+        foreach($questions as $question)
+        {
+            self::$rules =
+                [
+                    $question->question_text    =>  'required',
+                ];
+
+            $temp =  self::validate($input,false);
+            if($temp == false)
+            {
+                $errorMessage = array_merge($errorMessage, [$question->question_text =>'Please enter ' . $question->question_text]);
+            }
+            $result = $result && self::validate($input,false);
+        }
+
+        if(!empty($errorMessage))
+        {
+            MessageService::error($errorMessage);
+        }
+        return $result;
+    }
+
+    public static function validateSubmission($input)
+    {
+        self::$rules =
+            [
+                'alert'        =>  'required',
+                'confirmation'        =>  'required',
+            ];
+        return self::validate($input);
     }
 
     public static function validateQuestion($input)

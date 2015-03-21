@@ -77,7 +77,7 @@ class QuestionService
                 $answer->question_id = $question->question_id;
                 $answer->target_student_id = $target->student_id;
             }
-            $answer->input = $input['question-' . $question->question_id];
+            $answer->input = $input[$question->question_text];
             $answer->save();
         }
     }

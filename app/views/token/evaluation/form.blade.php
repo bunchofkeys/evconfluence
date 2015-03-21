@@ -77,15 +77,16 @@
                 </div>
                 @foreach($questions as $question)
                     @if($question->format == 'Multi')
-                        <div class="form-group">
+                        <div class="form-group @if(MessageService::has('question_text')) has-error @endif">
                             <label class="col-sm-4 col-sm-4 control-label">{{$question->question_text}}</label>
-
                             <div class="col-sm-3">
                                 @for ($i = 1; $i <= 5; $i++)
                                     <div class="radio checkbox-inline">
                                         <label>
-                                            <input type="radio" name="question-{{$question->question_id}}" id="option-{{$question->question_id}}" value={{$i}}
-                                            @if($i == $question->answer)checked="checked"@endif>
+
+                                            <input type="radio" name="{{$question->question_text}}" id="option-{{$question->question_id}}" value={{$i}}
+                                            @if($i == $question->answer) checked="checked" @elseif(MessageService::has($question->question_text))
+                                                   @if($i == Input::old($question->question_text)) checked="checked" @endif @endif>
                                             {{$i}} </input>
                                         </label>
                                     </div>
@@ -93,16 +94,16 @@
                             </div>
                             <div class="col-sm-1">
                                 <label>
-                                <a data-toggle="modal" href="#multiInputModal"><i class="fa fa-question-circle fa-2x"></i></a>
+                                    <a data-toggle="modal" href="#multiInputModal"><i class="fa fa-question-circle fa-2x"></i></a>
                                 </label>
                             </div>
 
                         </div>
                     @else
-                        <div class="form-group">
+                        <div class="form-group @if(MessageService::has($question->question_text)) has-error @endif">
                             <label class="col-sm-4 col-sm-4 control-label">{{$question->question_text}}</label>
                             <div class="col-sm-7">
-                                <textarea rows="5" class="form-control" name="question-{{$question->question_id}}">{{$question->answer}}</textarea>
+                                <textarea rows="5" class="form-control" name="{{$question->question_text}}">@if(MessageService::has($question->question_text)){{Input::old($question->question_text)}}@else{{$question->answer}}@endif</textarea>
                             </div>
                             <div class="col-sm-1">
                                 <label>
@@ -122,7 +123,7 @@
         </div><!-- col-lg-12-->
     </div>
 
-    <!-- multiChoice Modal -->
+    <!-- multiChoice -->
     <div aria-hidden="true" aria-labelledby="multiInputModal" role="dialog" tabindex="-1" id="multiInputModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -163,7 +164,7 @@
     </div>
     <!-- modal -->
 
-    <!-- textInputModal Modal -->
+    <!-- textInputModal -->
     <div aria-hidden="true" aria-labelledby="textInputModal" role="dialog" tabindex="-1" id="textInputModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">

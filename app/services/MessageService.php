@@ -33,6 +33,7 @@ class MessageService
         }
         elseif(is_array($message))
         {
+            return true;
             if(array_key_exists($string,$message))
             {
                 return true;

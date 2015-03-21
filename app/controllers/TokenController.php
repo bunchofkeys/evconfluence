@@ -62,14 +62,14 @@ class TokenController extends \BaseController {
 
 	public function evaluationStoreConfirm($token, $formId, $selfId)
 	{
-		if(Input::get('confirm') == 'true')
+		if(ValidationService::validateSubmission(Input::all()))
 		{
 			QuestionService::setSubmission($formId, $selfId, Input::all());
 			return Redirect::route('token.evaluation.index', ['token' => $token]);
 		}
 		else
 		{
-			return Redirect::route('token.evaluation.confirm', ['token' => $token, 'selfId' => $selfId, 'formId' => $formId]);
+			return Redirect::back()->withInput();
 		}
 	}
 
@@ -135,7 +135,6 @@ class TokenController extends \BaseController {
 
 	public function evaluationStore($token, $formId, $selfId, $targetId)
 	{
-
 		$form = FormService::find($formId);
 		$self = StudentService::find($selfId);
 		$team = $self->team($form->period_id);
@@ -163,17 +162,21 @@ class TokenController extends \BaseController {
 			$type = 'peer';
 		}
 		$questions = QuestionService::getList($formId,$type);
-		QuestionService::storeAnswer(Input::all(), $form, $questions, $self, $target);
-
-
-		if(is_null($output))
+		if(ValidationService::validateEvaluationForm(Input::all(), $questions))
 		{
-			$output = Redirect::route('token.evaluation.form', ['token' => $token,
-				'selfId' => $selfId,
-				'formId' => $formId,
-				'targetId' => $nextTargetId])->with('lastId', $targetId);
+			QuestionService::storeAnswer(Input::all(), $form, $questions, $self, $target);
+			if (is_null($output))
+			{
+				$output = Redirect::route('token.evaluation.form', ['token' => $token,
+					'selfId' => $selfId,
+					'formId' => $formId,
+					'targetId' => $nextTargetId])->with('lastId', $targetId);
+			}
 		}
-
+		else
+		{
+			return Redirect::back()->withInput();
+		}
 		return $output;
 	}
 }

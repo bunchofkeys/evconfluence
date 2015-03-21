@@ -13,7 +13,7 @@
                 <label class="col-sm-2 col-sm-2 control-label">Question</label>
                 <div class="col-sm-10">
                     <input id="dateStart" type="text" class="form-control" name="question_text"
-                           value="@if(MessageService::has('name')){{Input::old('end_date_time')}}@else{{$question->question_text}}@endif">
+                           value="@if(MessageService::has('question_text')){{Input::old('question_text')}}@else{{$question->question_text}}@endif">
                 </div>
             </div>
             <div class="form-group @if(MessageService::has('question_format')) has-error @endif">
