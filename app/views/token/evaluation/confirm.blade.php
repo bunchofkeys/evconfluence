@@ -64,7 +64,7 @@
                 <div class="form-group">
                     <h3><i class="fa fa-angle-right"></i> Confirmation </h3>
                 </div>
-                <div class="form-group @if(MessageService::has('alert UC')) has-error @endif">
+                <div class="form-group @if(MessageService::has('alert')) has-error @endif">
                     <label class="col-sm-4 control-label">Do this you want to alert your UC about the issues in the team? </label>
                     <div class="col-sm-8">
                         <div class="checkbox checkbox-inline">
@@ -84,7 +84,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group @if(MessageService::has('alert UC')) has-error @endif">
+                <div class="form-group @if(MessageService::has('confirmation')) has-error @endif">
                     <label class="col-sm-4 control-label">Confirm submission? </label>
                     <div class="col-sm-8">
                         <div class="checkbox checkbox-inline" style="padding-left: 60px">
@@ -126,6 +126,5 @@
                 <br/>
             </div>
         </div>
-    </div>
     </div>
 @endsection

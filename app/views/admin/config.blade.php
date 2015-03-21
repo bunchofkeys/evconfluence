@@ -14,9 +14,9 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Key</th>
-                    <th>Description</th>
-                    <th>Value</th>
+                    <th class="col-lg-2">Key</th>
+                    <th class="col-lg-3">Description</th>
+                    <th class="col-lg-7">Value</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -26,6 +26,7 @@
                     <td>{{$config->description}}</td>
                     <td><input type="text"  name="{{$config->key}}" class="form-control"
                                @if(MessageService::has($config->key))value="{{Input::old($config->key)}}" style="border-color:red" @else value="{{$config->value}}"@endif>
+
                     </td>
                 </tr>
                 @endforeach

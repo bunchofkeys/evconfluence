@@ -82,7 +82,7 @@ class QuestionService
         }
     }
 
-    public static function createQuestion($input, $periodId, $formId, $type)
+    public static function createQuestion($input, $formId, $type)
     {
         $question = new QuestionModel();
         $question->question_text = $input['question_text'];

@@ -175,6 +175,7 @@ class ValidationService
         self::$rules =
             [
                 'name'       =>  'required',
+                'defaultQuestion' => 'required',
                 'end_date_time'         =>  'required|date_format:d.m.Y H:i',
             ];
         return self::validate($input);

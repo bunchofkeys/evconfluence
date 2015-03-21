@@ -26,6 +26,36 @@ class FormService
         }
         $form->period_id = $period;
         $form->save();
+        return $form;
+    }
+
+    public static function setDefaultQuestion($form)
+    {
+        $defaultQuestionConfig = ConfigModel::where('key', 'LIKE', "%DEFAULTQUESTION%")->get();
+        foreach($defaultQuestionConfig as $config)
+        {
+            if(str_contains($config->key, 'PEER'))
+            {
+                $type = 'peer';
+            }
+            else
+            {
+                $type = 'self';
+            }
+
+            $input = [];
+            if(str_contains($config->key, 'MULTI'))
+            {
+                $input['question_format'] = 'multi';
+            }
+            else
+            {
+                $input['question_format'] = 'open';
+            }
+            $input['question_text'] = $config->value;
+
+            QuestionService::createQuestion($input, $form->form_id, $type);
+        }
     }
 
     public static function editForm($input, $formId)

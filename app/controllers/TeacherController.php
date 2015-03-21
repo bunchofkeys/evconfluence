@@ -158,9 +158,16 @@ class TeacherController extends \BaseController {
 
 	public function storeFormCreate($periodId)
 	{
-		if(ValidationService::validateForm(Input::all()) != false)
+		$input = Input::all();
+		if(ValidationService::validateForm($input) != false)
 		{
-			FormService::createForm(Input::all(), $periodId);
+			$form = FormService::createForm(Input::all(), $periodId);
+
+			if($input['defaultQuestion'] == 'true')
+			{
+				FormService::setDefaultQuestion($form);
+			}
+
 			MessageService::alert('A new form has been created successfully.');
 			return Redirect::route('teacher.form.index', ['period' => $periodId]);
 		}
@@ -207,7 +214,7 @@ class TeacherController extends \BaseController {
 	{
 		if(ValidationService::validateQuestion(Input::all()) != false)
 		{
-			QuestionService::createQuestion(Input::all(), $periodId, $formId, $type);
+			QuestionService::createQuestion(Input::all(), $formId, $type);
 			MessageService::alert('A new question has been created successfully.');
 			return Redirect::route('teacher.form.question',['type' => $type, 'period' => $periodId, 'form' => $formId]);
 		}
