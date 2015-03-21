@@ -73,9 +73,10 @@ class TeacherController extends \BaseController {
 
 	public function storeStudentCreate($periodId)
 	{
-		if(ValidationService::validateStudent(Input::all()) != false)
+		$period = PeriodService::find($periodId);
+		if(ValidationService::validateStudent(Input::all(),$period) != false)
 		{
-			$result = StudentService::createStudent(Input::all(), $periodId);
+			StudentService::createStudent(Input::all(), $periodId);
 			MessageService::alert('A new student has been created successfully.');
 			return Redirect::route('teacher.student.index', ['period' => $periodId]);
 		}

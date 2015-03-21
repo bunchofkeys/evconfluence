@@ -95,7 +95,7 @@ class ValidationService
         return self::validate($input);
     }
 
-    public static function validateStudent($input)
+    public static function validateStudent($input, $period)
     {
         self::$rules =
             [
@@ -105,7 +105,30 @@ class ValidationService
                 'first_name' 	    =>  'required|max:100',
                 'last_name'		    =>  'required|max:100',
             ];
-        return self::validate($input);
+        $result = self::validate($input);
+        if($result == true)
+        {
+            $exist = TeamModel::where(['student_id' => $input['student_id'], 'period_id' => $period->period_id])->first();
+            if(!is_null($exist))
+            {
+                MessageService::error(['student_id' => 'Student already exist in this period']);
+                return false;
+            }
+            $person = PersonService::findByEmail($input['email']);
+            if(!is_null($person))
+            {
+                $student = StudentModel::where('person_id', $person->person_id)->first();
+                if(!is_null($student))
+                {
+                    if($student->student_id != $input['student_id'])
+                    {
+                        MessageService::error(['email' => 'Email already exist with another student id']);
+                        return false;
+                    }
+                }
+            }
+        }
+        return $result;
     }
 
 
@@ -140,7 +163,7 @@ class ValidationService
             {
                 $errorMessage = array_merge($errorMessage, [$question->question_text =>'Please enter ' . $question->question_text]);
             }
-            $result = $result && self::validate($input,false);
+            $result = $result && $temp;
         }
 
         if(!empty($errorMessage))

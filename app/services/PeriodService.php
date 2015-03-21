@@ -52,7 +52,7 @@ class PeriodService
                 {
                     $row = array_combine($top, str_getcsv($value));
 
-                    if(ValidationService::validateCsvRow($row) == false)
+                    if(ValidationService::validateCsvRow($row) != false)
                     {
                         $periodString = explode(" ",$row['teach period']);
                         $period = TeachingPeriodModel::where(['semester_code' => $periodString['0'], 'year' => $periodString['1']])->first();
@@ -86,6 +86,10 @@ class PeriodService
                             $student->student_id = $row['person id'];
                             $student->person_id = $person->person_id;
                             $student->save();
+                        }
+                        else
+                        {
+                            array_push($errorMessage, '- Student in Row ' . $key . ' already exist.');
                         }
 
                         $team = TeamModel::where('period_id', $period->period_id)->where('student_id', $row['person id'])->first();
