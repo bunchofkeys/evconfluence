@@ -136,6 +136,20 @@ class AdminController extends BaseController {
 
 	public function configIndex()
 	{
+		$configs = ConfigModel::all();
+		return View::make('admin.config')->with('configs', $configs);
+	}
 
+	public function configStore()
+	{
+		if(ValidationService::validateConfig(Input::all()))
+		{
+			MessageService::alert('Saved settings successfully');
+			return Redirect::back();
+		}
+		else
+		{
+			return Redirect::back();
+		}
 	}
 }

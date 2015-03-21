@@ -108,6 +108,22 @@ class ValidationService
         return self::validate($input);
     }
 
+
+    public static function validateConfig($input)
+    {
+        $configs = ConfigModel::all();
+        $result = true;
+        foreach($configs as $config)
+        {
+            self::$rules =
+                [
+                    $config->key        =>  'required',
+                ];
+            $result = $result && self::validate($input);
+        }
+        return $result;
+    }
+
     public static function validateQuestion($input)
     {
         self::$rules =

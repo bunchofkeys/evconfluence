@@ -24,6 +24,7 @@ Route::post('/admin/user/create', ['uses' => 'AdminController@storeUserCreate', 
 Route::get('/admin/user/{id}/approval', ['uses' => 'AdminController@userApproval', 'as' => 'admin.user.approval', 'before' => 'admin']);
 Route::post('/admin/user/{id}/approval', ['uses' => 'AdminController@storeUserApproval', 'as' => 'admin.user.storeUserApproval', 'before' => 'admin']);
 Route::get('/admin/config', ['uses' => 'AdminController@configIndex', 'as' => 'admin.configuration.index', 'before' => 'admin']);
+Route::post('/admin/config', ['uses' => 'AdminController@configStore', 'as' => 'admin.configuration.store', 'before' => 'admin']);
 
 
 // teacher access areas
