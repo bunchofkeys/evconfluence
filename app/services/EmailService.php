@@ -77,12 +77,17 @@ class EmailService
         {
             $link = TokenService::generateLink($student->person_id, 'evaluation', $now, $form->end_date_time);
         }
+        else
+        {
+            $link = TokenService::generateLink($student->person_id, 'evaluation', $link->startDateTime, $form->end_date_time);
+        }
 
         $email = $student->person->email;
         $subject = 'Reminder: Your ' . $form->name . ' evaluation is ending';
         $emailTemplate = 'emails.reminder';
 
         $data = ['person' => $student->person,
+            'endDate' => $form->end_date_time,
             'link' => $link];
 
         self::sendEmail($email, $subject, $emailTemplate, $data);

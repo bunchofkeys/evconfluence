@@ -311,7 +311,7 @@ class TeacherController extends \BaseController {
 		$value = ["Person Id", "Email", "Surname", "Title", "Given Name", "Teach Period", "Unit Code", "Team ID"];
 		foreach($forms as $form)
 		{
-			array_push($value, $form->form_id);
+			array_push($value, 'Marks: ' . $form->name);
 		}
 		$output = implode(",", $value) . "\n";
 

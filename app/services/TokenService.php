@@ -37,7 +37,6 @@ class TokenService
         }
         else
         {
-            $link->token = $uniqueToken;
             $link->startDateTime = $startDateTime;
             $link->endDateTime = $endDateTime;
             $link->active = '1';
