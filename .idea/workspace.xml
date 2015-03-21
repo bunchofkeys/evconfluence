@@ -55,14 +55,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="uploadList.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="uploadList.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/teacher/period/uploadList.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.26923078" vertical-offset="756" max-vertical-offset="1652">
+            <state vertical-scroll-proportion="-4.827586" vertical-offset="756" max-vertical-offset="1652">
               <caret line="32" column="41" selection-start-line="32" selection-start-column="41" selection-end-line="32" selection-end-column="41" />
               <folding>
                 <element signature="e#1153#1178#0#HTML" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/config/app.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="1.1031895" vertical-offset="0" max-vertical-offset="5628">
+              <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -138,7 +148,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/views/teacher/student/index.blade.php" />
         <option value="$PROJECT_DIR$/app/services/StudentService.php" />
         <option value="$PROJECT_DIR$/app/views/layout/master/home.blade.php" />
         <option value="$PROJECT_DIR$/app/views/home/register.blade.php" />
@@ -189,6 +198,7 @@
         <option value="$PROJECT_DIR$/app/views/teacher/form/create.blade.php" />
         <option value="$PROJECT_DIR$/app/views/token/evaluation/confirm.blade.php" />
         <option value="$PROJECT_DIR$/app/views/teacher/period/uploadList.blade.php" />
+        <option value="$PROJECT_DIR$/app/config/app.php" />
       </list>
     </option>
   </component>
@@ -407,25 +417,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="laravel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="laravel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="commands" />
+              <option name="myItemId" value="config" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -608,13 +600,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/teacher/period/edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.206897" vertical-offset="629" max-vertical-offset="1288">
-          <caret line="32" column="96" selection-start-line="32" selection-start-column="96" selection-end-line="32" selection-end-column="96" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/TeacherModel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="3.862069" vertical-offset="112" max-vertical-offset="560">
@@ -1017,11 +1002,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/teacher/period/uploadList.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26923078" vertical-offset="756" max-vertical-offset="1652">
+        <state vertical-scroll-proportion="-4.827586" vertical-offset="756" max-vertical-offset="1652">
           <caret line="32" column="41" selection-start-line="32" selection-start-column="41" selection-end-line="32" selection-end-column="41" />
           <folding>
             <element signature="e#1153#1178#0#HTML" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.1031895" vertical-offset="0" max-vertical-offset="5628">
+          <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
