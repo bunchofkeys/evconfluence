@@ -28,18 +28,28 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.24138" vertical-offset="2252" max-vertical-offset="2884">
-              <caret line="90" column="34" selection-start-line="90" selection-start-column="11" selection-end-line="90" selection-end-column="34" />
+            <state vertical-scroll-proportion="-10.620689" vertical-offset="1792" max-vertical-offset="2324">
+              <caret line="75" column="51" selection-start-line="75" selection-start-column="51" selection-end-line="75" selection-end-column="51" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ValidationService.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ValidationService.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/services/ValidationService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.689655" vertical-offset="5823" max-vertical-offset="6468">
-              <caret line="218" column="25" selection-start-line="218" selection-start-column="25" selection-end-line="218" selection-end-column="25" />
+            <state vertical-scroll-proportion="-6.0" vertical-offset="5908" max-vertical-offset="6468">
+              <caret line="103" column="49" selection-start-line="103" selection-start-column="49" selection-end-line="103" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/config/app.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-15.4827585" vertical-offset="699" max-vertical-offset="5628">
+              <caret line="41" column="33" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -48,18 +58,28 @@
       <file leaf-file-name="EmailService.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/services/EmailService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.965517" vertical-offset="527" max-vertical-offset="5012">
-              <caret line="25" column="33" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="52" />
+            <state vertical-scroll-proportion="-2.1034484" vertical-offset="779" max-vertical-offset="5012">
+              <caret line="30" column="27" selection-start-line="30" selection-start-column="27" selection-end-line="30" selection-end-column="66" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FormService.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FormService.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/services/FormService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36960602" vertical-offset="3303" max-vertical-offset="4228">
-              <caret line="125" column="44" selection-start-line="125" selection-start-column="43" selection-end-line="125" selection-end-column="44" />
+            <state vertical-scroll-proportion="-8.689655" vertical-offset="3276" max-vertical-offset="4228">
+              <caret line="126" column="0" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TeacherController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/TeacherController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.862069" vertical-offset="5096" max-vertical-offset="13244">
+              <caret line="186" column="44" selection-start-line="186" selection-start-column="44" selection-end-line="186" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -69,10 +89,6 @@
   </component>
   <component name="FrameworkCommandLineHistory">
     <commandsHistory>
-      <command text="artisan migrate" />
-      <command text="composer update" />
-      <command text="composer dump" />
-      <command text="composer update" />
       <command text="compoer dump" />
       <command text="composer dump" />
       <command text="artisan" />
@@ -94,6 +110,10 @@
       <command text="php artisan email:send" />
       <command text="composer dump" />
       <command text="filters" />
+      <command text="php artisan email:send" />
+      <command text="composer dump" />
+      <command text="php artisan serve" />
+      <command text="php artisan email:send" />
     </commandsHistory>
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -102,7 +122,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/views/home/forgetpassword.blade.php" />
         <option value="$PROJECT_DIR$/app/views/emails/passwordRecovery.php" />
         <option value="$PROJECT_DIR$/app/controllers/SessionController.php" />
         <option value="$PROJECT_DIR$/app/views/layout/partial/admin/side_menu.blade.php" />
@@ -144,15 +163,16 @@
         <option value="$PROJECT_DIR$/app/views/teacher/form/create.blade.php" />
         <option value="$PROJECT_DIR$/app/views/token/evaluation/confirm.blade.php" />
         <option value="$PROJECT_DIR$/app/views/teacher/period/uploadList.blade.php" />
-        <option value="$PROJECT_DIR$/app/config/app.php" />
         <option value="$PROJECT_DIR$/app/views/emails/approval.blade.php" />
         <option value="$PROJECT_DIR$/app/views/emails/forgetPassword.blade.php" />
         <option value="$PROJECT_DIR$/app/views/teacher/period/create.blade.php" />
         <option value="$PROJECT_DIR$/app/filters.php" />
-        <option value="$PROJECT_DIR$/app/controllers/TeacherController.php" />
-        <option value="$PROJECT_DIR$/app/services/ValidationService.php" />
-        <option value="$PROJECT_DIR$/app/routes.php" />
         <option value="$PROJECT_DIR$/app/services/FormService.php" />
+        <option value="$PROJECT_DIR$/app/controllers/TeacherController.php" />
+        <option value="$PROJECT_DIR$/app/routes.php" />
+        <option value="$PROJECT_DIR$/public_html/.htaccess" />
+        <option value="$PROJECT_DIR$/app/config/app.php" />
+        <option value="$PROJECT_DIR$/app/services/ValidationService.php" />
       </list>
     </option>
   </component>
@@ -253,11 +273,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="emails" />
+              <option name="myItemId" value="config" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -440,13 +456,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/models/TeachingPeriodModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.620689" vertical-offset="364" max-vertical-offset="840">
-          <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/teacher/student/edit.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.8965516" vertical-offset="1232" max-vertical-offset="1736">
@@ -741,14 +750,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.8965516" vertical-offset="336" max-vertical-offset="5628">
-          <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/emails/approval.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="786">
@@ -823,40 +824,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/TeacherController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36923078" vertical-offset="396" max-vertical-offset="13188">
-          <caret line="21" column="34" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/services/ValidationService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.689655" vertical-offset="5823" max-vertical-offset="6468">
-          <caret line="218" column="25" selection-start-line="218" selection-start-column="25" selection-end-line="218" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/services/EmailService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.965517" vertical-offset="527" max-vertical-offset="5012">
-          <caret line="25" column="33" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.24138" vertical-offset="2252" max-vertical-offset="2884">
-          <caret line="90" column="34" selection-start-line="90" selection-start-column="11" selection-end-line="90" selection-end-column="34" />
+        <state vertical-scroll-proportion="-3.862069" vertical-offset="5096" max-vertical-offset="13244">
+          <caret line="186" column="44" selection-start-line="186" selection-start-column="44" selection-end-line="186" selection-end-column="44" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/services/FormService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36960602" vertical-offset="3303" max-vertical-offset="4228">
-          <caret line="125" column="44" selection-start-line="125" selection-start-column="43" selection-end-line="125" selection-end-column="44" />
+        <state vertical-scroll-proportion="-8.689655" vertical-offset="3276" max-vertical-offset="4228">
+          <caret line="126" column="0" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/services/EmailService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.1034484" vertical-offset="779" max-vertical-offset="5012">
+          <caret line="30" column="27" selection-start-line="30" selection-start-column="27" selection-end-line="30" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.620689" vertical-offset="1792" max-vertical-offset="2324">
+          <caret line="75" column="51" selection-start-line="75" selection-start-column="51" selection-end-line="75" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public_html/.htaccess">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="616">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.4827585" vertical-offset="699" max-vertical-offset="5628">
+          <caret line="41" column="33" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/services/ValidationService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.0" vertical-offset="5908" max-vertical-offset="6468">
+          <caret line="103" column="49" selection-start-line="103" selection-start-column="49" selection-end-line="103" selection-end-column="49" />
           <folding />
         </state>
       </provider>

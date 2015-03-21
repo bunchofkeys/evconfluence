@@ -73,26 +73,6 @@ Route::get('/token/{token}/evaluation/{formId}/{selfId}/{targetId}', ['uses' => 
 Route::post('/token/{token}/evaluation/{formId}/{selfId}/{targetId}', ['uses' => 'TokenController@evaluationStore', 'as' => 'token.evaluation.storeForm', 'before' => 'token|submissionForm|csrf']);
 
 Route::get('/sendemail', function() {
-
-    $form = FormService::find('28');
-    $now = new DateTime();
-    $datediff = $now->diff(new DateTime($form->end_date_time));
-
-    $config = ConfigModel::where('key', 'SPE_DURATION_DAY')->first();
-    if(!is_null($config))
-    {
-        $num = intval($config->value);
-    }
-    else
-    {
-        $num = 7;
-    }
-
-    return $datediff->format('%a') * 24 + $datediff->h;
-    if($datediff->days <= $num && $datediff->days >=0 )
-    {
-        return true;
-    }
-
+    return (new DateTime())->format('Y-m-d H:i:s');
     return EmailService::sendStudentMail();
 });

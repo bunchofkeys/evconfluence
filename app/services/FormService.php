@@ -98,7 +98,7 @@ class FormService
     {
         if($form->status == "Not Started")
         {
-            $now = (new DateTime())->format('Y-m-d H:i:s');
+            $now = new DateTime();
             $datediff = $now->diff(new DateTime($form->end_date_time));
 
             $config = ConfigModel::where('key', 'SPE_DURATION_DAY')->first();
@@ -111,7 +111,7 @@ class FormService
                 $num = 7;
             }
 
-            if($datediff->format('%a') <= $num && $datediff->format('%a') >=0 )
+            if((int)$datediff->format('%a') <= $num && (int)$datediff->format('%a') >=0 )
             {
                 return true;
             }
@@ -123,7 +123,7 @@ class FormService
     {
         if($form->status == "Started")
         {
-            $now = (new DateTime())->format('Y-m-d H:i:s');
+            $now = new DateTime();
             $datediff = $now->diff(new DateTime($form->end_date_time));
 
             $config = ConfigModel::where('key', 'SPE_REMINDER_HOUR')->first();
@@ -136,7 +136,7 @@ class FormService
                 $num = 24;
             }
 
-            if($datediff->format('%a') * 24 + $datediff->h <= $num && $datediff->format('%a') * 24 + $datediff->h >=0 )
+            if((int)$datediff->format('%a') * 24 + $datediff->h <= $num && (int)$datediff->format('%a') * 24 + $datediff->h >=0 )
             {
                 return true;
             }

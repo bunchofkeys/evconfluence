@@ -183,6 +183,8 @@ class TeacherController extends \BaseController {
 
 	public function storeFormEdit($periodId, $formId)
 	{
+		$input = Input::all();
+		$input['defaultQuestion'] = 'false';
 		if(Input::has('delete'))
 		{
 			FormService::deleteForm($formId);
