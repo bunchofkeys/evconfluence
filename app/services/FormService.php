@@ -136,7 +136,7 @@ class FormService
                 $num = 24;
             }
 
-            if((int)$datediff->format('%a') * 24 + $datediff->h < $num && (int)$datediff->format('%a') * 24 + $datediff->h >=0 )
+            if((int)$datediff->format('%a') * 24 + $datediff->h <= $num && (int)$datediff->format('%a') * 24 + $datediff->h >=0 )
             {
                 return true;
             }

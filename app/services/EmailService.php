@@ -88,7 +88,7 @@ class EmailService
 
         $data = ['person' => $student->person,
             'endDate' => $form->end_date_time,
-            'link' => $link];
+            'url' => $link];
 
         self::sendEmail($email, $subject, $emailTemplate, $data);
     }

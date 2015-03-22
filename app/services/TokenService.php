@@ -33,7 +33,7 @@ class TokenService
             ]);
             $link->save();
 
-            return Request::root() . '/token/' . $link->token . '/' . $link->action;
+            return URL::to('/') . '/token/' . $link->token . '/' . $link->action;
         }
         else
         {
@@ -41,7 +41,7 @@ class TokenService
             $link->endDateTime = $endDateTime;
             $link->active = '1';
             $link->save();
-            return Request::root() . '/token/' . $link->token . '/' . $link->action;
+            return URL::to('/') . '/token/' . $link->token . '/' . $link->action;
         }
     }
 
